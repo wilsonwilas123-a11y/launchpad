@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Launchpad design system.
+  Product chrome is monochrome dark: deep ground, white type, hairline borders,
+  soft shadows, one accent — white. Generated sites carry their own palette,
+  which the .lp-site scope below receives as CSS custom properties.
+*/
+:root {
+  --ink-900: #07070a;
+  --ink-850: #0b0b10;
+  --ink-800: #101017;
+  --hairline: rgba(255, 255, 255, 0.09);
+  --hairline-strong: rgba(255, 255, 255, 0.17);
+
+  /* Offline-safe stacks: directions differ by family, no web fonts required. */
+  --ff-ui: 'Inter', 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
+  --ff-display: 'Instrument Serif', 'Playfair Display', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --ff-serif: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+  --ff-grotesk: 'Helvetica Neue', Helvetica, Arial, 'Segoe UI', system-ui, sans-serif;
+  --ff-condensed: 'Haettenschweiler', 'Arial Narrow', 'Franklin Gothic Medium', 'Oswald', sans-serif;
+  --ff-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --ff-sans: 'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  html {
+    scroll-behavior: smooth;
+    background: var(--ink-900);
+  }
+  body {
+    @apply bg-ink-900 font-sans text-ink-50 antialiased;
+    font-feature-settings: 'ss01', 'cv01', 'tnum' 0;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+    letter-spacing: -0.03em;
+  }
+  ::selection {
+    background: #fff;
+    color: #07070a;
+  }
+  :focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.85);
+    outline-offset: 2px;
+  }
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+  }
+  /* Thin, quiet scrollbars — the product never shouts for attention. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.14);
+    border: 3px solid transparent;
+    background-clip: content-box;
+    border-radius: 999px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-[1180px] px-5 sm:px-8;
+  }
+  .hairline {
+    border: 1px solid var(--hairline);
+  }
+  .panel {
+    @apply rounded-card border border-line bg-ink-850/80 shadow-soft;
+  }
+  .micro {
+    @apply text-2xs font-medium uppercase tracking-[0.14em] text-ink-300;
+  }
+  .rule {
+    @apply h-px w-full bg-line;
+  }
+  .field {
+    @apply w-full rounded-tile border border-line bg-ink-800/70 px-3.5 py-2.5 text-[15px] text-ink-50 outline-none transition
+      placeholder:text-ink-400 hover:border-line-strong focus:border-white/40 focus:bg-ink-800;
+  }
+  .link-quiet {
+    @apply text-ink-200 underline decoration-white/20 underline-offset-4 transition hover:text-white hover:decoration-white/60;
+  }
+  .skeleton {
+    @apply relative overflow-hidden bg-white/[0.04];
+    background-image: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.07), transparent);
+    background-size: 220% 100%;
+    animation: shimmer 1.6s linear infinite;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-shadow-soft {
+    text-shadow: 0 1px 30px rgba(0, 0, 0, 0.5);
+  }
+  .bg-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  }
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+  }
+}
+
+/* ── Generated sites ─────────────────────────────────────────────────────── */
+.lp-site {
+  --s-bg: #0a0a0c;
+  --s-surface: #131318;
+  --s-surface-alt: #1b1b21;
+  --s-text: #f6f6f7;
+  --s-muted: #9a9aa4;
+  --s-accent: #ffffff;
+  --s-accent-ink: #0a0a0c;
+  --s-line: rgba(255, 255, 255, 0.1);
+  --s-overlay: rgba(3, 3, 5, 0.72);
+  --s-radius: 12px;
+  --s-scale: 1.14;
+  --s-body: 16px;
+  --s-heading: var(--ff-display);
+  --s-body-font: var(--ff-sans);
+  --s-label: var(--ff-sans);
+  --s-pad: 104px;
+  background: var(--s-bg);
+  color: var(--s-text);
+  font-family: var(--s-body-font);
+  font-size: var(--s-body);
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+}
+.lp-site h1,
+.lp-site h2,
+.lp-site h3,
+.lp-site h4 {
+  font-family: var(--s-heading);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.lp-site .s-muted {
+  color: var(--s-muted);
+}
+.lp-site .s-label {
+  font-family: var(--s-label);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.72em;
+}
+.lp-site .s-hairline {
+  border-color: var(--s-line);
+}
+.lp-site .s-card {
+  background: var(--s-surface);
+  border: 1px solid var(--s-line);
+  border-radius: var(--s-radius);
+}
+.lp-site a {
+  color: inherit;
+  text-decoration: none;
+}
+.lp-site img {
+  display: block;
+  max-width: 100%;
+}
+
+/* Effect vocabulary emitted by the compiler. */
+.lp-site[data-effect*='grid'] {
+  background-image: linear-gradient(to right, var(--s-line) 1px, transparent 1px), linear-gradient(to bottom, var(--s-line) 1px, transparent 1px);
+  background-size: 96px 96px;
+  background-position: center top;
+}
+.lp-site[data-effect*='grain']::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.lp-site[data-effect*='glow'] .s-hero-glow {
+  position: absolute;
+  inset: auto 0 20% 0;
+  height: 60%;
+  pointer-events: none;
+  background: radial-gradient(60% 60% at 50% 0%, color-mix(in srgb, var(--s-accent) 22%, transparent), transparent 70%);
+}
+.lp-site[data-effect*='rules'] .s-section + .s-section {
+  border-top: 1px solid var(--s-line);
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(-2%, -1%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(3%, 2%, 0) scale(1.08);
+  }
+}
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

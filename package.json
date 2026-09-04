@@ -1,0 +1,32 @@
+{
+  "name": "launchpad",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Launchpad \u2014 describe it, pick a design direction, get a live website.",
+  "workspaces": [
+    "apps/web",
+    "apps/api"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c magenta,cyan \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "npm run dev -w @launchpad/api",
+    "dev:web": "npm run dev -w @launchpad/web",
+    "api": "npm run dev:api",
+    "check": "node scripts/check.mjs",
+    "build": "npm run build -w @launchpad/web",
+    "preview": "npm run preview -w @launchpad/web",
+    "seed": "npm run seed -w @launchpad/api",
+    "test": "npm run test -w @launchpad/api && npm run test -w @launchpad/web",
+    "test:api": "npm run test -w @launchpad/api",
+    "test:web": "npm run test -w @launchpad/web",
+    "smoke": "node scripts/web-smoke.mjs",
+    "e2e": "node scripts/e2e.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "jsdom": "^24.1.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

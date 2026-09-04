@@ -1,0 +1,9 @@
+node_modules/
+dist/
+apps/api/storage/
+apps/web/dist/
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
