@@ -6,11 +6,7 @@ const { IS_PUBLIC } = require('../../common/tokens');
 /** Marks a route as reachable without a session (catalog, published sites). */
 const Public = () => SetMetadata(IS_PUBLIC, true);
 
-/**
- * App-wide guard bound through APP_GUARD: every route is authenticated unless
- * the handler carries `@Public()`. Reads its own metadata directly instead of
- * injecting Reflector, which keeps the guard dependency-free in plain JS.
- */
+
 class AuthGuard {
   async canActivate(context) {
     const request = context.switchToHttp().getRequest();
