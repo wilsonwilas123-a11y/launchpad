@@ -21,11 +21,13 @@ const STAGES = [
 const MIN_STAGE_MS = 260;
 const FLOOR_TOTAL_MS = 3200;
 const OLLAMA_FLOOR_TOTAL_MS = 9000;
+/** Any local inference server, not just Ollama, needs the long floor. */
+const SLOW_PROVIDERS = new Set(['ollama', 'lmstudio', 'llm', 'openai-compatible']);
 
 /** Pacing envelope handed to the client for a given provider/model. */
 function pacingFor({ provider, model, lastElapsedMs }) {
   const measured = Number.isFinite(lastElapsedMs) && lastElapsedMs > 0 ? Math.round(lastElapsedMs) : null;
-  const isLocalModel = provider === 'ollama';
+  const isLocalModel = SLOW_PROVIDERS.has(provider);
   const floor = isLocalModel ? OLLAMA_FLOOR_TOTAL_MS : FLOOR_TOTAL_MS;
   let total = measured ? Math.round(Math.min(Math.max(measured * 0.92, floor), 180000)) : floor;
   // Long model runs get a softer ceiling: the animation should finish shortly
@@ -59,4 +61,4 @@ function statusLabel(status) {
   }[status] || status;
 }
 
-module.exports = { STAGES, pacingFor, statusLabel, FLOOR_TOTAL_MS, OLLAMA_FLOOR_TOTAL_MS };
+module.exports = { STAGES, pacingFor, statusLabel, FLOOR_TOTAL_MS, OLLAMA_FLOOR_TOTAL_MS, SLOW_PROVIDERS };

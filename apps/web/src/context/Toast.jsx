@@ -72,7 +72,7 @@ export function ToastProvider({ children }) {
                     toast.action.onClick?.();
                     dismiss(toast.id);
                   }}
-                  className="shrink-0 rounded-pill bg-white px-2.5 py-1 text-[12px] font-medium text-ink-900 transition hover:bg-white/85"
+                  className="shrink-0 rounded-pill bg-white px-2.5 py-1 text-[13px] font-medium text-ink-900 transition hover:bg-white/85"
                 >
                   {toast.action.label}
                 </button>

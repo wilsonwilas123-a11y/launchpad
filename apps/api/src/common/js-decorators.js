@@ -67,6 +67,7 @@ const del = (path, params, guards, options) => route('delete', path, params, gua
 const bodyAt = (index, property) => [index, Body(property)];
 const body = bodyAt(0);
 const reqArg = (index = 1) => [index, Req()];
+const resArg = (index = 1) => [index, Res()];
 const queryArg = (index, key) => [index, Query(key)];
 const paramArg = (index, key) => [index, Param(key)];
 
@@ -125,6 +126,7 @@ module.exports = {
   body,
   bodyAt,
   reqArg,
+  resArg,
   queryArg,
   paramArg,
   wireController,

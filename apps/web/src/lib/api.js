@@ -88,6 +88,13 @@ export const api = {
     login: (email, password) => post('/auth/login', { email, password }, { auth: false }),
     signup: (input) => post('/auth/signup', input, { auth: false }),
     demo: () => post('/auth/demo', {}, { auth: false }),
+    /** Whether this API has Google credentials. The button waits for this. */
+    googleStatus: () => get('/auth/google/status', { auth: false }),
+    /** Google Identity Services ID token, verified server-side. */
+    googleSignIn: (credential) => post('/auth/google', { credential }, { auth: false }),
+    /** Top-level href for the authorization-code flow (no JS needed). */
+    googleStartUrl: (returnTo = '/dashboard') =>
+      `/api/auth/google/start?return_to=${encodeURIComponent(returnTo)}`,
     updateProfile: (patch_) => patch('/auth/me', patch_),
     changePassword: (current, next) => post('/auth/password', { current, next }),
     forgot: (email) => post('/auth/password/forgot', { email }, { auth: false }),

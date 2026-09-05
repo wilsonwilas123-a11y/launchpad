@@ -2,10 +2,11 @@
  * JSON-repair retry loop for local model output.
  *
  * A hosted frontier model almost always returns parseable JSON when asked. A
- * local model via Ollama does not — even with `format: "json"`, output gets
- * truncated mid-object or wrapped in prose. So: constrain with format:"json",
- * and if parsing still fails, hand the broken text straight back to the model
- * with an instruction to repair it, up to maxRetries times.
+ * local model — Ollama, LM Studio, anything else on this machine — does not:
+ * even with the format constrained, output gets truncated mid-object or wrapped
+ * in prose. So: ask for JSON, and if parsing still fails, hand the broken text
+ * straight back to the model with an instruction to repair it, up to maxRetries
+ * times. Works with any client that has `generate({model,prompt,format})`.
  */
 
 const FENCE = /^\s*```(?:json)?\s*([\s\S]*?)\s*```\s*$/;
@@ -138,7 +139,9 @@ async function generateWithRepair(ollamaClient, model, prompt, maxRetries = 2, o
     }
     notes.push({ attempt: attempt + 1, error: parsed.error, preview: String(lastOutput || '').slice(0, 240) });
     if (attempt === maxRetries) {
-      const error = new Error('Failed to get valid JSON from Ollama after retries');
+      // The client says what it is: "Ollama", "LM Studio", "the model server".
+      const label = (ollamaClient && ollamaClient.label) || 'the model';
+      const error = new Error(`Failed to get valid JSON from ${label} after ${attempt + 1} attempts`);
       error.attempts = attempt + 1;
       error.lastOutput = String(lastOutput || '').slice(0, 800);
       error.notes = notes;

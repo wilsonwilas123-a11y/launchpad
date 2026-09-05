@@ -65,8 +65,8 @@ export default function LeftPane({
         {tab === 'pages' ? (
           <div className="flex flex-col gap-4">
             <div className="rounded-card border border-white/25 bg-white/[0.05] p-3">
-              <p className="text-[13.5px] text-white">{spec?.name || 'Your launch'}</p>
-              <p className="mt-0.5 text-[11.5px] text-ink-400">{liveUrl ? 'live' : 'draft'} · one page · {sections.filter((section) => !section.hidden).length} sections</p>
+              <p className="text-[14.5px] text-white">{spec?.name || 'Your launch'}</p>
+              <p className="mt-0.5 text-[12.5px] text-ink-400">{liveUrl ? 'live' : 'draft'} · one page · {sections.filter((section) => !section.hidden).length} sections</p>
             </div>
             {spec?.nav?.links?.length ? (
               <div>
@@ -80,7 +80,7 @@ export default function LeftPane({
                           const target = sections.find((section) => `#${section.type}` === link.action || section.type === link.label?.toLowerCase());
                           if (target) onSelect(target.id);
                         }}
-                        className="flex w-full items-center gap-2 rounded-tile px-2.5 py-2 text-left text-[13px] text-ink-200 transition hover:bg-white/[0.05] hover:text-white"
+                        className="flex w-full items-center gap-2 rounded-tile px-2.5 py-2 text-left text-[14px] text-ink-200 transition hover:bg-white/[0.05] hover:text-white"
                       >
                         <span className="h-1 w-1 rounded-full bg-ink-500" />
                         {link.label}
@@ -92,15 +92,15 @@ export default function LeftPane({
             ) : null}
             <div className="rounded-card border border-line p-3">
               <p className="micro mb-1.5">Address</p>
-              <p className="break-all font-mono text-[11.5px] text-ink-200">{displayUrl || '— set when you publish'}</p>
-              <p className="mt-2 text-[11.5px] leading-relaxed text-ink-400">Launchpad gives every launch one address and keeps it, however much you change.</p>
+              <p className="break-all font-mono text-[12.5px] text-ink-200">{displayUrl || '— set when you publish'}</p>
+              <p className="mt-2 text-[12.5px] leading-relaxed text-ink-400">Launchpad gives every launch one address and keeps it, however much you change.</p>
             </div>
           </div>
         ) : null}
 
         {tab === 'sections' ? (
           <div className="flex flex-col gap-1.5">
-            {!sections.length ? <p className="px-1 py-6 text-center text-[12.5px] leading-relaxed text-ink-400">Generate the site and its sections will appear here.</p> : null}
+            {!sections.length ? <p className="px-1 py-6 text-center text-[13.5px] leading-relaxed text-ink-400">Generate the site and its sections will appear here.</p> : null}
             <AnimatePresence initial={false}>
               {sections.map((section, index) => {
                 const isSelected = selected === section.id;
@@ -146,8 +146,8 @@ export default function LeftPane({
                       onClick={(event) => event.stopPropagation()}
                     />
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-[13px] text-white">{section.label || cx1(section.type)}</span>
-                      <span className="block font-mono text-[10.5px] text-ink-500">{section.type}{section.assets?.length ? ` · ${section.assets.length} image${section.assets.length === 1 ? '' : 's'}` : ''}</span>
+                      <span className="block truncate text-[14px] text-white">{section.label || cx1(section.type)}</span>
+                      <span className="block font-mono text-[12px] text-ink-500">{section.type}{section.assets?.length ? ` · ${section.assets.length} image${section.assets.length === 1 ? '' : 's'}` : ''}</span>
                     </span>
                     <span className="flex shrink-0 items-center gap-0.5">
                       <button
@@ -179,7 +179,7 @@ export default function LeftPane({
             </AnimatePresence>
 
             {sections.length ? (
-              <button type="button" onClick={() => setAdding(true)} className="mt-1 flex items-center gap-2 rounded-tile border border-dashed border-line-strong px-2.5 py-2 text-left text-[12.5px] text-ink-300 transition hover:border-white/35 hover:text-white">
+              <button type="button" onClick={() => setAdding(true)} className="mt-1 flex items-center gap-2 rounded-tile border border-dashed border-line-strong px-2.5 py-2 text-left text-[13.5px] text-ink-300 transition hover:border-white/35 hover:text-white">
                 <Plus className="h-3.5 w-3.5" />
                 Add section
               </button>
@@ -218,7 +218,7 @@ export default function LeftPane({
                   >
                     <span className="relative block aspect-[4/3] bg-black/50">
                       {isVideo(asset.filename) ? (
-                        <span className="grid h-full place-items-center text-[10px] uppercase tracking-[0.14em] text-ink-300">video</span>
+                        <span className="grid h-full place-items-center text-[11.5px] uppercase tracking-[0.14em] text-ink-300">video</span>
                       ) : (
                         <img src={asset.url} alt={asset.alt || asset.filename} className="h-full w-full object-cover" />
                       )}
@@ -235,8 +235,8 @@ export default function LeftPane({
                       </button>
                     </span>
                     <span className="block px-2 py-1.5">
-                      <span className="block truncate text-[11.5px] text-ink-100" title={asset.filename}>{asset.filename}</span>
-                      <span className="block truncate text-[10.5px] text-ink-500">
+                      <span className="block truncate text-[12.5px] text-ink-100" title={asset.filename}>{asset.filename}</span>
+                      <span className="block truncate text-[12px] text-ink-500">
                         {asset.selectedSection ? `in ${asset.selectedSection}` : asset.suggestedSection ? `→ ${asset.suggestedSection}` : 'unplaced'} · {bytes(asset.size)}
                       </span>
                     </span>
@@ -244,11 +244,11 @@ export default function LeftPane({
                 ))}
               </ul>
             ) : (
-              <p className="rounded-tile border border-dashed border-line px-3 py-5 text-center text-[12px] leading-relaxed text-ink-400">
+              <p className="rounded-tile border border-dashed border-line px-3 py-5 text-center text-[13px] leading-relaxed text-ink-400">
                 No assets on this launch yet. Anything you upload here is matched to a section automatically.
               </p>
             )}
-            <p className="text-[11px] leading-relaxed text-ink-500">Drag an image onto a section in the Sections tab to place it there.</p>
+            <p className="text-[12px] leading-relaxed text-ink-500">Drag an image onto a section in the Sections tab to place it there.</p>
           </div>
         ) : null}
       </div>
@@ -266,14 +266,14 @@ export default function LeftPane({
                   }}
                   className="h-full w-full rounded-tile border border-line p-3 text-left transition hover:border-white/35 hover:bg-white/[0.04]"
                 >
-                  <span className="block text-[13.5px] text-white">{section.label}</span>
-                  <span className="mt-0.5 block text-[11.5px] leading-snug text-ink-400">{section.blurb}</span>
+                  <span className="block text-[14.5px] text-white">{section.label}</span>
+                  <span className="mt-0.5 block text-[12.5px] leading-snug text-ink-400">{section.blurb}</span>
                 </button>
               </li>
             ))}
           </ul>
         ) : (
-          <p className="text-[13px] leading-relaxed text-ink-300">Every section Launchpad knows for this type is already on the page.</p>
+          <p className="text-[14px] leading-relaxed text-ink-300">Every section Launchpad knows for this type is already on the page.</p>
         )}
       </Modal>
 

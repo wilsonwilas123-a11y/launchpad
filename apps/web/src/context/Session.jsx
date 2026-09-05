@@ -2,6 +2,23 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import { api, tokenStore } from '../lib/api';
 
 /**
+ * A token can arrive in the URL fragment: the Google redirect flow ends with
+ * `…/dashboard#lp_token=…` so the credential never touches a server log. Pick
+ * it up and scrub it from the address bar before anything else reads the URL.
+ */
+function adoptTokenFromHash() {
+  if (typeof window === 'undefined' || !window.location) return false;
+  const hash = window.location.hash || '';
+  const match = hash.match(/[#&]lp_token=([^&]+)/);
+  if (!match) return false;
+  tokenStore.set(decodeURIComponent(match[1]));
+  const cleaned = hash.replace(/[?&]?lp_token=[^&]+/, '').replace(/^#$/, '');
+  const url = `${window.location.pathname}${window.location.search}${cleaned ? `#${cleaned.replace(/^&/, '')}` : ''}`;
+  window.history.replaceState(null, '', url);
+  return true;
+}
+
+/**
  * Who is signed in, and the API health signal the whole product reads.
  * The token is restored on boot; an expired one is dropped quietly so the
  * visitor lands on the landing page rather than an error screen.
@@ -14,6 +31,7 @@ export function SessionProvider({ children }) {
   const [health, setHealth] = useState(null);
 
   const loadMe = useCallback(async () => {
+    adoptTokenFromHash();
     if (!tokenStore.get()) {
       setReady(true);
       return null;
@@ -65,6 +83,10 @@ export function SessionProvider({ children }) {
       },
       async signInDemo() {
         return adopt(await api.auth.demo());
+      },
+      /** Google Identity Services callback: verify the ID token, then adopt. */
+      async signInWithGoogle(credential) {
+        return adopt(await api.auth.googleSignIn(credential));
       },
       signOut() {
         tokenStore.set('');

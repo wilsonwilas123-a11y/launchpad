@@ -56,7 +56,7 @@ export default function StepDetails({ draft, set, onNext, onBack }) {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
         <Field label="Business or project name" htmlFor="biz" hint="Leaving it blank means Launchpad writes one from your description.">
           <Input id="biz" value={details.businessName || ''} onChange={patch('businessName')} placeholder="NOVA" />
         </Field>
@@ -74,12 +74,12 @@ export default function StepDetails({ draft, set, onNext, onBack }) {
       <div>
         <div className="mb-3 flex items-baseline justify-between gap-3">
           <p className="micro">Sections</p>
-          <span className="text-[12px] text-ink-400">{included.size} in · {excluded.size} out</span>
+          <span className="text-[14px] text-ink-400">{included.size} in · {excluded.size} out</span>
         </div>
-        <p className="mb-3 text-[13.5px] leading-relaxed text-ink-300">
+        <p className="mb-3 text-[15px] leading-relaxed text-ink-300">
           Start from what we suggested for {draft.type || 'this'} and adjust. Right-click (or “exclude”) means never generate it at all.
         </p>
-        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 sm:gap-3">
           {(vocabulary.length ? vocabulary : FALLBACK_SECTIONS).map((section) => {
             const isIn = included.has(section.type);
             const isOut = excluded.has(section.type);
@@ -96,16 +96,16 @@ export default function StepDetails({ draft, set, onNext, onBack }) {
                 </button>
                 <span className="min-w-0 flex-1">
                   <span className="flex items-center gap-2">
-                    <span className="truncate text-[14px] text-white">{section.label}</span>
-                    {section.suggested && !isIn && !isOut ? <span className="rounded-pill border border-line px-1.5 py-px text-[10px] text-ink-300">suggested</span> : null}
-                    {isOut ? <span className="rounded-pill border border-line px-1.5 py-px text-[10px] text-ink-400">excluded</span> : null}
+                    <span className="truncate text-[15px] text-white">{section.label}</span>
+                    {section.suggested && !isIn && !isOut ? <span className="rounded-pill border border-line px-1.5 py-px text-[11.5px] text-ink-300">suggested</span> : null}
+                    {isOut ? <span className="rounded-pill border border-line px-1.5 py-px text-[11.5px] text-ink-400">excluded</span> : null}
                   </span>
-                  {section.blurb ? <span className="mt-0.5 block text-[12px] leading-snug text-ink-300">{section.blurb}</span> : null}
+                  {section.blurb ? <span className="mt-0.5 block text-[14px] leading-snug text-ink-300">{section.blurb}</span> : null}
                 </span>
                 <button
                   type="button"
                   onClick={() => (isOut ? toggle(section.type) : exclude(section.type))}
-                  className="shrink-0 text-[11px] uppercase tracking-[0.12em] text-ink-400 opacity-0 transition group-hover:opacity-100 hover:text-white"
+                  className="shrink-0 text-[13.5px] uppercase tracking-[0.12em] text-ink-400 opacity-0 transition group-hover:opacity-100 hover:text-white"
                 >
                   {isOut ? 'undo' : 'exclude'}
                 </button>

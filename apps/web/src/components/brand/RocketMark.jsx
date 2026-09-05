@@ -67,7 +67,7 @@ export function RocketMark({ size = 34, float = true, className, glow = true, sp
 export function Logo({ size = 'md', href = '/', showWord = true, className }) {
   const dims = { sm: { mark: 22, text: 'text-[15px]' }, md: { mark: 28, text: 'text-[17px]' }, lg: { mark: 38, text: 'text-2xl' } }[size];
   return (
-    <a href={href} className={cx('group inline-flex items-center gap-2.5 text-white', className)}>
+    <a href={href} title="Back to the Launchpad home page" aria-label="Back to the Launchpad home page" className={cx('group inline-flex items-center gap-2.5 whitespace-nowrap text-white', className)}>
       <RocketMark size={dims.mark} />
       {showWord ? (
         <span className={cx('font-display font-medium tracking-[-0.02em]', dims.text)}>

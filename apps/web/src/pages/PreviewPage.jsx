@@ -51,9 +51,13 @@ export default function PreviewPage() {
   return (
     <div className="min-h-screen" style={{ background: spec?.theme?.colors?.background || '#07070a' }}>
       <div className="fixed left-1/2 top-4 z-50 flex -translate-x-1/2 items-center gap-2 rounded-pill border border-line bg-black/60 px-2 py-1.5 text-white shadow-lift backdrop-blur">
-        <Link to={`/builder/${id}`} className="inline-flex items-center gap-1.5 rounded-pill px-2.5 py-1 text-[12.5px] transition hover:bg-white/10">
-          <ArrowLeft className="h-3.5 w-3.5" />
-          Builder
+        <Link
+          to={`/builder/${id}`}
+          data-back={`/builder/${id}`}
+          className="inline-flex min-h-[40px] items-center gap-1.5 rounded-pill px-3.5 text-[15px] font-medium transition hover:bg-white/10"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to the builder
         </Link>
         <span className="h-4 w-px bg-white/15" />
         <Segmented
@@ -66,7 +70,7 @@ export default function PreviewPage() {
           ]}
           className="!border-transparent !bg-transparent !p-0"
         />
-        <span className="px-2 text-[11px] uppercase tracking-[0.16em] text-ink-300">Draft preview</span>
+        <span className="px-2 text-[12px] uppercase tracking-[0.16em] text-ink-300">Draft preview</span>
       </div>
       <div className={device === 'mobile' ? 'mx-auto max-w-[430px] pt-16' : 'pt-14'}>
         {spec ? <SiteRenderer spec={spec} device={device} slug={project.slug} live={false} /> : null}

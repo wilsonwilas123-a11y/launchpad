@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Logo } from '../components/brand/RocketMark';
 import { FadeIn } from '../components/motion/Motion';
+import { BackLink } from '../components/ui/BackLink';
 
 const CONTENT = {
   terms: {
@@ -66,10 +67,12 @@ export default function LegalPage({ kind = 'terms' }) {
   return (
     <div className="relative min-h-screen">
       <div className="shell max-w-[720px] py-14">
-        <div className="mb-10 flex items-center justify-between">
-          <Logo href="/" />
-          <Link to="/dashboard" className="text-[13px] text-ink-300 transition hover:text-white">
-            Dashboard
+        <div className="mb-6 flex flex-wrap items-center gap-2 sm:mb-10">
+          <BackLink to="/" label={<><span className="sm:hidden">Back</span><span className="hidden sm:inline">Back to Launchpad</span></>} />
+          <span aria-hidden className="hidden h-5 w-px bg-white/10 sm:block" />
+          <Logo href="/" className="mr-auto" />
+          <Link to="/dashboard" className="rounded-pill px-2 py-1 text-[15px] text-ink-200 underline decoration-white/20 underline-offset-4 transition hover:text-white">
+            Go to my dashboard
           </Link>
         </div>
         <FadeIn>
@@ -78,7 +81,7 @@ export default function LegalPage({ kind = 'terms' }) {
             {kind === 'terms' ? 'Terms of service' : 'Privacy policy'}
           </h1>
           <p className="mt-3 text-[15px] leading-relaxed text-ink-300">{content.intro}</p>
-          <p className="mt-2 font-mono text-[11.5px] text-ink-400">Updated {content.updated}</p>
+          <p className="mt-2 font-mono text-[12.5px] text-ink-400">Updated {content.updated}</p>
           <div className="mt-12 flex flex-col gap-10">
             {content.sections.map((section) => (
               <section key={section.title}>
@@ -87,7 +90,7 @@ export default function LegalPage({ kind = 'terms' }) {
               </section>
             ))}
           </div>
-          <div className="mt-14 rounded-card border border-line bg-ink-850/60 p-5 text-[13.5px] leading-relaxed text-ink-300">
+          <div className="mt-14 rounded-card border border-line bg-ink-850/60 p-5 text-[14.5px] leading-relaxed text-ink-300">
             Questions, or something we should change? Write to{' '}
             <a href="mailto:hello@launchpad.app" className="link-quiet">
               hello@launchpad.app

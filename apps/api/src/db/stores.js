@@ -9,8 +9,15 @@ create table if not exists users (
   password_hash text not null,
   plan text not null default 'free',
   avatar_seed text,
+  provider text not null default 'password',
+  external_id text,
   created_at timestamptz not null default now()
 );
+
+/* Older databases predate Google sign-in; these are no-ops on a fresh schema. */
+alter table users add column if not exists provider text not null default 'password';
+alter table users add column if not exists external_id text;
+create index if not exists users_external_idx on users (external_id);
 
 create table if not exists projects (
   id text primary key,
@@ -71,15 +78,30 @@ class PostgresStore {
   // ---------------------------------------------------------------- users
   async insertUser(user) {
     const { rows } = await this.pool.query(
-      `insert into users (id, email, name, password_hash, plan, avatar_seed)
-       values ($1,$2,$3,$4,$5,$6) returning *`,
-      [user.id, user.email, user.name, user.passwordHash, user.plan || 'free', user.avatarSeed || null],
+      `insert into users (id, email, name, password_hash, plan, avatar_seed, provider, external_id)
+       values ($1,$2,$3,$4,$5,$6,$7,$8) returning *`,
+      [
+        user.id,
+        user.email,
+        user.name,
+        user.passwordHash,
+        user.plan || 'free',
+        user.avatarSeed || null,
+        user.provider || 'password',
+        user.externalId || null,
+      ],
     );
     return rowToUser(rows[0]);
   }
 
   async findUserByEmail(email) {
     const { rows } = await this.pool.query('select * from users where lower(email) = lower($1)', [email]);
+    return rows[0] ? rowToUser(rows[0]) : null;
+  }
+
+  /** The account a third-party subject id was linked to, if any. */
+  async findUserByExternalId(externalId) {
+    const { rows } = await this.pool.query('select * from users where external_id = $1', [externalId]);
     return rows[0] ? rowToUser(rows[0]) : null;
   }
 
@@ -91,7 +113,7 @@ class PostgresStore {
   async updateUser(id, patch) {
     const sets = [];
     const values = [];
-    const map = { name: 'name', email: 'email', plan: 'plan', passwordHash: 'password_hash', avatarSeed: 'avatar_seed' };
+    const map = { name: 'name', email: 'email', plan: 'plan', passwordHash: 'password_hash', avatarSeed: 'avatar_seed', provider: 'provider', externalId: 'external_id' };
     for (const [key, column] of Object.entries(map)) {
       if (patch[key] !== undefined) {
         values.push(patch[key]);
@@ -238,6 +260,8 @@ function rowToUser(row) {
     passwordHash: row.password_hash,
     plan: row.plan,
     avatarSeed: row.avatar_seed,
+    provider: row.provider || 'password',
+    externalId: row.external_id ?? null,
     createdAt: row.created_at,
   };
 }
@@ -322,7 +346,7 @@ class JsonFileStore {
 
   async insertUser(user) {
     return this.tx(async (db, write) => {
-      const row = { ...user, plan: user.plan || 'free', createdAt: new Date().toISOString() };
+      const row = { ...user, plan: user.plan || 'free', provider: user.provider || 'password', createdAt: new Date().toISOString() };
       db.users.push(row);
       write(db);
       return { ...row };
@@ -332,6 +356,11 @@ class JsonFileStore {
   async findUserByEmail(email) {
     const db = this.read();
     return db.users.find((u) => u.email.toLowerCase() === String(email).toLowerCase()) || null;
+  }
+
+  async findUserByExternalId(externalId) {
+    const db = this.read();
+    return db.users.find((u) => u.externalId && u.externalId === externalId) || null;
   }
 
   async findUserById(id) {

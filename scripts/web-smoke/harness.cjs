@@ -184,6 +184,17 @@ async function main() {
   ok('dashboard shows the generated project', body.includes('NOVA Drop 01'), body.slice(0, 0));
   ok('dashboard card carries a real render as its thumbnail', bundle.html().includes('data:image/svg+xml') || bundle.html().includes('<img'));
   ok('dashboard reports completion or a live address', /section|Live|Ready|Draft/i.test(body));
+  // The header chip is the product's only admission of what is writing the
+  // site, so assert what it actually rendered against what the API claimed —
+  // on a machine with LM Studio running this takes the other branch.
+  const healthNow = await apiFetch('/health');
+  if (healthNow.ai?.reachable) {
+    ok('the chip names the model server that answered', bundle.html().includes(healthNow.ai.label) && body.includes(healthNow.ai.model), `${healthNow.ai.label} · ${healthNow.ai.model}`);
+    ok('the chip hover carries its endpoint', bundle.html().includes(healthNow.ai.endpoint), healthNow.ai.endpoint);
+  } else {
+    ok('the chip admits no model server is answering', /generation runs on this machine/.test(body), healthNow.ai?.provider || 'unknown');
+    ok('the chip hover carries the reason', healthNow.ai?.reason ? bundle.html().includes(healthNow.ai.reason) : true, String(healthNow.ai?.reason || '').slice(0, 64));
+  }
 
   /* ── 4. wizard, preselected from the type card ────────────────────────────── */
   body = await mountRoute('/build?type=music', 900);
@@ -430,6 +441,85 @@ async function main() {
   const visitor = bundle.text();
   ok('a visitor sees the published site at /:slug', visitor.includes('NOVA Drop 01') && visitor.includes('Pre-save') && !/does not exist/i.test(visitor), visitor.slice(0, 60));
   ok('the owner is offered a way back into the builder', /Open in the builder|builder/i.test(bundle.html()), 'owner bar');
+
+  /* ── 7b. a way out of every screen ─────────────────────────────────────────── */
+  // An older visitor should never have to discover the browser's Back button.
+  // Each of these routes must show a labelled back affordance — and clicking it
+  // must actually land somewhere sensible, so the check clicks it.
+  const backControls = (selector = '[data-back]') => [...window.document.querySelectorAll(selector)];
+  const liveProject = await apiFetch(`/projects/${created.id}`, { token }).catch(() => null);
+  const publishedSlug = liveProject?.slug || 'nova';
+  const routesWithBack = [
+    ['/pricing', '/', 'home', 'Launch anything\\.|Your launches'],
+    ['/terms', '/', 'Launchpad', 'Launch anything\\.|Your launches'],
+    ['/start', '/', 'site', 'Launch anything\\.|Your launches|What are you launching'],
+    [`/builder/${created.id}`, '/dashboard', 'Dashboard', 'Your launches'],
+    [`/preview/${created.id}`, `/builder/${created.id}`, 'builder', 'Your launches|NOVA Drop'],
+    [`/${publishedSlug}`, '/', 'Launchpad', 'Launch anything\\.|Your launches'],
+  ];
+  for (const [route, expectHref, expectLabel, expectText] of routesWithBack) {
+    bundle.mount(route);
+    await sleep(650);
+    const control = backControls().find((node) => (node.getAttribute('href') || '').endsWith(expectHref)) || backControls()[0];
+    const label = `${control?.getAttribute('aria-label') || ''} ${control?.textContent || ''}`.trim();
+    ok(`a labelled way back on ${route}`, Boolean(control) && new RegExp(`back|${expectLabel}`, 'i').test(label), `${control?.tagName.toLowerCase() || 'none'} "${label}" → ${control?.getAttribute('href') || '?'}`);
+    ok(`the back control on ${route} is big enough to hit`, Boolean(control) && /h-1[01]|min-h-\[40px\]/.test(String(control.className)), control ? String(control.className).match(/h-1[01]|min-h-\[40px\]/)?.[0] : '');
+    if (!control) continue;
+    control.click();
+    await sleep(700);
+    const landed = bundle.text();
+    ok(`clicking it leaves ${route}`, new RegExp(expectText, 'i').test(landed), landed.replace(/\s+/g, ' ').slice(0, 48));
+  }
+  bundle.mount('/dashboard');
+  await sleep(500);
+  ok('the dashboard logo is an announced way home', /Back to the Launchpad home page/.test(bundle.html()));
+  bundle.mount('/');
+  await sleep(500);
+
+  /* ── 7c. the doors on the sign-in screen ─────────────────────────────────
+     Signing in is where a product loses people, so this checks all four doors:
+     Google (offered honestly, or explained), email, the demo account, and the
+     token the Google redirect flow hands back in the URL fragment. */
+  const googleRow = () =>
+    [...window.document.querySelectorAll('[aria-disabled], button')].find((node) => /Continue with Google/i.test(node.textContent || ''));
+
+  const savedToken = window.localStorage.getItem('launchpad.token') || '';
+  setToken('');
+
+  bundle.mount('/sign-in');
+  await sleep(700);
+  const row = googleRow();
+  ok('the sign-in screen offers Google', /Continue with Google/i.test(bundle.text()), row?.tagName.toLowerCase() || 'not found');
+  ok('and says which key is missing instead of failing', /GOOGLE_CLIENT_ID/.test(bundle.text()) && /apps\/api\/\.env/.test(bundle.text()), 'names apps/api/.env');
+  ok('the unconfigured Google row is inert', row?.getAttribute('aria-disabled') === 'true' && !row.onclick, row ? row.getAttribute('aria-disabled') : 'no row');
+  ok('the Google row is as tall as the form controls', Boolean(row) && /h-11/.test(String(row.className)), String(row?.className).match(/h-\[[^\]]+\]|h-1[01]/)?.[0] || '');
+  ok('the email form is still there beside it', Boolean(window.document.querySelector('input[type="email"]')) && /Sign in/.test(bundle.text()));
+  ok('Google is not offered where it would lie', (() => {
+    bundle.mount('/forgot');
+    return true;
+  })() && !/Continue with Google/i.test(bundle.text()));
+  bundle.mount('/sign-up');
+  await sleep(650);
+  ok('signing up offers Google too', /Continue with Google/i.test(bundle.text()));
+
+  bundle.mount('/sign-in');
+  await sleep(650);
+  const demoButton = [...window.document.querySelectorAll('button')].find((button) => /Explore the demo workspace/i.test(button.textContent || ''));
+  ok('the offline door is still offered', Boolean(demoButton));
+  demoButton?.click();
+  await sleep(900);
+  ok('and the demo account still gets you in without Google', /Your launches/.test(bundle.text()) && Boolean(window.localStorage.getItem('launchpad.token')), bundle.text().replace(/\s+/g, ' ').slice(0, 40));
+
+  // The redirect flow's whole job: a token in the fragment becomes a session and
+  // disappears from the address bar.
+  window.localStorage.removeItem('launchpad.token');
+  window.location.hash = `#lp_token=${encodeURIComponent(savedToken)}`;
+  bundle.mount('/sign-in');
+  await sleep(900);
+  ok('a token arriving in the URL fragment signs you in', window.localStorage.getItem('launchpad.token') === savedToken, 'adopted from #lp_token');
+  ok('and is scrubbed from the address bar afterwards', !/lp_token/.test(window.location.hash), `hash is now "${window.location.hash}"`);
+  ok('so the sign-in page hands over to the dashboard', /Your launches/.test(bundle.text()), bundle.text().replace(/\s+/g, ' ').slice(0, 40));
+  setToken(savedToken);
 
   ok('no runtime errors while rendering the routes', errors.length === 0, errors.slice(0, 3).join(' | '));
 

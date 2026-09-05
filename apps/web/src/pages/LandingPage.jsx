@@ -19,7 +19,7 @@ export default function LandingPage({ showHowItWorksFirst }) {
   const [types, setTypes] = useState([]);
   const [examples, setExamples] = useState([]);
   const [loadingExamples, setLoadingExamples] = useState(true);
-  const [preview, setPreview] = useState({ spec: sampleSpec, slug: 'nova' });
+  const [preview, setPreview] = useState({ spec: sampleSpec, slug: 'nova', live: false });
 
   useEffect(() => {
     let alive = true;
@@ -45,8 +45,8 @@ export default function LandingPage({ showHowItWorksFirst }) {
     const slug = examples[0]?.slug || 'nova';
     api
       .publicSite(slug)
-      .then((site) => alive && setPreview({ spec: site, slug }))
-      .catch(() => alive && setPreview({ spec: sampleSpec, slug: 'nova' }));
+      .then((site) => alive && setPreview({ spec: site, slug, live: true }))
+      .catch(() => alive && setPreview({ spec: sampleSpec, slug: 'nova', live: false }));
     return () => {
       alive = false;
     };
@@ -61,7 +61,7 @@ export default function LandingPage({ showHowItWorksFirst }) {
       <AmbientBackdrop />
       <div className="relative">
         <LandingNav />
-        <HeroSection spec={preview.spec} slug={preview.slug} />
+        <HeroSection spec={preview.spec} slug={preview.slug} live={preview.live} />
         <Capabilities types={types} />
         <HowItWorks />
         <Examples items={examples} loading={loadingExamples} />

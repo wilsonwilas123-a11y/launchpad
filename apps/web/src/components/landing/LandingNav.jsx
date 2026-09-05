@@ -36,16 +36,18 @@ export default function LandingNav() {
         solid ? 'border-b border-line bg-ink-900/80 backdrop-blur-xl' : 'border-b border-transparent',
       )}
     >
-      <div className="shell flex h-16 items-center gap-6">
-        <Logo size="md" href={isAuthed ? '/dashboard' : '/'} />
-        <nav className="ml-4 hidden items-center gap-6 lg:flex">
+      <div className="shell flex h-16 items-center gap-2.5 sm:h-[68px] sm:gap-7">
+        <span className="shrink-0 whitespace-nowrap">
+          <Logo size="md" href={isAuthed ? '/dashboard' : '/'} />
+        </span>
+        <nav className="ml-4 hidden items-center gap-6 lg:flex xl:gap-7">
           {LINKS.map((link) =>
             link.to ? (
-              <Link key={link.label} to={link.to} className="text-[13.5px] text-ink-200 transition hover:text-white">
+              <Link key={link.label} to={link.to} className="text-[15px] text-ink-200 transition hover:text-white">
                 {link.label}
               </Link>
             ) : (
-              <a key={link.label} href={link.href} className="text-[13.5px] text-ink-200 transition hover:text-white">
+              <a key={link.label} href={link.href} className="text-[15px] text-ink-200 transition hover:text-white">
                 {link.label}
               </a>
             ),
@@ -54,20 +56,24 @@ export default function LandingNav() {
         <div className="ml-auto flex items-center gap-2">
           {isAuthed ? (
             <>
-              <Button variant="ghost" size="sm" to="/dashboard" className="hidden sm:inline-flex">
+              <Button variant="ghost" size="md" to="/dashboard" className="hidden sm:inline-flex">
                 Dashboard
               </Button>
-              <Button size="sm" onClick={() => navigate('/build')}>
-                New launch <ArrowRight className="h-3.5 w-3.5" />
+              <Button size="md" onClick={() => navigate('/build')}>
+                <span className="hidden sm:inline">New launch</span>
+                <span className="sm:hidden">New</span> <ArrowRight className="h-3.5 w-3.5" />
               </Button>
             </>
           ) : (
             <>
-              <Button variant="ghost" size="sm" to="/sign-in">
+              {/* The row is tight at 360px: the quieter action yields first, then
+                  the label shortens. Nothing overflows the fixed bar. */}
+              <Button variant="ghost" size="md" to="/sign-in" className="hidden min-[430px]:inline-flex">
                 Sign in
               </Button>
-              <Button size="sm" onClick={() => navigate('/start')}>
-                Start Building
+              <Button size="md" onClick={() => navigate('/start')}>
+                <span className="hidden sm:inline">Start Building</span>
+                <span className="sm:hidden">Start</span>
               </Button>
             </>
           )}

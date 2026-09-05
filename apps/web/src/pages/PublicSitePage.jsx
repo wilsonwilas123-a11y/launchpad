@@ -5,6 +5,7 @@ import { api } from '../lib/api';
 import { SiteRenderer } from '../components/site/SiteRenderer';
 import { useSession } from '../context/Session';
 import NotFoundPage from './NotFoundPage';
+import { ArrowLeft } from 'lucide-react';
 
 /**
  * A published site at /:slug. Zero product chrome — the owner's branding, their
@@ -42,11 +43,25 @@ export default function PublicSitePage() {
 
   return (
     <div className="relative min-h-full" style={{ background: site.theme?.colors?.background }}>
-      <SiteRenderer spec={site} slug={slug} live device="desktop" />
+      {/* `lp-live` marks a page a real visitor is reading at their own screen
+          width — the builder's scaled preview must not borrow its type rules. */}
+      <SiteRenderer spec={site} slug={slug} live device="desktop" className="lp-live" />
+      {/* Every published page is reached from somewhere, and a page with no way
+          out is how people get stuck. Same chrome as the owner's pill, opposite
+          corner, so neither fights the site's own header. */}
+      <Link
+        to="/"
+        data-back="/"
+        aria-label="Back to the Launchpad home page"
+        className="fixed bottom-4 left-4 z-40 inline-flex min-h-[40px] items-center gap-2 rounded-pill border border-white/15 bg-black/60 px-3.5 text-[14.5px] text-white/90 shadow-lift backdrop-blur transition hover:bg-black/80 hover:text-white"
+      >
+        <ArrowLeft className="h-4 w-4" strokeWidth={2} />
+        Launchpad
+      </Link>
       {isAuthed && owner?.projectId ? (
         <Link
           to={owner.builderPath || `/builder/${owner.projectId}`}
-          className="fixed bottom-4 right-4 z-40 inline-flex items-center gap-2 rounded-pill border border-white/15 bg-black/60 px-3.5 py-2 text-[12.5px] text-white shadow-lift backdrop-blur transition hover:bg-black/80"
+          className="fixed bottom-4 right-4 z-40 inline-flex items-center gap-2 rounded-pill border border-white/15 bg-black/60 px-3.5 py-2 text-[13.5px] text-white shadow-lift backdrop-blur transition hover:bg-black/80"
         >
           <Sparkles className="h-3.5 w-3.5" strokeWidth={2} />
           Open in builder

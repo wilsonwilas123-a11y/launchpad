@@ -114,7 +114,15 @@ function Countdown({ content, section }) {
       <Eyebrow>{parts.past ? 'Now open' : 'Time left'}</Eyebrow>
       <Heading size={0.72}>{content.heading}</Heading>
       <Lead>{content.note}</Lead>
-      <div className={cx('mt-7 flex gap-3', display === 'stack' && 'flex-col items-center', display === 'inline' && 'flex-row flex-wrap justify-center gap-6')}>
+      {/* Four slabs at their 72px floor plus three gaps do not fit a 320px phone,
+          so below sm they wrap onto two rows instead of hanging off the edge. */}
+      <div
+        className={cx(
+          'mt-7 flex max-sm:flex-wrap max-sm:justify-center gap-3',
+          display === 'stack' && 'flex-col items-center',
+          display === 'inline' && 'flex-row flex-wrap justify-center gap-6',
+        )}
+      >
         {display === 'inline'
           ? units.map(([label], index) => (
               <span key={label} className="tabular-nums" style={{ fontFamily: 'var(--s-heading)', fontSize: 'calc(var(--s-body)*1.5)' }}>

@@ -4,7 +4,9 @@ const { DESIGNS, designsForCategory, designById } = require('../../catalog/desig
 const { STAGES } = require('../../generator/stages');
 const { config } = require('../../config');
 const { getStore } = require('../../db');
-const { getOllamaClient, resolveAiMode } = require('../../generator/ollama');
+const { getOllamaClient, resolveAiModeCached } = require('../../generator/ollama');
+const { getLmStudioClient, getOpenAiCompatibleClient } = require('../../generator/lmstudio');
+const { googleConfig } = require('../auth/google');
 
 /**
  * Read-mostly product data: the website types, the design gallery, the section
@@ -47,17 +49,37 @@ class CatalogController {
     };
   }
 
-  async health() {
+  async health(refresh) {
     const store = await getStore().catch(() => null);
-    const client = getOllamaClient();
     let ai;
     try {
-      const mode = await resolveAiMode(client);
-      ai = { provider: mode.useOllama ? 'ollama' : 'local', model: mode.model || null, reachable: Boolean(mode.useOllama), reason: mode.reason || null, endpoint: config.ai.ollamaUrl };
+      const mode = await resolveAiModeCached({ refresh: refresh === '1' || refresh === true,
+        ollama: getOllamaClient(),
+        lmstudio: getLmStudioClient(),
+        llm: getOpenAiCompatibleClient(),
+      });
+      ai = {
+        provider: mode.useModel ? mode.provider : 'local',
+        label: mode.label || 'Local spec compiler',
+        model: mode.model || null,
+        reachable: Boolean(mode.useModel),
+        reason: mode.reason || null,
+        endpoint: mode.endpoint || null,
+      };
     } catch (error) {
-      ai = { provider: 'local', reachable: false, reason: error.message, endpoint: config.ai.ollamaUrl };
+      ai = { provider: 'local', reachable: false, reason: error.message, endpoint: config.ai.lmstudio.baseUrl };
     }
-    return { ok: true, service: 'launchpad-api', env: config.env, database: store ? store.driver : 'unavailable', ai };
+    // Google sign-in state is reported here so a hand-run install can see, in
+    // one call, whether the client id was picked up. It is also on
+    // /api/auth/google/status, which is what the sign-in screen itself reads.
+    let auth;
+    try {
+      const google = googleConfig();
+      auth = { google: google.enabled ? (google.redirectEnabled ? 'ready' : 'browser-only') : 'not configured' };
+    } catch {
+      auth = { google: 'not configured' };
+    }
+    return { ok: true, service: 'launchpad-api', env: config.env, database: store ? store.driver : 'unavailable', ai, auth };
   }
 }
 
@@ -69,7 +91,7 @@ wireController(
     designs: get('designs', [queryArg(0, 'category')], [], { public: true }),
     design: get('designs/:id', [paramArg(0, 'id')], [], { public: true }),
     assetPlan: get('asset-plan', [queryArg(0, 'type')], [], { public: true }),
-    health: get('health', [], [], { public: true }),
+    health: get('health', [queryArg(0, 'refresh')], [], { public: true }),
   },
 );
 

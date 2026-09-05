@@ -86,13 +86,36 @@
 
 @layer components {
   .shell {
-    @apply mx-auto w-full max-w-[1180px] px-5 sm:px-8;
+    @apply mx-auto w-full max-w-[1240px] px-5 sm:px-7 lg:px-10;
   }
   .hairline {
     border: 1px solid var(--hairline);
   }
   .panel {
     @apply rounded-card border border-line bg-ink-850/80 shadow-soft;
+  }
+  /* A generated site must never be pushed wider than the phone it is opened
+     on: one long word in a headline used to force the page sideways at 320px. */
+  .lp-site :is(h1, h2, h3, h4, p, li, a, span, blockquote) {
+    overflow-wrap: break-word;
+  }
+  /* …and a grid inside one must be allowed to shrink. A single-column track is
+     sized to its content, so an item that refuses to go below its min-content
+     width (a large headline, a wide image) used to hang 38px past a 320px
+     screen — clipped by the section, so nobody could read the end of it. */
+  .lp-site :is(.grid, .flex) > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+  /* Display headlines are sized as a multiple of the body text, which is right
+     on a laptop and too big for a 320px phone: "Recorded live over three nights"
+     was breaking mid-word. Below 420px the multiplier is capped, per design —
+     each direction keeps its own ratio, they just scale down together. */
+  @media (max-width: 420px) {
+    .lp-site.lp-live :is(h1, h2) {
+      font-size: calc(var(--s-body) * 2.7) !important;
+      line-height: 1.06;
+    }
   }
   .micro {
     @apply text-2xs font-medium uppercase tracking-[0.14em] text-ink-300;
@@ -101,7 +124,7 @@
     @apply h-px w-full bg-line;
   }
   .field {
-    @apply w-full rounded-tile border border-line bg-ink-800/70 px-3.5 py-2.5 text-[15px] text-ink-50 outline-none transition
+    @apply w-full rounded-tile border border-line bg-ink-800/70 px-4 py-3 text-[16px] text-ink-50 outline-none transition
       placeholder:text-ink-400 hover:border-line-strong focus:border-white/40 focus:bg-ink-800;
   }
   .link-quiet {

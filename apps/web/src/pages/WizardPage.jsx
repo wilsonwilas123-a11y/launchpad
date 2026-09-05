@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
 import { api, fileToUpload } from '../lib/api';
 import { clearDraft, composeVisualDirection, draftToProjectInput, emptyDraft, loadDraft, saveDraft, STEPS } from '../lib/wizard';
 import { useSession } from '../context/Session';
@@ -16,6 +15,7 @@ import StepDetails from '../components/wizard/StepDetails';
 import StepAssets from '../components/wizard/StepAssets';
 import GenerationOverlay from '../components/wizard/GenerationOverlay';
 import { cx } from '../lib/format';
+import { BackLink } from '../components/ui/BackLink';
 
 /**
  * The five-step wizard. The project is created as soon as there is something
@@ -200,28 +200,35 @@ export default function WizardPage() {
     <div className="relative min-h-screen pb-24">
       <AmbientBackdrop variant="quiet" />
       <div className="relative">
-        <header className="shell flex h-20 items-center gap-4">
+        <header className="shell sticky top-0 z-40 flex h-16 items-center gap-3 bg-ink-900/85 backdrop-blur-xl sm:h-20 sm:bg-transparent sm:backdrop-blur-none">
+          <BackLink
+            to={draft.projectId ? '/dashboard' : '/'}
+            srLabel={draft.projectId ? 'Save this draft and go back to the dashboard' : 'Back to the Launchpad site'}
+            label={
+              <>
+                <span className="sm:hidden">{draft.projectId ? 'Exit' : 'Cancel'}</span>
+                <span className="hidden sm:inline">{draft.projectId ? 'Save & exit to Dashboard' : 'Back to the site'}</span>
+              </>
+            }
+          />
+          <span aria-hidden className="hidden h-5 w-px bg-white/10 sm:block" />
           <Logo href={draft.projectId ? '/dashboard' : '/'} />
-          <button type="button" onClick={() => navigate(draft.projectId ? '/dashboard' : '/')} className="inline-flex items-center gap-1.5 text-[13px] text-ink-300 transition hover:text-white">
-            <ArrowLeft className="h-3.5 w-3.5" />
-            {draft.projectId ? 'Save & exit' : 'Cancel'}
-          </button>
           <div className="ml-auto hidden lg:block">
             <StepRail current={step} furthest={furthest} onJump={setStep} />
           </div>
         </header>
 
-        <main className="shell pt-4 lg:pt-8">
+        <main className="shell pt-5 lg:pt-8">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="micro mb-2">
                 Step {step + 1} of {STEPS.length} · {current.label}
               </p>
               <h1 className="font-display text-[clamp(1.8rem,4.4vw,2.7rem)] font-medium leading-[1.05] tracking-[-0.035em]">{heading.title}</h1>
-              <p className="mt-1.5 max-w-[56ch] text-[14px] leading-relaxed text-ink-300">{heading.hint}</p>
+              <p className="mt-1.5 max-w-[56ch] text-[15px] leading-relaxed text-ink-300">{heading.hint}</p>
             </div>
             {draft.projectId ? (
-              <span className="rounded-pill border border-line bg-white/[0.03] px-3 py-1.5 font-mono text-[11px] text-ink-300">saved as {project?.name || draft.name || 'draft'}</span>
+              <span className="rounded-pill border border-line bg-white/[0.03] px-3 py-1.5 font-mono text-[13.5px] text-ink-300">saved as {project?.name || draft.name || 'draft'}</span>
             ) : null}
           </div>
 

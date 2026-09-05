@@ -9,6 +9,8 @@ import { Button } from '../components/ui/Button';
 import { Field, Input } from '../components/ui/Field';
 import { useSession } from '../context/Session';
 import { useToast } from '../context/Toast';
+import { BackLink } from '../components/ui/BackLink';
+import GoogleSignIn from '../components/auth/GoogleSignIn';
 
 const COPY = {
   signin: { title: 'Welcome back.', body: 'Your launches are where you left them.' },
@@ -85,7 +87,7 @@ export default function AuthPage({ mode = 'signin' }) {
   const copy = COPY[mode];
 
   return (
-    <div className="relative grid min-h-screen lg:grid-cols-[1.05fr_1fr]">
+    <div className="relative grid min-h-screen lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]">
       <AmbientBackdrop variant="quiet" />
 
       {/* Marketing side: one claim, one proof. */}
@@ -95,65 +97,78 @@ export default function AuthPage({ mode = 'signin' }) {
           <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} className="mb-7 text-white">
             <RocketMark size={42} />
           </motion.div>
-          <h2 className="font-display text-[clamp(1.8rem,2.6vw,2.5rem)] font-medium leading-[1.06] tracking-[-0.035em]">
+          <h2 className="font-display text-[clamp(1.95rem,2.6vw,2.7rem)] font-medium leading-[1.06] tracking-[-0.035em]">
             Launch anything.
             <br />
             <span style={{ fontStyle: 'italic' }}>Launch it beautifully.</span>
           </h2>
-          <p className="mt-4 text-[15px] leading-relaxed text-ink-300">
+          <p className="mt-4 text-[16.5px] leading-relaxed text-ink-300">
             Describe your idea, add your assets, and Launchpad creates a website built around your vision — then gives it an address.
           </p>
           <ul className="mt-8 flex flex-col gap-2.5">
             {['Design directions built in-house', 'Your images, understood and placed', 'A live URL, editable in plain English'].map((line) => (
-              <li key={line} className="flex items-start gap-2.5 text-[13.5px] text-ink-200">
+              <li key={line} className="flex items-start gap-2.5 text-[15px] text-ink-200">
                 <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 opacity-70" strokeWidth={2.4} />
                 {line}
               </li>
             ))}
           </ul>
         </div>
-        <p className="text-[12px] text-ink-400">
+        <p className="text-[14px] text-ink-400">
           Live examples:{' '}
           <Link to="/nova" className="link-quiet">
             launchpad.app/nova
           </Link>{' '}
           ·{' '}
-          <Link to="/afterglow" className="link-quiet">
+          <Link to="/afterglow" className="link-quiet break-all">
             launchpad.app/afterglow
           </Link>
         </p>
       </aside>
 
-      <main className="relative flex items-center justify-center px-5 py-14 sm:px-10">
+      <main className="relative flex min-w-0 items-center justify-center px-4 py-10 sm:px-10 sm:py-14">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 0.8, 0.24, 1] }}
-          className="w-full max-w-[404px]"
+          className="w-full max-w-[440px] min-w-0"
         >
-          <div className="mb-8 lg:hidden">
+          <div className="mb-6 flex items-center gap-3 lg:mb-8">
+            <BackLink to="/" label="Back to the site" hideLabelClass="hidden sm:inline" />
+            <span aria-hidden className="h-5 w-px bg-white/10" />
             <Logo href="/" />
           </div>
-          <h1 className="font-display text-[30px] font-medium leading-tight tracking-[-0.03em]">{copy.title}</h1>
-          <p className="mt-2 text-[14.5px] leading-relaxed text-ink-300">{copy.body}</p>
+          <h1 className="font-display text-[33px] font-medium leading-tight tracking-[-0.03em]">{copy.title}</h1>
+          <p className="mt-2 text-[15.5px] leading-relaxed text-ink-300">{copy.body}</p>
+
+          {mode !== 'forgot' ? (
+            <>
+              <GoogleSignIn intent={mode} next={next} />
+              <div className="mt-6 flex items-center gap-3">
+                <span className="h-px flex-1 bg-line" />
+                <span className="micro">or use email</span>
+                <span className="h-px flex-1 bg-line" />
+              </div>
+            </>
+          ) : null}
 
           {mode === 'forgot' && sent ? (
-            <div className="panel mt-8 flex items-start gap-3 p-5">
+            <div className="panel mt-8 flex items-start gap-3 p-5 lg:p-6">
               <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-white text-ink-900">
                 <Check className="h-3.5 w-3.5" strokeWidth={3} />
               </span>
               <div>
-                <p className="text-[15px] text-white">Check your inbox ✓</p>
-                <p className="mt-1 text-[13.5px] leading-relaxed text-ink-300">
+                <p className="text-[16.5px] text-white">Check your inbox ✓</p>
+                <p className="mt-1 text-[15px] leading-relaxed text-ink-300">
                   If {form.email} is on an account, a reset link is on its way. It expires in 30 minutes.
                 </p>
-                <Link to="/sign-in" className="link-quiet mt-3 inline-block text-[13px]">
+                <Link to="/sign-in" className="link-quiet mt-3 inline-block text-[14.5px]">
                   Back to sign in
                 </Link>
               </div>
             </div>
           ) : (
-            <form onSubmit={submit} className="mt-8 flex flex-col gap-4">
+            <form onSubmit={submit} className={`flex flex-col gap-5 ${mode === 'forgot' ? 'mt-8' : 'mt-6'}`}>
               {mode === 'signup' ? (
                 <Field label="Your name" htmlFor="name">
                   <Input id="name" value={form.name} onChange={set('name')} placeholder="Ada Okonkwo" autoComplete="name" required />
@@ -169,7 +184,7 @@ export default function AuthPage({ mode = 'signin' }) {
                   hint={mode === 'signup' ? 'At least 8 characters.' : undefined}
                   action={
                     mode === 'signin' ? (
-                      <Link to="/forgot" className="text-[12.5px] text-ink-300 transition hover:text-white">
+                      <Link to="/forgot" className="text-[14px] text-ink-300 transition hover:text-white">
                         Forgot?
                       </Link>
                     ) : null
@@ -193,7 +208,7 @@ export default function AuthPage({ mode = 'signin' }) {
               ) : null}
 
               {error ? (
-                <p role="alert" className="rounded-tile border border-red-400/25 bg-red-500/10 px-3 py-2 text-[13px] text-red-100">
+                <p role="alert" className="rounded-tile border border-red-400/25 bg-red-500/10 px-3 py-2 text-[14.5px] text-red-100">
                   {error}
                 </p>
               ) : null}
@@ -216,11 +231,11 @@ export default function AuthPage({ mode = 'signin' }) {
                 <Sparkles className="h-4 w-4" strokeWidth={2} />
                 Explore the demo workspace
               </Button>
-              <p className="mt-3 text-center text-[12.5px] leading-relaxed text-ink-400">
+              <p className="mt-3 text-center text-[14px] leading-relaxed text-ink-400">
                 Four launches, two of them live. Demo account: <span className="font-mono text-ink-200">demo@launchpad.app</span> ·{' '}
                 <span className="font-mono text-ink-200">launchpad</span>
               </p>
-              <p className="mt-7 text-center text-[13.5px] text-ink-300">
+              <p className="mt-7 text-center text-[15px] text-ink-300">
                 {mode === 'signin' ? (
                   <>
                     New here?{' '}
@@ -239,7 +254,7 @@ export default function AuthPage({ mode = 'signin' }) {
               </p>
             </>
           ) : (
-            <p className="mt-6 text-center text-[13.5px] text-ink-300">
+            <p className="mt-6 text-center text-[15px] text-ink-300">
               Remembered it?{' '}
               <Link to="/sign-in" className="link-quiet">
                 Sign in instead

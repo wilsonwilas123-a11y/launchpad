@@ -6,6 +6,7 @@ import { SaveState, StatusPill } from '../ui/StatusPill';
 import { Modal } from '../ui/Primitives';
 import { Input } from '../ui/Field';
 import { shareLink } from '../../lib/format';
+import { BackLink } from '../ui/BackLink';
 
 /**
  * The builder's top bar: identity, live status, and the three verbs that matter
@@ -26,11 +27,13 @@ export default function BuilderTopBar({ project, saveState, onRename, onPublish,
 
   return (
     <>
-      <header className="flex h-16 shrink-0 items-center gap-3 border-b border-line bg-ink-900/85 px-4 backdrop-blur-xl">
+      <header className="flex min-h-16 shrink-0 flex-wrap items-center gap-x-2.5 gap-y-1.5 border-b border-line bg-ink-900/85 px-3 py-2 backdrop-blur-xl lg:flex-nowrap lg:gap-3 lg:px-4 lg:py-0">
+        <BackLink to="/dashboard" label={<><span className="sm:hidden">Back</span><span className="hidden sm:inline">Back to Dashboard</span></>} />
+        <span aria-hidden className="hidden h-5 w-px bg-white/10 sm:block" />
         <Logo size="sm" href="/dashboard" />
         <span aria-hidden className="h-5 w-px bg-white/10" />
 
-        <div className="flex min-w-0 items-center gap-2">
+        <div className="flex min-w-0 flex-1 items-center gap-2 lg:flex-none">
           {editing ? (
             <form onSubmit={saveName} className="flex items-center gap-1.5">
               <Input autoFocus value={name} onChange={(event) => setName(event.target.value)} onBlur={saveName} className="h-8 w-[200px] text-[14px]" aria-label="Project name" />
@@ -43,7 +46,7 @@ export default function BuilderTopBar({ project, saveState, onRename, onPublish,
               className="group inline-flex min-w-0 items-center gap-2 rounded-pill px-2 py-1 text-left transition hover:bg-white/[0.06]"
             >
               <span className="truncate font-display text-[16px] tracking-[-0.02em] text-white">{project.name || 'Untitled launch'}</span>
-              <span className="shrink-0 text-[11px] text-ink-500 opacity-0 transition group-hover:opacity-100">rename</span>
+              <span className="shrink-0 text-[12px] text-ink-500 opacity-0 transition group-hover:opacity-100">rename</span>
             </button>
           )}
           <span className="hidden shrink-0 sm:inline-flex">
@@ -51,18 +54,18 @@ export default function BuilderTopBar({ project, saveState, onRename, onPublish,
           </span>
         </div>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex min-w-0 items-center gap-1.5 sm:gap-2">
           <SaveState state={saveState} url={live ? project.liveUrl : undefined} onCopy={onCopyLink} className="hidden md:inline-flex" />
           <IconButton label="Full-screen preview" onClick={onPreview}>
             <Eye className="h-4 w-4" />
           </IconButton>
-          <Button variant="secondary" size="sm" onClick={() => setShowShare(true)} disabled={!live}>
+          <Button variant="secondary" size="sm" onClick={() => setShowShare(true)} disabled={!live} aria-label="Share this launch">
             <Share2 className="h-3.5 w-3.5" />
-            Share
+            <span className="hidden min-[400px]:inline">Share</span>
           </Button>
-          <Button size="sm" onClick={onPublish} loading={busy === 'publish'} disabled={project.status === 'generating'}>
+          <Button size="sm" onClick={onPublish} loading={busy === 'publish'} disabled={project.status === 'generating'} aria-label={live ? 'Re-publish' : 'Publish'}>
             <Rocket className="h-3.5 w-3.5" strokeWidth={2.2} />
-            {live ? 'Re-publish' : 'Publish'}
+            <span className="hidden min-[400px]:inline">{live ? 'Re-publish' : 'Publish'}</span>
           </Button>
         </div>
       </header>
@@ -95,16 +98,16 @@ export default function BuilderTopBar({ project, saveState, onRename, onPublish,
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2 rounded-tile border border-line bg-white/[0.03] px-3 py-2.5">
             <Globe2 className="h-4 w-4 shrink-0 text-ink-300" />
-            <span className="min-w-0 flex-1 truncate font-mono text-[12.5px] text-ink-100">{project.liveUrl || `${host}/${project.slug || '…'}`}</span>
-            <button type="button" onClick={onCopyLink} className="shrink-0 text-[11px] uppercase tracking-[0.14em] text-ink-300 transition hover:text-white">
+            <span className="min-w-0 flex-1 truncate font-mono text-[13.5px] text-ink-100">{project.liveUrl || `${host}/${project.slug || '…'}`}</span>
+            <button type="button" onClick={onCopyLink} className="shrink-0 text-[12px] uppercase tracking-[0.14em] text-ink-300 transition hover:text-white">
               copy
             </button>
           </div>
-          <p className="text-[12.5px] leading-relaxed text-ink-400">
+          <p className="text-[13.5px] leading-relaxed text-ink-400">
             One address per launch. Re-publishing updates it; the link you already shared keeps working.
           </p>
           {live && project.hasUnpublishedChanges ? (
-            <p className="rounded-tile border border-amber-300/25 bg-amber-200/[0.07] px-3 py-2 text-[12.5px] text-amber-100">You have edits that are not live yet. Re-publish to push them.</p>
+            <p className="rounded-tile border border-amber-300/25 bg-amber-200/[0.07] px-3 py-2 text-[13.5px] text-amber-100">You have edits that are not live yet. Re-publish to push them.</p>
           ) : null}
         </div>
       </Modal>

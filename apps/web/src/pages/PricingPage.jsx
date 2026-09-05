@@ -11,6 +11,7 @@ import { useSession } from '../context/Session';
 import { useToast } from '../context/Toast';
 import { api } from '../lib/api';
 import { cx } from '../lib/format';
+import { BackLink } from '../components/ui/BackLink';
 
 const TIERS = [
   {
@@ -92,12 +93,13 @@ export default function PricingPage() {
     <div className="relative min-h-screen">
       <AmbientBackdrop variant="quiet" />
       <div className="relative">
-        <header className="shell flex h-20 items-center justify-between">
-          <Logo />
-          <nav className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" to="/">
-              Home
-            </Button>
+        <header className="shell sticky top-0 z-40 flex h-16 items-center justify-between gap-2 border-b border-line/60 bg-ink-900/80 py-2 backdrop-blur-xl sm:h-20 sm:border-transparent sm:bg-transparent sm:py-0 sm:backdrop-blur-none">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <BackLink to="/" label={<><span className="sm:hidden">Back</span><span className="hidden sm:inline">Back to home</span></>} />
+            <span aria-hidden className="hidden h-5 w-px bg-white/10 sm:block" />
+            <Logo />
+          </div>
+          <nav className="flex shrink-0 items-center gap-2">
             <Button size="sm" to={isAuthed ? '/build' : '/start'}>
               Start Building
             </Button>
@@ -107,10 +109,10 @@ export default function PricingPage() {
         <section className="shell pb-10 pt-8 text-center sm:pt-16">
           <Reveal>
             <p className="micro mb-4">Pricing</p>
-            <h1 className="mx-auto max-w-[16ch] font-display text-[clamp(2.1rem,5.4vw,3.4rem)] font-medium leading-[1.03] tracking-[-0.04em]">
+            <h1 className="mx-auto max-w-[16ch] font-display text-[clamp(2.3rem,5.6vw,3.7rem)] font-medium leading-[1.03] tracking-[-0.04em]">
               Priced per launch, not per word.
             </h1>
-            <p className="mx-auto mt-4 max-w-[54ch] text-[16px] leading-relaxed text-ink-300">
+            <p className="mx-auto mt-4 max-w-[54ch] text-[17.5px] leading-relaxed text-ink-300">
               Generation, editing and republishing are not metered. Pick the plan by how many things you keep live at once.
             </p>
             <div className="mt-8 flex justify-center">
@@ -126,7 +128,7 @@ export default function PricingPage() {
           </Reveal>
         </section>
 
-        <section className="shell grid gap-4 pb-8 lg:grid-cols-3">
+        <section className="shell grid gap-5 pb-10 lg:grid-cols-3 sm:gap-6">
           {TIERS.map((tier, index) => {
             const price = tier.price[cycle];
             const isCurrent = current === tier.id;
@@ -137,24 +139,24 @@ export default function PricingPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.08 * index, duration: 0.6, ease: [0.22, 0.8, 0.24, 1] }}
                 className={cx(
-                  'relative flex flex-col rounded-card border p-6',
+                  'relative flex flex-col rounded-card border p-6 lg:p-7',
                   tier.featured ? 'border-white/35 bg-white/[0.05] shadow-lift' : 'border-line bg-ink-850/60',
                 )}
               >
                 {tier.featured ? (
-                  <span className="absolute -top-2.5 left-6 rounded-pill bg-white px-2.5 py-0.5 text-[10.5px] font-semibold uppercase tracking-[0.14em] text-ink-900">
+                  <span className="absolute -top-2.5 left-6 rounded-pill bg-white px-2.5 py-0.5 text-[13px] font-semibold uppercase tracking-[0.14em] text-ink-900">
                     Most launches
                   </span>
                 ) : null}
-                <h2 className="font-display text-[22px] tracking-[-0.02em]">{tier.name}</h2>
-                <p className="mt-1 min-h-[42px] text-[13.5px] leading-relaxed text-ink-300">{tier.blurb}</p>
+                <h2 className="font-display text-[24px] tracking-[-0.02em]">{tier.name}</h2>
+                <p className="mt-1 min-h-[42px] text-[15px] leading-relaxed text-ink-300">{tier.blurb}</p>
                 <p className="mt-4 flex items-baseline gap-1.5">
                   <span className="font-display text-[44px] leading-none tracking-[-0.04em]">${price}</span>
-                  <span className="text-[13px] text-ink-400">{price ? `/mo${cycle === 'annual' ? ', billed yearly' : ''}` : 'forever'}</span>
+                  <span className="text-[14.5px] text-ink-400">{price ? `/mo${cycle === 'annual' ? ', billed yearly' : ''}` : 'forever'}</span>
                 </p>
                 <ul className="mt-6 flex flex-col gap-2.5">
                   {tier.features.map((feature) => (
-                    <li key={feature.label} className={cx('flex items-start gap-2.5 text-[13.5px]', !feature.on && 'text-ink-500')}>
+                    <li key={feature.label} className={cx('flex items-start gap-2.5 text-[15px]', !feature.on && 'text-ink-500')}>
                       {feature.on ? (
                         <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 opacity-80" strokeWidth={2.6} />
                       ) : (
@@ -174,16 +176,16 @@ export default function PricingPage() {
           })}
         </section>
 
-        <section className="shell grid max-w-[860px] gap-3 pb-16 pt-6 sm:grid-cols-2">
+        <section className="shell grid max-w-[900px] gap-4 pb-20 pt-6 sm:grid-cols-2 sm:gap-5">
           {FAQS.map((faq) => (
-            <div key={faq.q} className="rounded-card border border-line bg-ink-850/40 p-5">
-              <p className="text-[14.5px] text-white">{faq.q}</p>
-              <p className="mt-2 text-[13.5px] leading-relaxed text-ink-300">{faq.a}</p>
+            <div key={faq.q} className="rounded-card border border-line bg-ink-850/40 p-5 lg:p-6">
+              <p className="text-[15.5px] text-white">{faq.q}</p>
+              <p className="mt-2 text-[15px] leading-relaxed text-ink-300">{faq.a}</p>
             </div>
           ))}
         </section>
 
-        <footer className="shell flex flex-wrap items-center justify-between gap-3 border-t border-line py-8 text-[12.5px] text-ink-400">
+        <footer className="shell flex flex-wrap items-center justify-between gap-3 border-t border-line py-8 text-[14px] text-ink-400">
           <span>All plans include the full renderer, the builder and the command box.</span>
           <span>
             <Link to="/terms" className="link-quiet">

@@ -78,11 +78,11 @@ export default function CommandBar({ onRun, busy, lastChanges, onDismissChanges,
             aria-label="Tell Launchpad what to change"
             className="min-w-0 flex-1 bg-transparent text-[15px] text-white outline-none placeholder:text-ink-400"
           />
-          <kbd className="hidden shrink-0 rounded-pill border border-line px-2 py-0.5 font-mono text-[10.5px] text-ink-400 sm:block">⌘K</kbd>
+          <kbd className="hidden shrink-0 rounded-pill border border-line px-2 py-0.5 font-mono text-[12px] text-ink-400 sm:block">⌘K</kbd>
           <button
             type="submit"
             disabled={!value.trim() || Boolean(busy)}
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-pill bg-white px-3 py-1.5 text-[13px] font-medium text-ink-900 transition disabled:opacity-40"
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-pill bg-white px-3 py-1.5 text-[14px] font-medium text-ink-900 transition disabled:opacity-40"
           >
             {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <CornerDownLeft className="h-3.5 w-3.5" />}
             {busy ? 'Working' : 'Run'}
@@ -106,9 +106,9 @@ export default function CommandBar({ onRun, busy, lastChanges, onDismissChanges,
                     onClick={() => submit(run.command)}
                     className="flex w-full items-baseline gap-3 px-4 py-2.5 text-left transition hover:bg-white/[0.06]"
                   >
-                    <span className="w-[74px] shrink-0 text-[10px] uppercase tracking-[0.16em] text-ink-500">{run.group}</span>
+                    <span className="w-[74px] shrink-0 text-[11.5px] uppercase tracking-[0.16em] text-ink-500">{run.group}</span>
                     <span className="min-w-0 flex-1 truncate text-[14px] text-ink-50">{run.label}</span>
-                    {run.flavour ? <span className="shrink-0 text-[11px] text-ink-400">sent as written</span> : null}
+                    {run.flavour ? <span className="shrink-0 text-[12px] text-ink-400">sent as written</span> : null}
                   </button>
                 </li>
               ))}
@@ -126,19 +126,19 @@ export default function CommandBar({ onRun, busy, lastChanges, onDismissChanges,
             >
               <div className="mt-3 flex flex-col gap-2 rounded-tile border border-line bg-white/[0.03] px-3.5 py-2.5">
                 <div className="flex flex-wrap items-start gap-x-4 gap-y-2">
-                  <p className="text-[13px] text-white">{lastChanges.summary || 'Done.'}</p>
+                  <p className="text-[14px] text-white">{lastChanges.summary || 'Done.'}</p>
                   {lastChanges.readAs ? (
-                    <p className="text-[12px] text-ink-300">
-                      Read as <span className="font-mono text-[11px] text-ink-100">{lastChanges.readAs}</span>
+                    <p className="text-[13px] text-ink-300">
+                      Read as <span className="font-mono text-[12px] text-ink-100">{lastChanges.readAs}</span>
                     </p>
                   ) : null}
                   <div className="ml-auto flex items-center gap-2">
                     {onUndo ? (
-                      <button type="button" onClick={onUndo} className="rounded-pill border border-line px-2.5 py-1 text-[11.5px] text-ink-100 transition hover:border-white/35 hover:text-white">
+                      <button type="button" onClick={onUndo} className="rounded-pill border border-line px-2.5 py-1 text-[12.5px] text-ink-100 transition hover:border-white/35 hover:text-white">
                         Undo
                       </button>
                     ) : null}
-                    <button type="button" onClick={onDismissChanges} className="text-[11px] uppercase tracking-[0.14em] text-ink-400 transition hover:text-white">
+                    <button type="button" onClick={onDismissChanges} className="text-[12px] uppercase tracking-[0.14em] text-ink-400 transition hover:text-white">
                       close
                     </button>
                   </div>
@@ -146,7 +146,7 @@ export default function CommandBar({ onRun, busy, lastChanges, onDismissChanges,
                 {(lastChanges.changes || []).length ? (
                   <ul className="flex flex-wrap gap-x-3 gap-y-1">
                     {lastChanges.changes.slice(0, 6).map((change, index) => (
-                      <li key={index} className="flex items-baseline gap-1.5 text-[12px] text-ink-200">
+                      <li key={index} className="flex items-baseline gap-1.5 text-[13px] text-ink-200">
                         <span aria-hidden className="h-1 w-1 shrink-0 translate-y-[-1px] rounded-full bg-white/60" />
                         {change}
                       </li>
@@ -154,7 +154,7 @@ export default function CommandBar({ onRun, busy, lastChanges, onDismissChanges,
                   </ul>
                 ) : null}
                 {(lastChanges.rejected || []).length ? (
-                  <p className="text-[12px] leading-relaxed text-amber-100/90">
+                  <p className="text-[13px] leading-relaxed text-amber-100/90">
                     Not done: {lastChanges.rejected.map((item) => (typeof item === 'string' ? item : item?.text || item?.command)).filter(Boolean).join(' · ')}
                   </p>
                 ) : null}

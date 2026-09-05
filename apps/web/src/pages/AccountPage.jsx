@@ -12,6 +12,8 @@ import { Segmented } from '../components/ui/Segmented';
 import { useSession } from '../context/Session';
 import { useToast } from '../context/Toast';
 import { cx, initials } from '../lib/format';
+import { BackLink } from '../components/ui/BackLink';
+import { GoogleMark } from '../components/auth/GoogleSignIn';
 
 const TABS = [
   { value: 'profile', label: 'Profile', icon: UserRound },
@@ -57,7 +59,10 @@ export default function AccountPage() {
     try {
       await api.auth.changePassword(passwords.current, passwords.next);
       setPasswords({ current: '', next: '', confirm: '' });
-      toast.success('Password changed.');
+      // A Google account goes from "no password" to "has one" here, and the
+      // form itself changes shape, so re-read who we are.
+      await refresh();
+      toast.success(user?.hasPassword === false ? 'Password set. You can sign in with Google or email now.' : 'Password changed.');
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -98,11 +103,8 @@ export default function AccountPage() {
     <div className="relative min-h-screen">
       <AmbientBackdrop variant="quiet" />
       <div className="relative">
-        <header className="shell flex h-20 items-center gap-4">
-          <button type="button" onClick={() => navigate('/dashboard')} className="inline-flex items-center gap-1.5 text-[13px] text-ink-300 transition hover:text-white">
-            <ArrowLeft className="h-3.5 w-3.5" />
-            Dashboard
-          </button>
+        <header className="shell flex h-16 items-center gap-3 sm:h-20">
+          <BackLink to="/dashboard" label={<><span className="sm:hidden">Back</span><span className="hidden sm:inline">Back to Dashboard</span></>} />
           <Logo className="ml-auto" size="sm" />
         </header>
 
@@ -113,8 +115,16 @@ export default function AccountPage() {
             </span>
             <div className="min-w-0">
               <h1 className="font-display text-[26px] leading-tight tracking-[-0.02em]">{user?.name || user?.email}</h1>
-              <p className="text-[13px] text-ink-300">
-                {user?.email} · {plan.name} plan
+              <p className="text-[14px] text-ink-300">
+                {user?.email} · {plan.name} plan ·{' '}
+                {user?.provider === 'google' ? (
+                  <span className="text-ink-200">
+                    <GoogleMark className="mr-1 inline-block align-[-2px]" />
+                    Google
+                  </span>
+                ) : (
+                  'password'
+                )}
               </p>
             </div>
             <Button variant="ghost" size="sm" className="ml-auto" onClick={() => { signOut(); navigate('/'); }}>
@@ -143,11 +153,17 @@ export default function AccountPage() {
                     </div>
                   </form>
                 </Panel>
-                <Panel title="Password">
+                <Panel title={user?.hasPassword === false ? 'Choose a password' : 'Password'}>
                   <form onSubmit={changePassword} className="flex flex-col gap-4">
-                    <Field label="Current password" htmlFor="current">
-                      <Input id="current" type="password" autoComplete="current-password" value={passwords.current} onChange={(e) => setPasswords({ ...passwords, current: e.target.value })} />
-                    </Field>
+                    {user?.hasPassword === false ? (
+                      <p className="text-[14.5px] leading-relaxed text-ink-300">
+                        This account was created with Google, so it has no password yet. Pick one and you will be able to sign in either way.
+                      </p>
+                    ) : (
+                      <Field label="Current password" htmlFor="current">
+                        <Input id="current" type="password" autoComplete="current-password" value={passwords.current} onChange={(e) => setPasswords({ ...passwords, current: e.target.value })} />
+                      </Field>
+                    )}
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field label="New password" htmlFor="next" hint="At least 8 characters.">
                         <Input id="next" type="password" autoComplete="new-password" value={passwords.next} onChange={(e) => setPasswords({ ...passwords, next: e.target.value })} />
@@ -158,7 +174,7 @@ export default function AccountPage() {
                     </div>
                     <div className="flex justify-end">
                       <Button type="submit" variant="secondary" loading={busy === 'password'} disabled={passwords.next.length < 8}>
-                        Change password
+                        {user?.hasPassword === false ? 'Set password' : 'Change password'}
                       </Button>
                     </div>
                   </form>
@@ -179,10 +195,10 @@ export default function AccountPage() {
                         >
                           <span className="min-w-0 flex-1">
                             <span className="block text-[15px] text-white">{item.name}</span>
-                            <span className="block text-[12.5px] text-ink-300">{item.detail}</span>
+                            <span className="block text-[13.5px] text-ink-300">{item.detail}</span>
                           </span>
                           {active ? (
-                            <span className="rounded-pill border border-line px-2.5 py-1 text-[11px] uppercase tracking-[0.14em] text-ink-300">Current</span>
+                            <span className="rounded-pill border border-line px-2.5 py-1 text-[12px] uppercase tracking-[0.14em] text-ink-300">Current</span>
                           ) : (
                             <Button size="sm" variant="secondary" onClick={() => setPlan(item.id)} loading={busy === 'plan'}>
                               {item.id === 'free' ? 'Downgrade' : 'Upgrade'}
@@ -196,10 +212,10 @@ export default function AccountPage() {
                 <Panel title="Payment method">
                   <div className="flex items-center gap-3 rounded-tile border border-line px-4 py-3.5">
                     <span className="grid h-8 w-11 place-items-center rounded border border-line bg-white/[0.05] text-[9px] font-semibold tracking-widest text-ink-200">VISA</span>
-                    <span className="text-[13.5px]">ending 4242</span>
-                    <span className="ml-auto text-[12px] text-ink-400">This build does not charge cards.</span>
+                    <span className="text-[14.5px]">ending 4242</span>
+                    <span className="ml-auto text-[13px] text-ink-400">This build does not charge cards.</span>
                   </div>
-                  <p className="mt-4 text-[12.5px] text-ink-400">Invoices appear here as they are issued. None yet.</p>
+                  <p className="mt-4 text-[13.5px] text-ink-400">Invoices appear here as they are issued. None yet.</p>
                 </Panel>
               </>
             ) : null}
@@ -210,7 +226,7 @@ export default function AccountPage() {
                 danger
                 body="Deleting your account removes every project, every asset and every form response captured by your published sites. It cannot be undone."
               >
-                <ul className="mb-5 flex flex-col gap-2 text-[13.5px] text-ink-200">
+                <ul className="mb-5 flex flex-col gap-2 text-[14.5px] text-ink-200">
                   <li className="flex gap-2">
                     <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-ink-400" />
                     <span>Live sites stop serving immediately; the addresses are released.</span>
@@ -257,7 +273,7 @@ function Panel({ title, body, children, danger }) {
   return (
     <section className={cx('panel p-6', danger && 'border-red-400/25')}>
       <h2 className="font-display text-[19px] tracking-[-0.02em]">{title}</h2>
-      {body ? <p className="mt-1.5 max-w-[62ch] text-[13.5px] leading-relaxed text-ink-300">{body}</p> : null}
+      {body ? <p className="mt-1.5 max-w-[62ch] text-[14.5px] leading-relaxed text-ink-300">{body}</p> : null}
       <div className="mt-5">{children}</div>
     </section>
   );

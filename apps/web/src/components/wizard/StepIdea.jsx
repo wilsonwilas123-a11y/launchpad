@@ -27,7 +27,7 @@ export default function StepIdea({ draft, set, onSubmit }) {
     >
       <div>
         <p className="micro mb-4">Pick the closest fit — it changes the sections we build, not just the copy</p>
-        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 sm:gap-4">
           {LAUNCH_TYPES.map((type, index) => {
             const active = draft.type === type.id;
             return (
@@ -41,16 +41,16 @@ export default function StepIdea({ draft, set, onSubmit }) {
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.985 }}
                 className={cx(
-                  'group flex flex-col items-start gap-1.5 rounded-card border p-3.5 text-left transition-colors duration-200',
+                  'group flex min-h-[86px] flex-col items-start gap-2 rounded-card border p-4 text-left transition-colors duration-200',
                   active ? 'border-white/70 bg-white/[0.08] shadow-glow' : 'border-line bg-ink-850/60 hover:border-white/25 hover:bg-white/[0.045]',
                 )}
                 aria-pressed={active}
               >
-                <span className="text-[17px] leading-none" aria-hidden>
+                <span className="text-[18.5px] leading-none" aria-hidden>
                   {type.emoji}
                 </span>
-                <span className="text-[14.5px] font-medium leading-tight text-white">{type.label}</span>
-                <span className="text-[12px] leading-snug text-ink-300">{type.blurb}</span>
+                <span className="text-[15.5px] font-medium leading-tight text-white">{type.label}</span>
+                <span className="text-[14px] leading-snug text-ink-300">{type.blurb}</span>
               </motion.button>
             );
           })}
@@ -62,7 +62,7 @@ export default function StepIdea({ draft, set, onSubmit }) {
         required
         htmlFor="description"
         hint="What it is, who it is for, what the site must do. Three or four sentences is plenty."
-        action={<span className="font-mono text-[11px] text-ink-400">{words} words</span>}
+        action={<span className="font-mono text-[13.5px] text-ink-400">{words} words</span>}
       >
         <Input
           id="description"
@@ -78,8 +78,8 @@ export default function StepIdea({ draft, set, onSubmit }) {
       <div className="rounded-card border border-line bg-white/[0.02]">
         <button type="button" onClick={() => setShowControls((value) => !value)} className="flex w-full items-center gap-2.5 px-4 py-3 text-left" aria-expanded={showControls}>
           <Sparkles className="h-4 w-4 text-ink-200" strokeWidth={2} />
-          <span className="text-[14px] text-ink-100">Optional: steer the look</span>
-          <span className="ml-auto text-[12px] text-ink-400">{showControls ? 'Hide' : 'Show'}</span>
+          <span className="text-[15px] text-ink-100">Optional: steer the look</span>
+          <span className="ml-auto text-[14px] text-ink-400">{showControls ? 'Hide' : 'Show'}</span>
           <ChevronDown className={cx('h-4 w-4 text-ink-400 transition-transform', showControls && 'rotate-180')} />
         </button>
         {showControls ? (
@@ -98,7 +98,7 @@ export default function StepIdea({ draft, set, onSubmit }) {
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
-        <p className="max-w-[42ch] text-[12.5px] leading-relaxed text-ink-400">Nothing here is locked in — the builder can change any of it after generation.</p>
+        <p className="max-w-[42ch] text-[14px] leading-relaxed text-ink-400">Nothing here is locked in — the builder can change any of it after generation.</p>
         <Button type="submit" size="lg" disabled={words < 4}>
           Continue
         </Button>
@@ -110,7 +110,7 @@ export default function StepIdea({ draft, set, onSubmit }) {
 function ControlRow({ label, options, value, onPick, render = (option) => option || 'Not sure' }) {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <span className="w-[74px] shrink-0 text-[12.5px] text-ink-300">{label}</span>
+      <span className="w-[74px] shrink-0 text-[14px] text-ink-300">{label}</span>
       <div className="flex flex-wrap gap-1.5">
         {options.map((option) => (
           <Chip key={option || 'none'} active={value === option} onClick={() => onPick(option)}>

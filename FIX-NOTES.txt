@@ -1,0 +1,203 @@
+LAUNCHPAD — PATCH SET
+Google sign-in, LM Studio as the model server, plus the back-button and
+narrow-screen pass
+================================================================================
+
+WHAT THIS ZIP IS
+----------------
+Three things changed since the copy you have:
+
+  1. SIGN-IN NOW OFFERS GOOGLE. Real OAuth, not a mock, and it is entirely
+     optional: with no keys in .env the app behaves exactly as before, and the
+     Google row on the sign-in screen says "not set up on this API" instead of
+     pretending to work.
+  2. GENERATION CAN RUN ON LM STUDIO. Launchpad used to talk to Ollama or to
+     nothing. It now speaks LM Studio's OpenAI-compatible server out of the box
+     (and any other one, via LAUNCHPAD_LLM_BASE_URL): it finds the server on
+     port 1234, uses the model you already have loaded, and needs no key. With
+     LM Studio off, generation is exactly as before — the built-in compiler
+     builds the spec and the UI says so.
+
+  3. NAVIGATION AND WIDTHS. Every screen has a labelled "Back to X" control
+     that is at least 40px tall, and nothing runs off the edge on a 320px
+     phone any more (dashboard cards, the builder header, the sign-in split
+     panel, the device switch row, and long headlines inside a published site).
+
+If you would rather start clean, use launchpad.zip (the whole project) and skip
+the rest of this file. If your copy has changes of its own, copy these 62 files
+over apps/ and scripts/, keeping the same folder structure inside launchpad/.
+
+
+1. TURNING GOOGLE SIGN-IN ON
+----------------------------
+You need a Google Cloud OAuth client. Takes about five minutes:
+
+  a. Open https://console.cloud.google.com/apis/credentials
+     (create a project first if it asks you to).
+  b. Create Credentials -> OAuth client ID -> type "Web application".
+  c. Add these two under Authorized JavaScript origins:
+        http://localhost:5173
+        http://localhost:4000
+  d. Add this under Authorized redirect URIs:
+        http://localhost:4000/api/auth/google/callback
+  e. Copy the Client ID and the Client secret.
+
+Then, in the project folder, edit (or create) .env and put:
+
+        GOOGLE_CLIENT_ID=1234567890-abc.apps.googleusercontent.com
+        GOOGLE_CLIENT_SECRET=GOCSPX-some-long-string
+        GOOGLE_REDIRECT_URI=http://localhost:4000/api/auth/google/callback
+
+In cmd:        notepad .env
+In PowerShell: notepad .env        (same file, either shell)
+
+Restart `npm run dev`. Check it was picked up:
+
+        curl http://127.0.0.1:4000/api/health
+
+You should see  "auth":{"google":"ready"}  — or "browser-only" if you pasted only
+the client id, which is fine: the button works with the id alone. "not
+configured" means the .env was not read (wrong folder, or the line is commented
+out with #).
+
+For a real deployment, the redirect URI and the JavaScript origin must be the
+https URLs of that deployment; Google refuses any that do not match exactly.
+
+
+2. WHAT HAPPENS WHEN SOMEBODY CLICKS IT
+---------------------------------------
+Google's own button hands the browser an ID token. The API checks that token's
+RSA signature against Google's published keys and checks `iss`, `aud`, the
+expiry, and `email_verified` — nothing is trusted before that. Then:
+
+  * an address that already has a Launchpad account is linked to it, so the
+    password you already chose keeps working;
+  * a new address gets an account on the spot with no password. /account then
+    shows "Choose a password" instead of "Change password", and once they pick
+    one that address works with email too.
+
+There is no OAuth library and nothing stored from Google beyond the account.
+Your session is still the same signed token the email form issues.
+
+There is also a full-page fallback: if Google's script cannot be reached
+(offline machine, a firewall, a blocked network) the row turns into
+"Continue with Google" as a plain button that walks the standard
+authorization-code redirect through the API instead. It needs the client secret
+to be set.
+
+
+3. DEMO ACCOUNT AND TESTS STILL WORK WITHOUT GOOGLE
+----------------------------------------------------
+`POST /api/auth/demo` is untouched and the sign-in screen keeps its
+"Explore the demo workspace" button. Everything in this patch was verified with
+Google switched off as well as on.
+
+
+4. RUNNING GENERATION ON LM STUDIO
+----------------------------------
+There is nothing to install for Launchpad and, normally, nothing to configure:
+
+  a. In LM Studio, load the model you want (Qwen3 30B A3B is a good size for
+     this — it has to write a whole page spec as JSON).
+  b. Developer / Programmatic tab -> Start Server. Default port 1234.
+  c. Restart the Launchpad API, then:
+        curl http://127.0.0.1:4000/api/health
+     which should answer "ai":{"provider":"lmstudio","label":"LM Studio",
+     "model":"qwen3-30b-a3b","reachable":true}. The dashboard header chip then
+     names that model; if it still says "generation runs on this machine", the
+     API did not reach port 1234 (?refresh=1 on /api/health re-probes).
+
+Launchpad uses the model LM Studio already has loaded. If you keep several, pin
+one with LMSTUDIO_MODEL=<the exact id from GET http://127.0.0.1:1234/v1/models>.
+
+Deliberate choices, all of them because a local model misbehaves rather than
+fails: JSON mode (response_format) is NOT sent unless you set
+LAUNCHPAD_LM_JSON_MODE=1, since some GGUF builds answer 400 to a grammar;
+max_tokens defaults to 2600 and is trimmed to whatever the model's context
+window has left after the prompt, so a small-context model cannot answer 422;
+output that is fenced in ```json or buried in a reasoning turn (Qwen3 thinking)
+is still read; and if the JSON cannot be salvaged after the repair retries, the
+built-in compiler's spec stands and the response says which model said no.
+
+Any other OpenAI-compatible server (vLLM, llama.cpp, a box on the LAN) works via
+LAUNCHPAD_LLM_BASE_URL, which is tried before LM Studio. Ollama is unchanged and
+tried last. With nothing running at all, behaviour is exactly as before.
+
+
+5. HOW TO CHECK YOUR COPY
+-------------------------
+        npm install
+        npm run check
+
+That one command: starts the API, seeds if needed, runs 46 API tests, 39 web
+tests, the HTTP walk-through (e2e) and the browser smoke (95 assertions). On a
+machine with no Google keys it passes, and so does it with them set. The API
+tests for Google fake the network — they generate a throwaway RSA key and
+pretend to be Google's key server, so you never need internet access to prove
+the trust boundary holds.
+
+Windows notes: Node 20+ only. Scripts use 127.0.0.1, not localhost, and plain
+`node --test` with no path argument, so cmd and PowerShell both work.
+
+
+6. FILES IN THIS ZIP
+--------------------
+API
+        apps/api/src/config.js                        google block in config
+        apps/api/src/modules/auth/google.js           NEW: URL, state, token verification, code exchange
+        apps/api/src/generator/lmstudio.js              NEW: OpenAI-compatible client (LM Studio, vLLM, llama.cpp)
+        apps/api/src/generator/ollama.js                probe()/resolveAiMode now walks several model servers
+        apps/api/src/generator/generator.service.js     generation + AI-edit use whichever client answered
+        apps/api/src/generator/json-repair.js           the retry message names the real server
+        apps/api/src/generator/stages.js                pacing floor applies to any local inference server
+        apps/api/src/modules/auth/auth.service.js     signInWithProfile, loginWithGoogle, googleAuthUrl, googleComplete
+        apps/api/src/modules/auth/auth.controller.js  5 new routes, incl. the redirect flow
+        apps/api/src/db/stores.js                      users.provider + users.external_id, auto-migrating schema
+        apps/api/src/common/js-decorators.js          resArg (needed for a 302)
+        apps/api/src/modules/catalog/catalog.controller.js  /api/health now reports auth.google
+        apps/api/tests/google.test.js                  NEW: 13 offline tests
+        apps/api/tests/lmstudio.test.js                 NEW: 17 offline tests against a stub LM Studio
+
+WEB
+        apps/web/src/components/auth/GoogleSignIn.jsx  NEW: the row itself
+        apps/web/src/lib/googleAuth.js                NEW: status hook + script loader
+        apps/web/src/lib/api.js                        googleStatus / googleSignIn / start URL
+        apps/web/src/context/Session.jsx              picks up #lp_token= and scrubs it
+        apps/web/src/pages/AuthPage.jsx               Google row above the email form
+        apps/web/src/components/ui/BackLink.jsx       NEW: shared "Back to X" control
+        apps/web/src/index.css                         type floors, .lp-site shrink rules
+        apps/web/src/pages/DashboardPage.jsx          card grids, action row wrap, model chip in the header
+        apps/web/src/components/auth/GoogleSignIn.jsx  NEW: the row itself
+        apps/web/tests/ai-status.test.js                NEW: 5 contracts for that chip
+        apps/web/src/components/builder/BuilderTopBar.jsx
+        apps/web/src/components/builder/PreviewPane.jsx
+        apps/web/src/components/ui/{Button,Field,Primitives,Segmented,StatusPill}.jsx
+        apps/web/src/components/site/sections.jsx     countdown slabs wrap on a phone
+        apps/web/src/pages/{Account,Legal,Pricing,Wizard,Builder,Preview,PublicSite,NotFound,Landing}Page.jsx
+        apps/web/src/components/{landing,wizard,builder}/*.jsx
+        apps/web/src/components/brand/RocketMark.jsx
+        apps/web/src/App.jsx, apps/web/tailwind.config.js, apps/web/src/context/Toast.jsx
+        apps/web/tests/{hero-responsive,google-signin,narrow-layout}.test.js
+
+SCRIPTS / DOCS
+        scripts/e2e.mjs                               sign-in method checks + which model server answered
+        scripts/web-smoke/harness.cjs                 back-button and Google-row assertions
+        .env.example                                    GOOGLE_* and LMSTUDIO_* documented
+        README.md                                       "Sign-in" section, route table, env table
+
+Questions worth pre-empting:
+  * "The button says not set up." -> .env not read, or only the client id is
+    set while you called the redirect flow. /api/health tells you which.
+  * "The chip still says generation runs on this machine." -> LM Studio's
+    server is not started, or the model is loaded in the Chat tab but not the
+    Server tab (they are separate). curl http://127.0.0.1:1234/v1/models should
+    list it; if it 404s, the server is off.
+  * "Generation is slow." -> it is a 30B model writing a whole page; the
+    timeout is 5 minutes and the checklist is paced to your last real run. If
+    you would rather it answered fast, LAUNCHPAD_LM_MAX_TOKENS=1400, or set
+    LAUNCHPAD_LMSTUDIO=off to use the built-in compiler.
+  * "Google says origin_mismatch." -> the JavaScript origin must be listed
+    exactly, including the port (http://localhost:5173).
+  * "I signed in with Google and it created a second account." -> only if the
+    Google address differs by even one character from the one on the account.
+    Google accounts use the verified address; check /account.

@@ -24,7 +24,7 @@ function BootScreen() {
     <div className="grid min-h-[70vh] place-items-center">
       <div className="flex flex-col items-center gap-3 text-ink-300">
         <RocketMark size={30} />
-        <p className="text-[13px]">Warming up Launchpad…</p>
+        <p className="text-[14px]">Warming up Launchpad…</p>
       </div>
     </div>
   );

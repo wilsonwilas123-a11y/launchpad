@@ -102,24 +102,36 @@ export default function DashboardPage() {
     <div className="relative min-h-screen pb-24">
       <AmbientBackdrop variant="quiet" />
       <div className="relative">
-        <header className="shell flex h-20 items-center gap-3">
+        <header className="shell flex min-h-16 flex-wrap items-center gap-x-2 gap-y-1.5 py-2 sm:h-20 sm:flex-nowrap sm:gap-3 sm:py-0">
           <Logo />
-          <nav className="ml-auto flex items-center gap-2">
-            {health && health.ai?.reachable === false ? (
-              <span className="hidden items-center gap-2 rounded-pill border border-line px-3 py-1.5 text-[11.5px] text-ink-300 md:inline-flex" title={health.ai.reason || ''}>
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-200/80" />
-                Local model · generation runs on this machine
+          <nav className="ml-auto flex min-w-0 flex-wrap items-center justify-end gap-1.5 sm:gap-2">
+            {/* One chip, two truths: which local server is writing, or the fact
+                that none is and the built-in compiler is. The model id can be
+                long, so the label truncates rather than widening the header. */}
+            {health && health.ai ? (
+              <span
+                className="hidden min-w-0 items-center gap-2 rounded-pill border border-line px-3 py-1.5 text-[13.5px] text-ink-300 md:inline-flex"
+                title={health.ai.reachable ? `${health.ai.endpoint || ''}${health.ai.modelNote ? ` · ${health.ai.modelNote}` : ''}` : health.ai.reason || ''}
+              >
+                <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${health.ai.reachable ? 'bg-emerald-300/80' : 'bg-amber-200/80'}`} />
+                <span className="max-w-[34ch] truncate">
+                  {health.ai.reachable
+                    ? `${health.ai.label || 'Local model'} · ${health.ai.model || 'model not named'}`
+                    : 'Local model · generation runs on this machine'}
+                </span>
               </span>
             ) : null}
-            <Button variant="ghost" size="sm" to="/pricing">
+            {/* On a phone the row would otherwise run off the screen, so the
+                quieter destinations yield their labels first. */}
+            <Button variant="ghost" size="sm" to="/pricing" className="hidden sm:inline-flex">
               Pricing
             </Button>
             <Button variant="ghost" size="sm" to="/account">
               {user?.name?.split(' ')[0] || 'Account'}
             </Button>
-            <Button size="sm" onClick={() => navigate('/build')}>
+            <Button size="sm" onClick={() => navigate('/build')} aria-label="Start a new launch">
               <Plus className="h-3.5 w-3.5" strokeWidth={2.6} />
-              New launch
+              <span className="hidden min-[380px]:inline">New launch</span>
             </Button>
           </nav>
         </header>
@@ -128,7 +140,7 @@ export default function DashboardPage() {
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
               <h1 className="font-display text-[clamp(1.9rem,4vw,2.6rem)] font-medium leading-tight tracking-[-0.035em]">Your launches</h1>
-              <p className="mt-1.5 text-[14px] text-ink-300">
+              <p className="mt-1.5 text-[15px] text-ink-300">
                 {projects === null ? 'Loading…' : `${counts.all} project${counts.all === 1 ? '' : 's'} · ${counts.live} live · ${counts.ready} waiting to publish`}
               </p>
             </div>
@@ -139,7 +151,7 @@ export default function DashboardPage() {
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder="Search launches"
-                  className="field h-9 w-[190px] pl-9 text-[13.5px]"
+                  className="field h-9 w-[190px] pl-9 text-[15px]"
                   aria-label="Search launches"
                 />
               </label>
@@ -148,7 +160,7 @@ export default function DashboardPage() {
           </div>
 
           {projects === null ? (
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-10 grid grid-cols-[minmax(0,1fr)] gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
               {[0, 1, 2].map((i) => (
                 <div key={i} className="skeleton h-[286px] rounded-card" />
               ))}
@@ -157,7 +169,7 @@ export default function DashboardPage() {
             <EmptyDashboard onNew={() => navigate('/build')} />
           ) : (
             <>
-              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-10 grid grid-cols-[minmax(0,1fr)] gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
                 <AnimatePresence initial={false}>
                   {shown.map((project, index) => (
                     <motion.div
@@ -180,7 +192,7 @@ export default function DashboardPage() {
                   ))}
                 </AnimatePresence>
               </div>
-              {!shown.length ? <p className="mt-10 text-center text-[14px] text-ink-400">Nothing matches that filter.</p> : null}
+              {!shown.length ? <p className="mt-10 text-center text-[15px] text-ink-400">Nothing matches that filter.</p> : null}
             </>
           )}
         </main>
@@ -203,7 +215,7 @@ export default function DashboardPage() {
           </>
         }
       >
-        <p className="text-[13.5px] leading-relaxed text-ink-300">
+        <p className="text-[15px] leading-relaxed text-ink-300">
           {confirm?.sectionCount ? `${confirm.sectionCount} sections and ${confirm.assetCount || 0} assets go with it.` : 'This draft has nothing generated yet.'}
         </p>
       </Modal>
@@ -228,33 +240,33 @@ function ProjectCard({ project, onOpen, onPublish, onShare, onDelete, busy }) {
         {project.thumbnail ? (
           <img src={project.thumbnail} alt={`${project.name} preview`} className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]" />
         ) : (
-          <span className="flex h-full w-full items-end justify-between p-4">
-            <span className="font-display text-[22px] leading-none tracking-[-0.02em] text-ink-100">{project.name}</span>
-            <span className="micro">{project.type}</span>
+          <span className="flex h-full w-full items-end justify-between gap-3 p-4">
+            <span className="min-w-0 truncate font-display text-[24px] leading-none tracking-[-0.02em] text-ink-100">{project.name}</span>
+            <span className="micro shrink-0">{project.type}</span>
           </span>
         )}
         <span className="absolute right-3 top-3">
           <StatusPill status={project.status} size="sm" />
         </span>
         {project.hasUnpublishedChanges ? (
-          <span className="absolute bottom-3 left-3 rounded-pill border border-white/15 bg-black/55 px-2 py-1 text-[10.5px] uppercase tracking-[0.12em] text-ink-100 backdrop-blur">
+          <span className="absolute bottom-3 left-3 rounded-pill border border-white/15 bg-black/55 px-2 py-1 text-[13px] uppercase tracking-[0.12em] text-ink-100 backdrop-blur">
             Unpublished changes
           </span>
         ) : null}
       </button>
 
-      <div className="flex flex-1 flex-col gap-3 p-4">
+      <div className="flex flex-1 flex-col gap-3.5 p-5">
         <div>
           <div className="flex items-start justify-between gap-3">
-            <h2 className="min-w-0 truncate font-display text-[19px] leading-tight tracking-[-0.02em]">{project.name}</h2>
+            <h2 className="min-w-0 truncate font-display text-[20.5px] leading-tight tracking-[-0.02em]">{project.name}</h2>
             <Tag mono className="shrink-0">
               {project.type}
             </Tag>
           </div>
-          <p className="mt-1 line-clamp-2 text-[13px] leading-relaxed text-ink-300">{project.previewText || project.description || 'No description yet.'}</p>
+          <p className="mt-1 line-clamp-2 text-[14.5px] leading-relaxed text-ink-300">{project.previewText || project.description || 'No description yet.'}</p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[12px] text-ink-400">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[14px] text-ink-400">
           <span className="inline-flex items-center gap-1.5">
             <Layers className="h-3.5 w-3.5 opacity-70" />
             {project.sectionCount || 0} sections
@@ -271,13 +283,20 @@ function ProjectCard({ project, onOpen, onPublish, onShare, onDelete, busy }) {
             <motion.span className="block h-full rounded-full bg-white/70" initial={{ width: 0 }} animate={{ width: `${Math.round((complete / total) * 100)}%` }} transition={{ duration: 0.8, ease: 'easeOut' }} />
           </div>
         ) : (
-          <button type="button" onClick={copy} className="-mx-1 truncate rounded-tile px-1 py-0.5 text-left font-mono text-[11.5px] text-ink-300 transition hover:text-white" title="Copy the live link">
+          <button type="button" onClick={copy} className="-mx-1 truncate rounded-tile px-1 py-0.5 text-left font-mono text-[13.5px] text-ink-300 transition hover:text-white" title="Copy the live link">
             {project.displayUrl}
           </button>
         )}
 
-        <div className="mt-auto flex items-center gap-2 pt-1">
-          <Button size="sm" variant={live ? 'secondary' : 'primary'} onClick={onOpen} className="flex-1">
+        {/* Wraps instead of clipping: at 320px "Open builder" plus Publish plus
+            the two icon buttons are wider than the card, and the card hides
+            overflow — the Delete button used to run off the edge. */}
+        {/* Wraps instead of clipping: at 320px "Open builder" plus Publish plus
+            the two icon buttons are wider than the card, and the card hides
+            overflow — the Delete button used to run off the edge. On a phone the
+            main action keeps its full label and the rest drop to a second row. */}
+        <div className="mt-auto flex flex-wrap items-center gap-2 pt-1">
+          <Button size="sm" variant={live ? 'secondary' : 'primary'} onClick={onOpen} className="min-w-0 max-sm:flex-none sm:flex-1">
             {live ? 'Open builder' : project.status === 'ready' ? 'Review & publish' : 'Continue'}
           </Button>
           {project.status === 'ready' ? (
@@ -312,7 +331,7 @@ function EmptyDashboard({ onNew }) {
             <Button size="lg" onClick={onNew}>
               + Start Building
             </Button>
-            <a href="/" className="link-quiet px-2 text-[13.5px]">
+            <a href="/" className="link-quiet px-2 text-[15px]">
               See an example first
             </a>
           </div>

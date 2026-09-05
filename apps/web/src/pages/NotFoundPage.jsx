@@ -42,7 +42,7 @@ export default function NotFoundPage({ slug }) {
             Start a launch
           </Button>
         </div>
-        <Link to="/pricing" className="link-quiet mt-6 text-[13px]">
+        <Link to="/pricing" className="link-quiet mt-6 text-[14px]">
           Or look at pricing
         </Link>
       </motion.div>

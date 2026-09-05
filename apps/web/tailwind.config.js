@@ -29,7 +29,7 @@ export default {
         mono: ['var(--ff-mono)'],
       },
       fontSize: {
-        '2xs': ['0.6875rem', { lineHeight: '1rem', letterSpacing: '0.06em' }],
+        '2xs': ['0.78125rem', { lineHeight: '1.15rem', letterSpacing: '0.055em' }],
       },
       borderRadius: {
         card: '18px',

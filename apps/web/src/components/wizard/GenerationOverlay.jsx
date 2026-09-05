@@ -53,7 +53,7 @@ export default function GenerationOverlay({ steps = [], elapsedHintMs, finished,
                 </motion.h1>
               )}
             </AnimatePresence>
-            <p className="mt-1 text-[13.5px] text-ink-300">
+            <p className="mt-1 text-[15px] text-ink-300">
               {ready ? `${result?.sections?.length || schedule.length} sections, ${result?.assets?.length || 0} assets, one live address.` : elapsedHintMs ? `Local model · ${Math.round(elapsedHintMs / 100) / 10}s typical` : 'This is the real thing being assembled, not a spinner.'}
             </p>
           </div>
@@ -80,16 +80,16 @@ export default function GenerationOverlay({ steps = [], elapsedHintMs, finished,
                   )}
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className={cx('block text-[15px]', state === 'active' ? 'text-white' : 'text-ink-100')}>{step.label}</span>
+                  <span className={cx('block text-[16.5px]', state === 'active' ? 'text-white' : 'text-ink-100')}>{step.label}</span>
                   <AnimatePresence>
                     {state === 'active' && step.detail ? (
-                      <motion.span initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="block overflow-hidden text-[12.5px] leading-relaxed text-ink-400">
+                      <motion.span initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="block overflow-hidden text-[14px] leading-relaxed text-ink-400">
                         {step.detail}
                       </motion.span>
                     ) : null}
                   </AnimatePresence>
                 </span>
-                {state === 'done' ? <span className="mt-1 shrink-0 font-mono text-[11px] text-ink-500">{Math.round((step.ms || 420) / 100) / 10}s</span> : null}
+                {state === 'done' ? <span className="mt-1 shrink-0 font-mono text-[13.5px] text-ink-500">{Math.round((step.ms || 420) / 100) / 10}s</span> : null}
               </li>
             );
           })}
@@ -98,11 +98,11 @@ export default function GenerationOverlay({ steps = [], elapsedHintMs, finished,
         {result?.generation?.masterPrompt || result?.masterPrompt ? (
           <div className="mt-6 rounded-card border border-line bg-white/[0.02]">
             <button type="button" onClick={() => setShowPrompt((value) => !value)} className="flex w-full items-center gap-2 px-4 py-3 text-left">
-              <span className="text-[13px] text-ink-100">See the prompt Launchpad was given</span>
+              <span className="text-[14.5px] text-ink-100">See the prompt Launchpad was given</span>
               <ChevronDown className={cx('ml-auto h-4 w-4 text-ink-400 transition-transform', showPrompt && 'rotate-180')} />
             </button>
             {showPrompt ? (
-              <pre className="max-h-[240px] overflow-auto border-t border-line px-4 py-3 font-mono text-[11.5px] leading-relaxed text-ink-300 whitespace-pre-wrap">
+              <pre className="max-h-[240px] overflow-auto border-t border-line px-4 py-3 font-mono text-[13.5px] leading-relaxed text-ink-300 whitespace-pre-wrap">
                 {result.generation?.masterPrompt || result.masterPrompt}
               </pre>
             ) : null}
@@ -111,14 +111,14 @@ export default function GenerationOverlay({ steps = [], elapsedHintMs, finished,
 
         {ready ? (
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mt-8 flex flex-wrap items-center justify-between gap-3">
-            <p className="text-[13px] text-ink-300">Everything below is editable — colours, sections, copy, images.</p>
+            <p className="text-[14.5px] text-ink-300">Everything below is editable — colours, sections, copy, images.</p>
             <Button size="lg" onClick={onEnter} className="group">
               Open my site
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Button>
           </motion.div>
         ) : (
-          <p className="mt-6 text-[12px] text-ink-500">
+          <p className="mt-6 text-[14px] text-ink-500">
             {Math.round((Date.now() - startedAt.current) / 1000)}s in · generation runs locally, so it takes the time it takes
           </p>
         )}

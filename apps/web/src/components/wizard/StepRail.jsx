@@ -24,7 +24,7 @@ export default function StepRail({ current, onJump, furthest }) {
             >
               <span
                 className={cx(
-                  'relative grid h-[26px] w-[26px] shrink-0 place-items-center rounded-full border text-[11px] font-medium transition',
+                  'relative grid h-[26px] w-[26px] shrink-0 place-items-center rounded-full border text-[13.5px] font-medium transition',
                   state === 'done' && 'border-white/45 bg-white/10 text-white',
                   state === 'current' && 'border-white bg-white text-ink-900',
                   state === 'next' && 'border-line bg-transparent text-ink-400',
@@ -35,7 +35,7 @@ export default function StepRail({ current, onJump, furthest }) {
                   <motion.span layoutId="rail-halo" className="absolute -inset-1 rounded-full border border-white/25" transition={{ type: 'spring', stiffness: 400, damping: 30 }} />
                 ) : null}
               </span>
-              <span className={cx('hidden text-[13px] transition lg:block', state === 'current' ? 'text-white' : state === 'done' ? 'text-ink-200' : 'text-ink-500')}>
+              <span className={cx('hidden text-[14.5px] transition lg:block', state === 'current' ? 'text-white' : state === 'done' ? 'text-ink-200' : 'text-ink-500')}>
                 {step.label}
               </span>
             </button>

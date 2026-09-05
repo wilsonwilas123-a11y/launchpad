@@ -24,7 +24,7 @@ export function StatusPill({ status = 'draft', slug, host, size = 'md', classNam
   const interactive = Boolean(onClick);
   const pillClass = cx(
     'inline-flex items-center gap-1.5 rounded-pill border font-medium tracking-tight transition',
-    small ? 'h-6 px-2.5 text-[11px]' : 'h-7 px-3 text-xs',
+    small ? 'h-7 px-2.5 text-[12.5px]' : 'h-8 px-3 text-[13.5px]',
     tone.className,
     interactive && 'cursor-pointer hover:brightness-110',
   );
@@ -51,7 +51,7 @@ export function StatusPill({ status = 'draft', slug, host, size = 'md', classNam
         </span>
       )}
       {status === 'live' && slug ? (
-        <span className={cx('font-mono text-[11px] leading-none text-ink-300', interactive && 'transition hover:text-white')}>{host || 'launchpad.app'}/{slug}</span>
+        <span className={cx('font-mono text-[12px] leading-none text-ink-300', interactive && 'transition hover:text-white')}>{host || 'launchpad.app'}/{slug}</span>
       ) : null}
     </span>
   );
@@ -76,14 +76,14 @@ export function SaveState({ state = 'saved', url, onCopy, className }) {
       onClick={onCopy}
       title={clickable ? 'Tap to copy the link' : undefined}
       className={cx(
-        'inline-flex items-center gap-2 rounded-pill border border-line px-3 py-1.5 text-xs text-ink-200 transition',
+        'inline-flex items-center gap-2 rounded-pill border border-line px-3 py-1.5 text-[13px] text-ink-200 transition',
         clickable && 'cursor-pointer hover:border-white/25 hover:bg-white/[0.06] hover:text-white',
         className,
       )}
     >
       <span className={cx('h-1.5 w-1.5 rounded-full', item.dot, item.spin && 'animate-pulse-soft')} />
       {item.text}
-      {clickable ? <span className="text-[10px] uppercase tracking-[0.14em] text-ink-400">copy</span> : null}
+      {clickable ? <span className="text-[11.5px] uppercase tracking-[0.14em] text-ink-400">copy</span> : null}
     </button>
   );
 }

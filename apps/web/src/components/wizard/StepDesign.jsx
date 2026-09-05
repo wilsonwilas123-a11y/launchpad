@@ -34,23 +34,23 @@ export default function StepDesign({ draft, set, onNext, onBack }) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="max-w-[58ch] text-[14.5px] leading-relaxed text-ink-300">
+        <p className="max-w-[58ch] text-[15.5px] leading-relaxed text-ink-300">
           A direction sets the palette, type scale, spacing and effects. You can change every one of those afterwards in the builder.
         </p>
-        <label className="flex cursor-pointer items-center gap-2 text-[12.5px] text-ink-300">
+        <label className="flex cursor-pointer items-center gap-2 text-[14px] text-ink-300">
           <input type="checkbox" checked={onlyMatching} onChange={(event) => setOnlyMatching(event.target.checked)} className="h-3.5 w-3.5 accent-white" />
           Only what suits {draft.type || 'this'}
         </label>
       </div>
 
       {loading ? (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
           {Array.from({ length: 6 }, (_, i) => (
             <div key={i} className="skeleton aspect-[16/11] rounded-card" />
           ))}
         </div>
       ) : (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
           {designs.map((design, index) => {
             const active = selected === design.id;
             return (
@@ -82,7 +82,7 @@ export default function StepDesign({ draft, set, onNext, onBack }) {
                 </span>
                 <span className="flex flex-col gap-2 p-3.5">
                   <span className="flex items-center justify-between gap-2">
-                    <span className="truncate text-[15px] font-medium text-white">{design.name}</span>
+                    <span className="truncate text-[16.5px] font-medium text-white">{design.name}</span>
                     <span className="flex shrink-0 gap-1">
                       {(design.colorPalette || []).slice(0, 3).map((color) => (
                         <span key={color} className="h-2.5 w-2.5 rounded-full border border-white/15" style={{ background: color }} />

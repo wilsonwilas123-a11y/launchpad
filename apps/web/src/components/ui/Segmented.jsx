@@ -5,7 +5,7 @@ import { cx } from '../../lib/format';
 export function Segmented({ options, value, onChange, size = 'md', className, layoutId }) {
   const small = size === 'sm';
   return (
-    <div className={cx('relative inline-flex items-center gap-0.5 rounded-pill border border-line bg-white/[0.03] p-0.5', className)} role="tablist">
+    <div className={cx('relative inline-flex max-w-full items-center gap-0.5 overflow-x-auto rounded-pill border border-line bg-white/[0.03] p-0.5', className)} role="tablist">
       {options.map((option) => {
         const active = option.value === value;
         return (
@@ -18,7 +18,7 @@ export function Segmented({ options, value, onChange, size = 'md', className, la
             onClick={() => onChange(option.value)}
             className={cx(
               'relative isolate inline-flex items-center gap-1.5 rounded-pill font-medium transition-colors',
-              small ? 'px-2.5 py-1 text-[12px]' : 'px-3.5 py-1.5 text-[13px]',
+              small ? 'min-h-[32px] px-3 text-[13px]' : 'min-h-[36px] px-3.5 py-1.5 text-[14px]',
               active ? 'text-ink-900' : 'text-ink-300 hover:text-white',
             )}
           >
@@ -42,7 +42,7 @@ export function Segmented({ options, value, onChange, size = 'md', className, la
 export function Stepper({ value, onChange, min = 0, max = 10, step = 1, format = (v) => v, className }) {
   const clamp = (n) => Math.min(max, Math.max(min, n));
   return (
-    <div className={cx('inline-flex items-center gap-1 rounded-pill border border-line bg-white/[0.03] px-1 py-0.5 font-mono text-[12px]', className)}>
+    <div className={cx('inline-flex min-h-[34px] items-center gap-1 rounded-pill border border-line bg-white/[0.03] px-1.5 py-1 font-mono text-[14px]', className)}>
       <button type="button" className="px-1.5 text-ink-300 transition hover:text-white" onClick={() => onChange(clamp(Number(value) - step))} aria-label="Decrease">
         −
       </button>
@@ -58,7 +58,7 @@ export function Stepper({ value, onChange, min = 0, max = 10, step = 1, format =
 export function Slider({ label, value, onChange, min = 0, max = 1, step = 0.01, format = (v) => Number(v).toFixed(2) }) {
   return (
     <label className="flex items-center justify-between gap-3 py-1.5">
-      <span className="text-[13px] text-ink-100">{label}</span>
+      <span className="text-[14px] text-ink-100">{label}</span>
       <span className="flex items-center gap-2">
         <input
           type="range"
@@ -69,7 +69,7 @@ export function Slider({ label, value, onChange, min = 0, max = 1, step = 0.01, 
           onChange={(event) => onChange(Number(event.target.value))}
           className="h-1 w-28 cursor-pointer appearance-none rounded-full bg-white/15 accent-white [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
         />
-        <span className="w-10 text-right font-mono text-[11px] tabular-nums text-ink-300">{format(value)}</span>
+        <span className="w-10 text-right font-mono text-[12px] tabular-nums text-ink-300">{format(value)}</span>
       </span>
     </label>
   );

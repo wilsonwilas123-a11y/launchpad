@@ -62,7 +62,9 @@ export default function PreviewPane({
 
   return (
     <div className="relative flex min-h-0 flex-1 flex-col bg-[radial-gradient(120%_80%_at_50%_0%,rgba(255,255,255,0.04),transparent_70%)]">
-      <div className="flex items-center gap-3 border-b border-line px-4 py-2.5">
+      {/* Wraps rather than pushes: at 320px the device switch and the "Full
+          preview" group together are wider than the screen. */}
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-line px-4 py-2.5">
         <Segmented
           size="sm"
           value={device}
@@ -73,7 +75,7 @@ export default function PreviewPane({
             { value: 'desktop', label: 'Desktop', icon: Monitor, hint: 'Widescreen composition' },
           ]}
         />
-        <span className="hidden text-[11.5px] text-ink-500 md:inline">
+        <span className="hidden text-[12.5px] text-ink-500 md:inline">
           {device === 'mobile' ? '420px · single column, thumb-reachable' : `${designWidth}px · multi-column`} · preview at {Math.round(scale * 100)}%
         </span>
         <span className="ml-auto flex items-center gap-2">
@@ -81,7 +83,7 @@ export default function PreviewPane({
             <button
               type="button"
               onClick={() => onAskAbout?.(sectionLabel || 'this section')}
-              className="inline-flex items-center gap-1.5 rounded-pill border border-line px-2.5 py-1 text-[11.5px] text-ink-200 transition hover:border-white/30 hover:text-white"
+              className="inline-flex items-center gap-1.5 rounded-pill border border-line px-2.5 py-1 text-[12.5px] text-ink-200 transition hover:border-white/30 hover:text-white"
               title="Ask the AI about the selected section"
             >
               <Wand2 className="h-3 w-3" />
@@ -92,7 +94,7 @@ export default function PreviewPane({
             href={live ? liveUrl : previewUrl}
             target="_blank"
             rel="noreferrer"
-            className={cx('inline-flex items-center gap-1.5 rounded-pill border px-2.5 py-1 text-[11.5px] transition', live ? 'border-line text-ink-200 hover:text-white' : 'border-line text-ink-400')}
+            className={cx('inline-flex items-center gap-1.5 rounded-pill border px-2.5 py-1 text-[12.5px] transition', live ? 'border-line text-ink-200 hover:text-white' : 'border-line text-ink-400')}
           >
             <ExternalLink className="h-3 w-3" />
             {live ? 'Open live URL' : 'Full preview'}
@@ -124,7 +126,7 @@ export default function PreviewPane({
               <Wand2 className="h-4.5 w-4.5 text-ink-100" strokeWidth={1.8} />
             </motion.span>
             <p className="font-display text-[22px] leading-snug">Nothing generated yet</p>
-            <p className="text-[13.5px] leading-relaxed text-ink-300">
+            <p className="text-[14.5px] leading-relaxed text-ink-300">
               The preview stays empty until Launchpad has built the first version. Everything you change after that is editable here.
             </p>
             <Button onClick={onGenerate} loading={busy === 'generate'}>
@@ -136,7 +138,7 @@ export default function PreviewPane({
         <AnimatePresence>
           {draggingAsset ? (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="pointer-events-none absolute inset-x-4 bottom-4 flex justify-center">
-              <p className="rounded-pill border border-white/30 bg-ink-900/85 px-4 py-2 text-[12.5px] text-white backdrop-blur">
+              <p className="rounded-pill border border-white/30 bg-ink-900/85 px-4 py-2 text-[13.5px] text-white backdrop-blur">
                 {selected ? `Drop to place in “${sectionLabel}”` : 'Select a section first, then drop'}
               </p>
             </motion.div>
@@ -144,7 +146,7 @@ export default function PreviewPane({
         </AnimatePresence>
 
         {spec && !sections.length ? (
-          <p className="mt-4 text-center text-[12.5px] text-amber-100/80">Every section is hidden — this page would render empty.</p>
+          <p className="mt-4 text-center text-[13.5px] text-amber-100/80">Every section is hidden — this page would render empty.</p>
         ) : null}
       </div>
     </div>

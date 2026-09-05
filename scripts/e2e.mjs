@@ -55,8 +55,24 @@ const check = (label, condition, detail = '') => {
 try {
   step('health');
   const health = await get('/health');
-  say(`store=${health.database} · ai=${health.ai.provider} · reachable=${health.ai.reachable}`);
+  const aiName = health.ai.model ? `${health.ai.provider}:${health.ai.model}` : health.ai.provider;
+  say(`store=${health.database} · ai=${aiName}${health.ai.endpoint ? `@${health.ai.endpoint}` : ''} · reachable=${health.ai.reachable} · google=${health.auth?.google ?? 'unknown'}`);
+  if (!health.ai.reachable && health.ai.reason) say(`model server: ${String(health.ai.reason).slice(0, 140)}`);
   check('the API answers', health.ok === true, health.service);
+
+  step('sign-in methods');
+  const methods = await get('/auth/google/status');
+  say(`google=${methods.enabled ? `on (${methods.redirect ? 'button + redirect flow' : 'browser button only'})` : 'not configured'}`);
+  check('the status route answers without a token', typeof methods.enabled === 'boolean');
+  check('a missing client id never advertises a broken button', !methods.enabled || Boolean(methods.clientId), JSON.stringify(methods));
+  // `raw` because a refusal is the expected answer here, and call() throws on
+  // a non-2xx by design.
+  const refused = await call('/auth/google', { method: 'POST', body: {}, anon: true, raw: true });
+  check('a credential-less Google sign-in is refused', refused.status === 401, `HTTP ${refused.status}`);
+  const forged = await call('/auth/google', { method: 'POST', body: { credential: 'aaa.bbb.ccc' }, anon: true, raw: true });
+  check('a forged ID token gets nobody in', forged.status === 401, `HTTP ${forged.status}`);
+  const bounced = await call('/auth/google/callback?code=nope&state=made-up', { anon: true, raw: true });
+  check('an unstarted redirect flow is not completed', bounced.status === 401, `HTTP ${bounced.status}`);
 
   step('sign in (creates the demo account if the database is empty)');
   const session = await call('/auth/demo', { method: 'POST', body: {} }).then((r) => r.payload);

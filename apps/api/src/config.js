@@ -50,8 +50,19 @@ const config = {
   uploadsDir: process.env.LAUNCHPAD_UPLOADS_DIR || path.join(ROOT, 'storage', 'uploads'),
   authSecret: process.env.LAUNCHPAD_AUTH_SECRET || 'launchpad-dev-secret-change-me',
   tokenTtlMs: 1000 * 60 * 60 * 24 * 30,
-  // AI provider: 'auto' uses Ollama when it is reachable and falls back to the
-  // built-in spec compiler otherwise. 'ollama' requires it, 'local' never calls out.
+  // Google sign-in. All optional: with no client id the app runs on
+  // email/password plus the demo account, exactly as before.
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID || '',
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+    // Only needed for the authorization-code flow. Defaults to this API's
+    // own /api/auth/google/callback in google.js.
+    redirectUri: process.env.GOOGLE_REDIRECT_URI || '',
+  },
+  // AI provider: 'auto' uses the first model server that answers (an
+  // explicitly configured one, then LM Studio, then Ollama) and falls back to
+  // the built-in spec compiler otherwise. 'lmstudio' / 'llm' / 'ollama' require
+  // that one server; 'local' never calls out.
   ai: {
     provider: (process.env.LAUNCHPAD_AI_PROVIDER || 'auto').toLowerCase(),
     ollamaUrl: (process.env.OLLAMA_HOST || process.env.LAUNCHPAD_OLLAMA_URL || 'http://127.0.0.1:11434').replace(/\/$/, ''),
@@ -62,6 +73,29 @@ const config = {
     temperature: Number(process.env.LAUNCHPAD_OLLAMA_TEMPERATURE || 0.4),
     numPredict: Number(process.env.LAUNCHPAD_OLLAMA_NUM_PREDICT || 2600),
     keepAlive: process.env.OLLAMA_KEEP_ALIVE || '10m',
+    // LM Studio (or anything else speaking the OpenAI shape on your own box).
+    // `baseUrl` may be written with or without /v1; both are normalised.
+    lmstudio: {
+      label: 'LM Studio',
+      baseUrl: (process.env.LMSTUDIO_BASE_URL || process.env.LMSTUDIO_URL || 'http://127.0.0.1:1234/v1').trim(),
+      apiKey: process.env.LMSTUDIO_API_KEY || '',
+      model: process.env.LMSTUDIO_MODEL || '',
+      // Local inference on a 30B model is slow; a chat call gets 5 minutes.
+      timeoutMs: Number(process.env.LAUNCHPAD_LM_TIMEOUT_MS || 300000),
+      maxTokens: Number(process.env.LAUNCHPAD_LM_MAX_TOKENS || process.env.LAUNCHPAD_OLLAMA_NUM_PREDICT || 2600),
+      temperature: Number(process.env.LAUNCHPAD_LM_TEMPERATURE || process.env.LAUNCHPAD_OLLAMA_TEMPERATURE || 0.4),
+      // response_format is only sent when you ask for it — see lmstudio.js.
+      jsonMode: /^(1|true|yes)$/i.test(process.env.LAUNCHPAD_LM_JSON_MODE || ''),
+      // 'off' skips the probe entirely on a machine that has no LM Studio.
+      enabled: (process.env.LAUNCHPAD_LMSTUDIO || 'auto').toLowerCase() !== 'off',
+    },
+    // A second, explicitly configured OpenAI-compatible server (vLLM, llama.cpp,
+    // a box on the LAN). Only consulted when the base url is set.
+    llm: {
+      baseUrl: (process.env.LAUNCHPAD_LLM_BASE_URL || '').trim(),
+      model: process.env.LAUNCHPAD_LLM_MODEL || '',
+      apiKey: process.env.LAUNCHPAD_LLM_API_KEY || '',
+    },
   },
 };
 

@@ -357,7 +357,7 @@ export default function BuilderPage() {
       <div className="grid min-h-screen place-items-center px-6 text-center">
         <div className="flex flex-col items-center gap-3">
           <span className="h-8 w-8 animate-spin rounded-full border border-line border-t-white" />
-          <p className="text-[13px] text-ink-300">Opening your launch…</p>
+          <p className="text-[14px] text-ink-300">Opening your launch…</p>
         </div>
       </div>
     );
@@ -399,7 +399,7 @@ export default function BuilderPage() {
         }
       />
 
-      <div className="grid min-h-0 flex-1 lg:grid-cols-[250px_minmax(0,1fr)_306px]">
+      <div className="grid min-h-0 flex-1 lg:grid-cols-[268px_minmax(0,1fr)_330px]">
         <div className={cx('min-h-0', panel === 'left' ? 'fixed inset-x-0 bottom-0 top-[112px] z-40 block' : 'hidden lg:block')}>
           <LeftPane
             spec={spec}
@@ -539,14 +539,14 @@ export default function BuilderPage() {
                 >
                   <span className="block aspect-[4/3] bg-black/40">
                     {isVideo(asset.filename) ? (
-                      <span className="grid h-full place-items-center text-[10px] uppercase tracking-[0.14em] text-ink-300">video</span>
+                      <span className="grid h-full place-items-center text-[11.5px] uppercase tracking-[0.14em] text-ink-300">video</span>
                     ) : (
                       <img src={asset.url} alt="" className="h-full w-full object-cover transition group-hover:scale-[1.03]" />
                     )}
                   </span>
                   <span className="block px-2 py-1.5">
-                    <span className="block truncate text-[12px] text-ink-100">{asset.filename}</span>
-                    <span className="block truncate text-[10.5px] text-ink-500">{asset.selectedSection ? `in ${asset.selectedSection}` : 'in library'}</span>
+                    <span className="block truncate text-[13px] text-ink-100">{asset.filename}</span>
+                    <span className="block truncate text-[12px] text-ink-500">{asset.selectedSection ? `in ${asset.selectedSection}` : 'in library'}</span>
                   </span>
                 </button>
               </li>
@@ -554,7 +554,7 @@ export default function BuilderPage() {
           </ul>
         ) : (
           <div className="flex flex-col gap-3">
-            <p className="text-[13px] leading-relaxed text-ink-300">Nothing uploaded for this launch yet.</p>
+            <p className="text-[14px] leading-relaxed text-ink-300">Nothing uploaded for this launch yet.</p>
             <Button
               onClick={() => {
                 setPicking(null);
@@ -591,10 +591,10 @@ export default function BuilderPage() {
         }
       >
         <div className="flex flex-col gap-3">
-          <p className="text-[13.5px] leading-relaxed text-ink-200">
+          <p className="text-[14.5px] leading-relaxed text-ink-200">
             Target: <Tag mono>{(pendingPlatforms || []).join(' + ')}</Tag>
           </p>
-          <p className="text-[12.5px] leading-relaxed text-ink-400">
+          <p className="text-[13.5px] leading-relaxed text-ink-400">
             Your images and description are reused as they are. Anything you hand-edited since the last generation will be written fresh.
           </p>
         </div>
@@ -630,7 +630,7 @@ export default function BuilderPage() {
           </>
         }
       >
-        <p className="text-[13px] leading-relaxed text-ink-300">
+        <p className="text-[14px] leading-relaxed text-ink-300">
           The version kept here is the one this builder opened with — {baseline?.sections?.length || 0} sections, {project.assets?.length || 0} assets. Publishing is unaffected.
         </p>
       </Modal>
@@ -640,7 +640,7 @@ export default function BuilderPage() {
         onClick={() => setShowReset(true)}
         disabled={!baseline}
         title="Discard manual edits"
-        className="fixed bottom-4 right-4 z-40 hidden items-center gap-2 rounded-pill border border-line bg-ink-900/80 px-3 py-2 text-[12px] text-ink-300 backdrop-blur transition hover:border-white/30 hover:text-white disabled:opacity-40 lg:inline-flex"
+        className="fixed bottom-4 right-4 z-40 hidden items-center gap-2 rounded-pill border border-line bg-ink-900/80 px-3 py-2 text-[13px] text-ink-300 backdrop-blur transition hover:border-white/30 hover:text-white disabled:opacity-40 lg:inline-flex"
       >
         <RotateCcw className="h-3.5 w-3.5" />
         Reset

@@ -15,10 +15,10 @@ const VARIANTS = {
 };
 
 const SIZES = {
-  sm: 'h-8 px-3 text-[13px] gap-1.5 rounded-pill',
-  md: 'h-10 px-4 text-sm gap-2 rounded-pill',
-  lg: 'h-12 px-6 text-[15px] gap-2.5 rounded-pill',
-  icon: 'h-9 w-9 justify-center rounded-full',
+  sm: 'h-9 px-3.5 text-[14.5px] gap-1.5 rounded-pill',
+  md: 'h-11 px-5 text-[15px] gap-2 rounded-pill',
+  lg: 'h-[52px] px-7 text-[16.5px] gap-2.5 rounded-pill',
+  icon: 'h-10 w-10 justify-center rounded-full',
 };
 
 const spring = { type: 'spring', stiffness: 500, damping: 32, mass: 0.7 };
@@ -26,6 +26,7 @@ const spring = { type: 'spring', stiffness: 500, damping: 32, mass: 0.7 };
 export function Button({ variant = 'primary', size = 'md', to, href, type = 'button', loading, disabled, className, children, ...rest }) {
   const classes = cx(
     'relative inline-flex select-none items-center justify-center whitespace-nowrap font-medium transition-colors duration-200',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900',
     'disabled:pointer-events-none disabled:opacity-45',
     VARIANTS[variant],
     SIZES[size],
@@ -78,7 +79,7 @@ export function IconButton({ label, className, children, ...rest }) {
       title={label}
       aria-label={label}
       className={cx(
-        'inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink-200 transition',
+        'inline-flex h-10 w-10 items-center justify-center rounded-full border border-line text-ink-200 transition',
         'hover:border-white/25 hover:bg-white/[0.07] hover:text-white disabled:opacity-40',
         className,
       )}

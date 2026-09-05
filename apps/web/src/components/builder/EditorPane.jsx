@@ -98,7 +98,7 @@ export default function EditorPane({ spec, section, vocabulary = [], onTheme, on
                       <p className="micro">Editing</p>
                       <h3 className="truncate font-display text-[19px] tracking-[-0.02em] text-white">{section.label || labelFor(section.type)}</h3>
                     </div>
-                    <span className="shrink-0 rounded-pill border border-line px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-400">{section.type}</span>
+                    <span className="shrink-0 rounded-pill border border-line px-2 py-0.5 font-mono text-[11.5px] uppercase tracking-[0.1em] text-ink-400">{section.type}</span>
                   </header>
 
                   <Field label="Section label" htmlFor="sec-label" hint="Used in the navigation and in this panel.">
@@ -123,8 +123,8 @@ export default function EditorPane({ spec, section, vocabulary = [], onTheme, on
                               )}
                             </span>
                             <span className="min-w-0 flex-1">
-                              <span className="block truncate text-[12.5px] text-ink-100">{placed.alt || placed.filename || labelFor(placed.assetId)}</span>
-                              <span className="block text-[10.5px] text-ink-500">{placed.focal ? `focal ${Math.round(placed.focal.x * 100)}% ${Math.round(placed.focal.y * 100)}%` : 'auto crop'}</span>
+                              <span className="block truncate text-[13.5px] text-ink-100">{placed.alt || placed.filename || labelFor(placed.assetId)}</span>
+                              <span className="block text-[12px] text-ink-500">{placed.focal ? `focal ${Math.round(placed.focal.x * 100)}% ${Math.round(placed.focal.y * 100)}%` : 'auto crop'}</span>
                             </span>
                             <button
                               type="button"
@@ -138,7 +138,7 @@ export default function EditorPane({ spec, section, vocabulary = [], onTheme, on
                         ))}
                       </ul>
                     ) : (
-                      <p className="text-[12px] leading-relaxed text-ink-400">Nothing placed here yet.</p>
+                      <p className="text-[13px] leading-relaxed text-ink-400">Nothing placed here yet.</p>
                     )}
                     <div className="mt-2 flex gap-2">
                       <Button size="sm" variant="secondary" className="flex-1" onClick={() => onPickAsset(section.id)}>
@@ -166,7 +166,7 @@ export default function EditorPane({ spec, section, vocabulary = [], onTheme, on
                         key={preset.name}
                         type="button"
                         onClick={() => onTheme({ colors: preset.colors })}
-                        className="inline-flex items-center gap-1.5 rounded-pill border border-line py-1 pl-1 pr-2.5 text-[11.5px] text-ink-200 transition hover:border-white/35 hover:text-white"
+                        className="inline-flex items-center gap-1.5 rounded-pill border border-line py-1 pl-1 pr-2.5 text-[12.5px] text-ink-200 transition hover:border-white/35 hover:text-white"
                       >
                         <span className="flex overflow-hidden rounded-full border border-white/15">
                           {[preset.colors.background, preset.colors.text, preset.colors.accent].map((colour, position) => (
@@ -180,7 +180,7 @@ export default function EditorPane({ spec, section, vocabulary = [], onTheme, on
                   <ul className="flex flex-col divide-y divide-[rgba(255,255,255,0.07)]">
                     {COLOUR_KEYS.map(({ key, label }) => (
                       <li key={key} className="flex items-center gap-2 py-1.5">
-                        <span className="min-w-0 flex-1 truncate text-[12.5px] text-ink-100">{label}</span>
+                        <span className="min-w-0 flex-1 truncate text-[13.5px] text-ink-100">{label}</span>
                         <input
                           type="color"
                           aria-label={`${label} colour picker`}
@@ -192,12 +192,12 @@ export default function EditorPane({ spec, section, vocabulary = [], onTheme, on
                           value={colours[key] || ''}
                           onChange={(event) => onTheme({ colors: { [key]: event.target.value } })}
                           aria-label={`${label} value`}
-                          className="w-[104px] shrink-0 rounded-pill border border-line bg-ink-800 px-2 py-1 font-mono text-[11px] text-ink-100 outline-none transition focus:border-white/35"
+                          className="w-[104px] shrink-0 rounded-pill border border-line bg-ink-800 px-2 py-1 font-mono text-[12px] text-ink-100 outline-none transition focus:border-white/35"
                         />
                       </li>
                     ))}
                   </ul>
-                  <p className="mt-1 text-[11px] leading-relaxed text-ink-500">
+                  <p className="mt-1 text-[12px] leading-relaxed text-ink-500">
                     Hex or any CSS colour. “Text on accent” is what sits inside buttons — pick it for contrast and the preview follows immediately.
                   </p>
                 </div>
@@ -255,7 +255,7 @@ export default function EditorPane({ spec, section, vocabulary = [], onTheme, on
                     })}
                   </div>
                   <Row label="Image crop" hint="How your photographs sit in their frames.">
-                    <Select className="h-8 w-[124px] text-[12.5px]" value={theme.imagery?.fill || 'cover'} onChange={(event) => onTheme({ imagery: { fill: event.target.value } })}>
+                    <Select className="h-8 w-[124px] text-[13.5px]" value={theme.imagery?.fill || 'cover'} onChange={(event) => onTheme({ imagery: { fill: event.target.value } })}>
                       {['cover', 'contain', 'full-bleed'].map((fill) => (
                         <option key={fill} value={fill}>
                           {fill}
@@ -282,14 +282,14 @@ export default function EditorPane({ spec, section, vocabulary = [], onTheme, on
                             key={align}
                             type="button"
                             onClick={() => patchSetting('align', settings.align === align ? null : align)}
-                            className={cx('rounded-pill border px-2.5 py-1 text-[11.5px] transition', settings.align === align ? 'border-white bg-white text-ink-900' : 'border-line text-ink-300 hover:text-white')}
+                            className={cx('rounded-pill border px-2.5 py-1 text-[12.5px] transition', settings.align === align ? 'border-white bg-white text-ink-900' : 'border-line text-ink-300 hover:text-white')}
                           >
                             {align}
                           </button>
                         ))}
                       </Row>
                       <Row label="Section padding">
-                        <Select className="h-8 w-[104px] text-[12.5px]" value={settings.padding || 'md'} onChange={(event) => patchSetting('padding', event.target.value)}>
+                        <Select className="h-8 w-[104px] text-[13.5px]" value={settings.padding || 'md'} onChange={(event) => patchSetting('padding', event.target.value)}>
                           {['none', 'sm', 'md', 'lg', 'xl'].map((padding) => (
                             <option key={padding} value={padding}>
                               {padding}
@@ -315,17 +315,17 @@ export default function EditorPane({ spec, section, vocabulary = [], onTheme, on
                             key={rule}
                             type="button"
                             onClick={() => patchSetting('rule', settings.rule === rule ? null : rule)}
-                            className={cx('rounded-pill border px-2.5 py-1 text-[11.5px] transition', settings.rule === rule ? 'border-white bg-white text-ink-900' : 'border-line text-ink-300 hover:text-white')}
+                            className={cx('rounded-pill border px-2.5 py-1 text-[12.5px] transition', settings.rule === rule ? 'border-white bg-white text-ink-900' : 'border-line text-ink-300 hover:text-white')}
                           >
                             {rule}
                           </button>
                         ))}
                       </Row>
                       <div className="mt-2 flex gap-1.5">
-                        <button type="button" onClick={() => onMove(section, -1)} className="flex-1 rounded-pill border border-line py-1.5 text-[11.5px] text-ink-200 transition hover:border-white/30 hover:text-white">
+                        <button type="button" onClick={() => onMove(section, -1)} className="flex-1 rounded-pill border border-line py-1.5 text-[12.5px] text-ink-200 transition hover:border-white/30 hover:text-white">
                           Move up
                         </button>
-                        <button type="button" onClick={() => onMove(section, 1)} className="flex-1 rounded-pill border border-line py-1.5 text-[11.5px] text-ink-200 transition hover:border-white/30 hover:text-white">
+                        <button type="button" onClick={() => onMove(section, 1)} className="flex-1 rounded-pill border border-line py-1.5 text-[12.5px] text-ink-200 transition hover:border-white/30 hover:text-white">
                           Move down
                         </button>
                       </div>
@@ -340,7 +340,7 @@ export default function EditorPane({ spec, section, vocabulary = [], onTheme, on
                   <Slider label="Section rhythm" min={64} max={148} step={4} value={Number(spec?.platform?.sectionPadding) || 104} onChange={(value) => onPlatform({ sectionPadding: value })} format={(value) => `${value}px`} />
                   <Slider label="Content width" min={900} max={1440} step={20} value={Number(spec?.platform?.maxWidth) || 1240} onChange={(value) => onPlatform({ maxWidth: value })} format={(value) => `${value}px`} />
                   <Row label="Density" hint="Affects card padding and grid gaps.">
-                    <Select className="h-8 w-[110px] text-[12.5px]" value={spec?.platform?.density || 'comfortable'} onChange={(event) => onPlatform({ density: event.target.value })}>
+                    <Select className="h-8 w-[110px] text-[13.5px]" value={spec?.platform?.density || 'comfortable'} onChange={(event) => onPlatform({ density: event.target.value })}>
                       {['airy', 'comfortable', 'dense'].map((density) => (
                         <option key={density} value={density}>
                           {density}
@@ -353,7 +353,7 @@ export default function EditorPane({ spec, section, vocabulary = [], onTheme, on
                 <div className="border-t border-line pt-4">
                   <p className="micro mb-2">Navigation</p>
                   <Row label="Bar">
-                    <Select className="h-8 w-[110px] text-[12.5px]" value={spec?.nav?.style || 'blur'} onChange={(event) => onNav({ style: event.target.value })}>
+                    <Select className="h-8 w-[110px] text-[13.5px]" value={spec?.nav?.style || 'blur'} onChange={(event) => onNav({ style: event.target.value })}>
                       {['blur', 'solid', 'minimal'].map((style) => (
                         <option key={style} value={style}>
                           {style}
@@ -368,7 +368,7 @@ export default function EditorPane({ spec, section, vocabulary = [], onTheme, on
 
                 <div className="border-t border-line pt-4">
                   <p className="micro mb-2">Built for</p>
-                  <p className="text-[12px] leading-relaxed text-ink-400">
+                  <p className="text-[13px] leading-relaxed text-ink-400">
                     {(spec?.platform?.targets || ['desktop']).map((target) => (target === 'both' ? 'mobile + desktop' : target)).join(' + ')}
                     {spec?.platform?.behavior ? ` · ${spec.platform.behavior}` : ''}
                   </p>
@@ -381,7 +381,7 @@ export default function EditorPane({ spec, section, vocabulary = [], onTheme, on
                           type="button"
                           onClick={() => onPlatformTarget?.(option.value)}
                           className={cx(
-                            'rounded-pill border px-3 py-1.5 text-left text-[12px] transition',
+                            'rounded-pill border px-3 py-1.5 text-left text-[13px] transition',
                             active ? 'border-white bg-white text-ink-900' : 'border-line text-ink-200 hover:border-white/30 hover:text-white',
                           )}
                         >
@@ -390,7 +390,7 @@ export default function EditorPane({ spec, section, vocabulary = [], onTheme, on
                       );
                     })}
                   </div>
-                  <p className="mt-2 text-[11.5px] leading-relaxed text-ink-500">
+                  <p className="mt-2 text-[12.5px] leading-relaxed text-ink-500">
                     Changing the target re-composes the page from your description and assets — manual edits are rebuilt, so publish first if the page is where you want it.
                   </p>
                 </div>
@@ -414,7 +414,7 @@ export default function EditorPane({ spec, section, vocabulary = [], onTheme, on
 
 function Empty({ text }) {
   return (
-    <p className="rounded-tile border border-dashed border-line px-3.5 py-6 text-center text-[12.5px] leading-relaxed text-ink-400">{text}</p>
+    <p className="rounded-tile border border-dashed border-line px-3.5 py-6 text-center text-[13.5px] leading-relaxed text-ink-400">{text}</p>
   );
 }
 
@@ -512,13 +512,13 @@ function ContentControl({ entry, onChange }) {
     <div className="flex flex-col gap-2">
       <div className="flex items-baseline justify-between gap-2">
         <p className="micro">{label}</p>
-        <span className="text-[11px] text-ink-500">{entry.items.length}</span>
+        <span className="text-[12px] text-ink-500">{entry.items.length}</span>
       </div>
       <ul className="flex flex-col gap-2">
         {entry.items.map((item, index) => (
           <li key={index} className="rounded-tile border border-line p-2.5">
             <div className="mb-1.5 flex items-center gap-1">
-              <span className="mr-auto font-mono text-[10.5px] text-ink-500">{String(index + 1).padStart(2, '0')}</span>
+              <span className="mr-auto font-mono text-[12px] text-ink-500">{String(index + 1).padStart(2, '0')}</span>
               <button
                 type="button"
                 onClick={() => onChange(swap(entry.items, index, index - 1))}
@@ -560,7 +560,7 @@ function ContentControl({ entry, onChange }) {
                       next[index] = { ...item, [key]: event.target.value };
                       onChange(next);
                     }}
-                    className="w-full rounded-[8px] border border-line bg-ink-800 px-2.5 py-1.5 text-[13px] text-ink-50 outline-none transition placeholder:text-ink-500 focus:border-white/35"
+                    className="w-full rounded-[8px] border border-line bg-ink-800 px-2.5 py-1.5 text-[14px] text-ink-50 outline-none transition placeholder:text-ink-500 focus:border-white/35"
                   />
                 ))}
             </div>
@@ -570,7 +570,7 @@ function ContentControl({ entry, onChange }) {
       <button
         type="button"
         onClick={() => onChange([...entry.items, blankLike(entry.items[entry.items.length - 1])])}
-        className="inline-flex items-center justify-center gap-1.5 rounded-tile border border-dashed border-line-strong py-2 text-[12px] text-ink-300 transition hover:border-white/35 hover:text-white"
+        className="inline-flex items-center justify-center gap-1.5 rounded-tile border border-dashed border-line-strong py-2 text-[13px] text-ink-300 transition hover:border-white/35 hover:text-white"
       >
         <Plus className="h-3 w-3" />
         Add one

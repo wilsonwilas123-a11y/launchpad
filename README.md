@@ -49,13 +49,41 @@ Nothing here needs WSL. Requirements are Node 20 or newer (`node -v`) and npm; `
 
 ### Generation
 
-Everything works with **no model installed**: the compiler builds a real spec from your description and assets. If [Ollama](https://ollama.com) is reachable on `http://127.0.0.1:11434`, the generator asks it for the spec instead and repairs/validates the reply before using it.
+Everything works with **no model installed**: the compiler builds a real spec from your description and assets. When a local model server is reachable, the generator asks *it* for the spec and repairs/validates the reply before using it. `auto` tries, in order: an explicitly configured `LAUNCHPAD_LLM_BASE_URL`, **LM Studio** on `http://127.0.0.1:1234`, then **Ollama** on `http://127.0.0.1:11434`.
+
+**LM Studio** (nothing to install besides the app): load a model, open *Developer → Start Server*, and that is it — Launchpad finds the server on port 1234 and uses the model LM Studio already has loaded. The base url is forgiving (`http://localhost:1234`, `…/v1`, or a pasted `/v1/chat/completions` all work).
 
 ```bash
-OLLAMA_MODEL=llama3.1:8b npm run dev:api
+LAUNCHPAD_AI_PROVIDER=lmstudio npm run dev:api      # require LM Studio
+LMSTUDIO_MODEL=qwen3-30b-a3b npm run dev:api        # pin one of several models
+LAUNCHPAD_LM_JSON_MODE=1 npm run dev:api            # ask for JSON mode too
+LAUNCHPAD_LMSTUDIO=off npm run dev:api              # stop probing port 1234
+OLLAMA_MODEL=llama3.1:8b npm run dev:api            # Ollama instead
 ```
 
-`GET /api/health` reports which one you are on. When the model is unreachable the UI says so out loud — the dashboard shows *"Local model · generation runs on this machine"* rather than pretending to be a hosted service.
+Two knobs worth knowing, both because a big local model behaves oddly rather than badly: `LAUNCHPAD_LM_MAX_TOKENS` (default 2600, trimmed to whatever the model's context window leaves after the prompt) and `LAUNCHPAD_LM_TIMEOUT_MS` (default 300000 — a 30B model on a laptop takes minutes, and generation still falls back to the compiler when the clock runs out). Reasoning models that answer in `reasoning_content` (Qwen3 with thinking on) are read from there too, so the JSON still lands.
+
+`GET /api/health` reports which one you are on (and `?refresh=1` re-probes immediately instead of using the 15-second hold, which is what you want right after starting LM Studio). The answer is — `{"ai":{"provider":"lmstudio","model":"qwen3-30b-a3b","reachable":true,"endpoint":"http://127.0.0.1:1234"}}`. When the model is unreachable the UI says so out loud — the dashboard shows *"Local spec compiler · generation runs on this machine"* rather than pretending to be a hosted service, and the response carries `fallbackReason` with the exact complaint.
+
+### Sign-in
+
+Accounts work with no third party: email and password, plus the demo account the sign-in screen offers in one click. Google is optional and env-driven — with no keys set, `/sign-in` shows a greyed *Continue with Google* row that names the variable to fill in, and every other screen is unchanged.
+
+To turn it on, create an **OAuth 2.0 Client ID (Web application)** at [console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials), put the two values in `.env`, and restart the API:
+
+```
+GOOGLE_CLIENT_ID=1234567890-abc.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=GOCSPX-…            # only the redirect flow needs this
+GOOGLE_REDIRECT_URI=http://localhost:4000/api/auth/google/callback
+```
+
+Then add to that same client in the console: **Authorized JavaScript origins** `http://localhost:5173` and `http://localhost:4000`, and **Authorized redirect URIs** `http://localhost:4000/api/auth/google/callback`. In production, your real web origin and `https://your-api/api/auth/google/callback`.
+
+What happens next is deliberately small: Google's own button (or, if its script cannot load, a server-side authorization-code redirect) hands us an ID token; the API checks its RSA signature against Google's published keys, checks `iss`, `aud`, expiry and `email_verified`, then signs in the local user with that address — creating the account on first use, or attaching the Google identity to an existing account with the same verified email so the password you already chose keeps working. A brand-new Google account has no password, so `/account` offers *Choose a password* rather than asking for one; once it is set, that address works with email too. There is no OAuth client library and no token stored: your session is still the same signed token the email form gets.
+
+`GET /api/health` reports it as `auth.google: "ready" | "browser-only" | "not configured"`, so `npm run e2e` and a hand-run install can both see whether the keys were picked up.
+
+*Signed in* is shown on `/account` ("… · Pro plan · Google", with Google's mark), because "did that actually use Google?" should not need a database query to answer.
 
 ---
 
@@ -68,7 +96,8 @@ OLLAMA_MODEL=llama3.1:8b npm run dev:api
 | `apps/api/src/generator` | The engine: prompt building, Ollama call, JSON repair, normalisation, section compiler, asset scoring, refinement commands. |
 | `apps/api/src/catalog` | Design directions, the section vocabulary, the twelve launch types and their asset plans. |
 | `apps/web/src/components/site` | `SiteRenderer` and the section renderers. Used by the builder preview, `/preview/:id` and the published URL — one implementation, so a preview cannot lie. |
-| `scripts/` | `e2e.sh` (HTTP walk-through) and `web-smoke.mjs` (jsdom render of the real app). |
+| `apps/web/src/components/landing` | The marketing page. `SitePreview` renders a real 1180px-wide site *scaled* into its column, and a transform does not change layout: the scaled child is absolutely positioned so it cannot set its column's minimum width and shove the hero off-screen. `apps/web/tests/hero-responsive.test.js` locks that in. |
+| `scripts/` | `check.mjs` (start the API, seed, run everything), `e2e.mjs` (HTTP walk-through) and `web-smoke.mjs` (jsdom render of the real app). |
 
 ---
 
@@ -99,6 +128,9 @@ All JSON, all under `/api`. Auth is `Authorization: Bearer <token>` (token from 
 | `GET /designs[?category=]` · `GET /designs/:id` | The design gallery, with `thumbnailUrl` as inline SVG data — no image files to ship. |
 | `GET /asset-plan?type=` | The recommended slots for that kind of launch. A recommendation, never a gate. |
 | `POST /auth/signup` · `/auth/login` · `/auth/demo` | `{ token, user }`. |
+| `GET /auth/google/status` | `{ enabled, redirect, clientId }` — is Google configured on this API? Public, and the only Google thing the browser sees before it signs in. |
+| `POST /auth/google` | `{ credential }` — a Google Identity Services ID token, verified here. → `{ token, user }`. |
+| `GET /auth/google/start` · `GET /auth/google/callback` | The authorization-code flow: 302 to Google, 302 back to the web app with the session token in the URL fragment. |
 | `GET`/`PATCH /auth/me` · `POST /auth/password` · `POST /auth/password/forgot` · `DELETE /auth/account` | Reset emails are not sent; in development the token is returned so the flow can be walked. |
 | `POST /projects` · `GET /projects` · `GET/PATCH/DELETE /projects/:id` | `PATCH` accepts `name, type, description, visualDirection, targetAudience, goal, selectedPlatforms, selectedDesign, designDetails, theme, sections, nav, platform`. `theme`, `nav` and `platform` are merged; `sections` is replaced and re-validated. |
 | `POST /projects/:id/generate` | Returns the spec plus `stages`, `pacing` and the `masterPrompt` that was used. |
@@ -142,10 +174,12 @@ Uploads go to `apps/api/storage/uploads/` and are served from `/uploads/*`. Per 
 
 ```bash
 npm run check         # the three below, plus seeding, against an API it starts itself
-npm test              # 16 API tests + 15 web helper tests, no server needed
+npm test              # 45 API tests + 39 web tests (helpers, the layout contracts, Google token trust, the model-server contract), no server needed
 npm run e2e           # HTTP walk of the whole loop against a running API
 npm run smoke         # renders the real app in jsdom against a running API
 ```
+
+The Google tests need neither the network nor a Google account: a locally generated RSA key pair plays the part of Google and a fake `fetch` plays the part of the internet, so the suite asserts the thing that actually matters — that a token Google did not sign, or signed for someone else's app, never produces a session.
 
 Both scripts are plain Node (`scripts/e2e.mjs`, `scripts/web-smoke.mjs`) — no bash, curl or python, so they run identically in cmd, PowerShell or a shell. Each prints a line per step and exits non-zero on the first failure. `e2e` defaults to `http://127.0.0.1:4000/api` and `smoke` to `http://127.0.0.1:4000`; override with `API=` / `SMOKE_API=`.
 
@@ -161,12 +195,19 @@ Both scripts are plain Node (`scripts/e2e.mjs`, `scripts/web-smoke.mjs`) — no 
 | `LAUNCHPAD_STORE` | `auto` | `postgres` · `file` · `auto`. |
 | `PGHOST` `PGPORT` `PGUSER` `PGPASSWORD` `PGDATABASE` | local `launchpad` | Postgres connection. |
 | `LAUNCHPAD_STORAGE_DIR` | `apps/api/storage` | Uploads and the JSON store live here. |
-| `LAUNCHPAD_AI_PROVIDER` | `auto` | `auto` · `ollama` (required) · `local` (never call out). |
-| `OLLAMA_HOST` `OLLAMA_MODEL` | `127.0.0.1:11434`, first model found | Model endpoint. |
+| `LAUNCHPAD_AI_PROVIDER` | `auto` | `auto` · `lmstudio` · `llm` · `ollama` (each required) · `local` (never call out). |
+| `LMSTUDIO_BASE_URL` `LMSTUDIO_MODEL` `LMSTUDIO_API_KEY` | `http://127.0.0.1:1234/v1`, loaded model, none | LM Studio server. A key only if you turned one on there. |
+| `LAUNCHPAD_LM_MAX_TOKENS` `LAUNCHPAD_LM_TIMEOUT_MS` | `2600`, `300000` | Generation budget and how long to wait; the budget is trimmed to the model's context. |
+| `LAUNCHPAD_LM_JSON_MODE` `LAUNCHPAD_LMSTUDIO` | blank, `auto` | `1` sends `response_format`; `off` stops probing LM Studio entirely. |
+| `LAUNCHPAD_LLM_BASE_URL` `LAUNCHPAD_LLM_MODEL` `LAUNCHPAD_LLM_API_KEY` | unset | Any other OpenAI-compatible server (vLLM, llama.cpp, a LAN box). Wins over LM Studio. |
+| `OLLAMA_HOST` `OLLAMA_MODEL` | `127.0.0.1:11434`, first model found | Ollama endpoint. |
 | `LAUNCHPAD_OLLAMA_TIMEOUT_MS` | `240000` | Local models are slow; the call waits. |
 | `LAUNCHPAD_JSON_REPAIR_RETRIES` | `2` | Repair attempts before falling back. |
 | `LAUNCHPAD_PUBLIC_HOST` | `launchpad.app` | The host shown on live links. |
 | `LAUNCHPAD_AUTH_SECRET` | dev secret | **Change this.** Tokens are signed with it. |
+| `GOOGLE_CLIENT_ID` | empty | Enables "Continue with Google". Empty means the feature stays off. |
+| `GOOGLE_CLIENT_SECRET` | empty | Needed only for the authorization-code redirect flow. Never sent to the browser. |
+| `GOOGLE_REDIRECT_URI` | `http://127.0.0.1:$PORT/api/auth/google/callback` | Must match the console exactly. |
 
 Copy `.env.example` to `.env` to change any of these — the API reads `.env` from the repository root, and every value already has the default above.
 

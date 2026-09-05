@@ -15,11 +15,11 @@ export default function StepPlatform({ draft, set, onNext, onBack }) {
 
   return (
     <div className="flex flex-col gap-8">
-      <p className="text-[15px] leading-relaxed text-ink-300">
+      <p className="text-[16.5px] leading-relaxed text-ink-300">
         This is a layout decision, not a preview toggle. Launchpad composes different sections, grids and navigation for the screens you choose.
       </p>
 
-      <div className="grid gap-3 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-3 sm:gap-5">
         {PLATFORM_OPTIONS.map((choice, index) => {
           const active = current === choice.value;
           const Icon = ICONS[choice.value] || MonitorSmartphone;
@@ -33,7 +33,7 @@ export default function StepPlatform({ draft, set, onNext, onBack }) {
               transition={{ delay: index * 0.06, duration: 0.4 }}
               whileHover={{ y: -3 }}
               className={cx(
-                'group relative flex h-full flex-col gap-3 overflow-hidden rounded-card border p-5 text-left transition-colors',
+                'group relative flex h-full flex-col gap-3 overflow-hidden rounded-card border p-5 text-left lg:p-6 transition-colors',
                 active ? 'border-white/70 bg-white/[0.08] shadow-glow' : 'border-line bg-ink-850/60 hover:border-white/25 hover:bg-white/[0.05]',
               )}
               aria-pressed={active}
@@ -42,12 +42,12 @@ export default function StepPlatform({ draft, set, onNext, onBack }) {
                 <span className={cx('grid h-9 w-9 place-items-center rounded-full border transition', active ? 'border-white/40 bg-white text-ink-900' : 'border-line text-ink-100')}>
                   <Icon className="h-4 w-4" strokeWidth={1.9} />
                 </span>
-                <span className="font-display text-[19px] tracking-[-0.02em] text-white">{choice.label}</span>
+                <span className="font-display text-[20.5px] tracking-[-0.02em] text-white">{choice.label}</span>
               </span>
-              <span className="text-[13.5px] leading-relaxed text-ink-300">{choice.body}</span>
+              <span className="text-[15px] leading-relaxed text-ink-300">{choice.body}</span>
               <ul className="mt-auto flex flex-col gap-1.5 pt-2">
                 {choice.points.map((point) => (
-                  <li key={point} className="flex items-start gap-2 text-[12.5px] text-ink-300">
+                  <li key={point} className="flex items-start gap-2 text-[14px] text-ink-300">
                     <span aria-hidden className={cx('mt-[6px] h-1 w-1 shrink-0 rounded-full', active ? 'bg-white' : 'bg-ink-400')} />
                     {point}
                   </li>
