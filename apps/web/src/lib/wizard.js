@@ -1,7 +1,17 @@
-/**
- * Wizard state: the five steps, the draft shape, and sessionStorage persistence
- * so a refresh mid-flow never loses what somebody typed.
- */
+import {
+  Package,
+  Briefcase,
+  TrendingUp,
+  CalendarDays,
+  Smartphone,
+  Disc3,
+  UserCircle2,
+  Users,
+  Megaphone,
+  LayoutGrid,
+  UtensilsCrossed,
+  Sparkles,
+} from 'lucide-react';
 
 export const STEPS = [
   { key: 'idea', label: 'Describe', title: 'What are you launching?', hint: 'A few honest sentences beat a brief.' },
@@ -86,18 +96,18 @@ export function composeVisualDirection(draft) {
 }
 
 export const LAUNCH_TYPES = [
-  { id: 'product', label: 'A product', emoji: '📦', blurb: 'Something you make, sell or ship' },
-  { id: 'business', label: 'A business', emoji: '🏢', blurb: 'A service people need to trust fast' },
-  { id: 'startup', label: 'A startup', emoji: '🚀', blurb: 'Raising, launching or entering a market' },
-  { id: 'event', label: 'An event', emoji: '🎟️', blurb: 'A date, a place, people to fill it' },
-  { id: 'app', label: 'An app', emoji: '📱', blurb: 'Something to install or try' },
-  { id: 'music', label: 'A release', emoji: '💿', blurb: 'A single, EP, album or artist page' },
-  { id: 'personal-brand', label: 'Yourself', emoji: '🪪', blurb: 'The offer and the point of view' },
-  { id: 'community', label: 'A community', emoji: '👥', blurb: 'A group people join' },
-  { id: 'campaign', label: 'A campaign', emoji: '📣', blurb: 'A drive with a clear ask' },
-  { id: 'portfolio', label: 'A portfolio', emoji: '🎞️', blurb: 'Work, shown the right way' },
-  { id: 'restaurant', label: 'A restaurant', emoji: '🍽️', blurb: 'Food, drink and a room' },
-  { id: 'other', label: 'Something else', emoji: '✨', blurb: 'We will figure out the shape' },
+  { id: 'product',         label: 'A product',      icon: Package,          blurb: 'Something you make, sell or ship' },
+  { id: 'business',        label: 'A business',     icon: Briefcase,        blurb: 'A service people need to trust fast' },
+  { id: 'startup',         label: 'A startup',      icon: TrendingUp,       blurb: 'Raising, launching or entering a market' },
+  { id: 'event',           label: 'An event',       icon: CalendarDays,     blurb: 'A date, a place, people to fill it' },
+  { id: 'app',             label: 'An app',         icon: Smartphone,       blurb: 'Something to install or try' },
+  { id: 'music',           label: 'A release',      icon: Disc3,            blurb: 'A single, EP, album or artist page' },
+  { id: 'personal-brand',  label: 'Yourself',       icon: UserCircle2,      blurb: 'The offer and the point of view' },
+  { id: 'community',       label: 'A community',    icon: Users,            blurb: 'A group people join' },
+  { id: 'campaign',        label: 'A campaign',     icon: Megaphone,        blurb: 'A drive with a clear ask' },
+  { id: 'portfolio',       label: 'A portfolio',    icon: LayoutGrid,       blurb: 'Work, shown the right way' },
+  { id: 'restaurant',      label: 'A restaurant',   icon: UtensilsCrossed,  blurb: 'Food, drink and a room' },
+  { id: 'other',           label: 'Something else', icon: Sparkles,         blurb: 'We will figure out the shape' },
 ];
 
 /**

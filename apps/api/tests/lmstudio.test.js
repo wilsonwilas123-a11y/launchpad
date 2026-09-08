@@ -270,7 +270,10 @@ test('auto picks LM Studio when it answers, and says why when it does not', asyn
     assert.equal(up.client, live);
     assert.equal(up.model, 'qwen3-30b-a3b');
     assert.equal(up.endpoint, live.origin);
-    assert.match(up.tried[0].reason, /LAUNCHPAD_LLM_BASE_URL/, 'an unconfigured second server is reported, not hidden');
+    const tried = Object.fromEntries(up.tried.map((note) => [note.provider, note.reason]));
+    assert.match(tried.llm, /LAUNCHPAD_LLM_BASE_URL/, 'an unconfigured second server is reported, not hidden');
+    assert.match(tried.gemini, /no GOOGLE_GEMINI_API_KEY set/, 'Gemini is asked first and its declination is on the record too');
+    assert.equal(up.tried[0].provider, 'gemini', 'the order is the policy');
 
     const down = await resolveAiMode('auto', { lmstudio: dead, ollama: dead, llm: null });
     assert.equal(down.useModel, false, 'nothing answering is a normal state, not an error');

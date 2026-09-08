@@ -11,6 +11,7 @@
 const { config } = require('../config');
 const { STORE_TOKEN } = require('../common/tokens');
 const { getOllamaClient, resolveAiMode } = require('./ollama');
+const { getGeminiClient, getGeminiOpenAiClient } = require('./gemini');
 const { getLmStudioClient, getOpenAiCompatibleClient } = require('./lmstudio');
 const { generateWithRepair } = require('./json-repair');
 const { buildMasterPrompt, inferDesignDirection } = require('./prompt');
@@ -28,7 +29,14 @@ class GeneratorService {
     this.storePromise = store;
     // The clients are what talks to Ollama / LM Studio / anything OpenAI-shaped.
     // Tests and embedding code can swap them on the instance.
-    this.clients = { ollama: getOllamaClient(), lmstudio: getLmStudioClient(), llm: getOpenAiCompatibleClient() };
+    this.clients = {
+      ollama: getOllamaClient(),
+      lmstudio: getLmStudioClient(),
+      llm: getOpenAiCompatibleClient(),
+      // Keyed by the provider names resolveAiMode walks, so a test can swap one.
+      gemini: getGeminiClient(),
+      'gemini-openai': getGeminiOpenAiClient(),
+    };
     this.client = this.clients.ollama;
     this.db = null;
     // Per-server timing, because the wizard paces its checklist against it and
@@ -48,7 +56,16 @@ class GeneratorService {
 
   /** Cheap probe for the UI: what is the AI layer actually doing right now? */
   async describeAi({ refresh = false } = {}) {
-    const key = [config.ai.provider, this.clients.llm ? 'llm' : '-', config.ai.lmstudio.baseUrl, config.ai.ollamaUrl, config.ai.lmstudio.model, config.ai.model].join('|');
+    const key = [
+      config.ai.provider,
+      this.clients.llm ? 'llm' : '-',
+      config.ai.lmstudio.baseUrl,
+      config.ai.ollamaUrl,
+      config.ai.lmstudio.model,
+      config.ai.model,
+      config.ai.gemini.model,
+      this.clients.gemini && this.clients.gemini.apiKey ? 'key' : '-',
+    ].join('|');
     const fresh = refresh || !this.aiCache || this.aiCacheKey !== key || Date.now() - this.aiCachedAt > 20000;
     if (fresh) {
       const started = Date.now();

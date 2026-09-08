@@ -10,6 +10,7 @@
  */
 
 const { config } = require('../config');
+const { getGeminiClient, getGeminiOpenAiClient } = require('./gemini');
 
 const PREFERRED = [
   { match: /^qwen2\.5:14b/, score: 100, note: 'recommended for structured output' },
@@ -157,7 +158,7 @@ class OllamaClient {
 const { LmStudioClient, getLmStudioClient, getOpenAiCompatibleClient } = require('./lmstudio');
 
 /** Providers that mean "a model is doing this work", for pacing and labels. */
-const MODEL_PROVIDERS = ['llm', 'lmstudio', 'ollama'];
+const MODEL_PROVIDERS = ['gemini', 'gemini-openai', 'llm', 'lmstudio', 'ollama'];
 
 let singleton = null;
 function getOllamaClient() {
@@ -181,28 +182,70 @@ async function resolveAiMode(override, options = {}) {
     override = null;
   }
   const provider = String(override || options.provider || config.ai.provider || 'auto').toLowerCase();
-  const aliases = { openai: 'llm', openaiCompatible: 'llm', compatible: 'llm', vllm: 'llm', chat: 'lmstudio', compiler: 'local', offline: 'local' };
+  const aliases = {
+    openai: 'llm',
+    openaiCompatible: 'llm',
+    compatible: 'llm',
+    vllm: 'llm',
+    chat: 'lmstudio',
+    compiler: 'local',
+    offline: 'local',
+    google: 'gemini',
+    aistudio: 'gemini',
+    generativelanguage: 'gemini',
+    gemini_native: 'gemini',
+    gemini_openai: 'gemini-openai',
+    gemini_compat: 'gemini-openai',
+    gemini_shim: 'gemini-openai',
+  };
   const wanted = aliases[provider] || provider;
 
   if (wanted === 'local') {
     return { useModel: false, useOllama: false, provider: 'local', reason: 'LAUNCHPAD_AI_PROVIDER=local' };
   }
   const required = wanted !== 'auto';
-  const order = required ? [wanted] : ['llm', 'lmstudio', 'ollama'];
+  // Gemini leads the automatic order: pasting a key into .env is a decision, and
+  // a hosted model answers a 4k-token spec in seconds where a 30B local one takes
+  // minutes. With no key it is skipped before anything is asked of the network
+  // (see the apiKey check below), so an install without one pays nothing.
+  const order = required ? [wanted] : ['gemini', 'llm', 'lmstudio', 'ollama'];
   if (required && !MODEL_PROVIDERS.includes(wanted)) {
-    const error = new Error(`LAUNCHPAD_AI_PROVIDER="${provider}" is not one of auto · lmstudio · llm · ollama · local`);
+    const error = new Error(`LAUNCHPAD_AI_PROVIDER="${provider}" is not one of auto · gemini · gemini-openai · lmstudio · llm · ollama · local`);
     error.code = 'BAD_PROVIDER';
     throw error;
   }
 
   const notes = [];
   for (const key of order) {
+    const gemini = key === 'gemini' || key === 'gemini-openai';
     const client =
       key === 'ollama'
         ? options.ollama || getOllamaClient()
         : key === 'lmstudio'
           ? options.lmstudio || getLmStudioClient()
-          : options.llm || getOpenAiCompatibleClient();
+          : gemini
+            ? options[key] || (key === 'gemini' ? getGeminiClient() : getGeminiOpenAiClient())
+            : options.llm || getOpenAiCompatibleClient();
+    if (gemini && !config.ai.gemini.enabled) {
+      notes.push({ provider: key, reason: 'LAUNCHPAD_GEMINI=off' });
+      if (required) {
+        const error = new Error(`LAUNCHPAD_AI_PROVIDER=${provider} but LAUNCHPAD_GEMINI=off turns Gemini off. Remove one of the two.`);
+        error.code = 'PROVIDER_DISABLED';
+        throw error;
+      }
+      continue;
+    }
+    if (gemini && !(client.apiKey || config.ai.gemini.apiKey)) {
+      // Never probe Google without a credential: it is a wasted request and the
+      // answer is always 403.
+      notes.push({ provider: key, reason: 'no GOOGLE_GEMINI_API_KEY set' });
+      if (required) {
+        const error = new Error(`LAUNCHPAD_AI_PROVIDER=${provider} needs GOOGLE_GEMINI_API_KEY — create one at https://aistudio.google.com/apikey and put it in .env at the repository root.`);
+        error.code = 'NO_KEY';
+        throw error;
+      }
+      continue;
+    }
     if (!client) {
       notes.push({ provider: key, reason: 'no base url configured (set LAUNCHPAD_LLM_BASE_URL)' });
       if (required) {
@@ -266,7 +309,19 @@ let modeCachedAt = 0;
 let modeCacheKey = '';
 
 async function resolveAiModeCached({ ttlMs = 15000, refresh = false, ...options } = {}) {
-  const key = [config.ai.provider, config.ai.lmstudio.baseUrl, config.ai.ollamaUrl, config.ai.llm.baseUrl, config.ai.lmstudio.model].join('|');
+  // Whether a key exists is part of the identity, never the key itself: this
+  // string only decides cache reuse, and the cached payload goes to the browser.
+  const key = [
+    config.ai.provider,
+    config.ai.lmstudio.baseUrl,
+    config.ai.ollamaUrl,
+    config.ai.llm.baseUrl,
+    config.ai.lmstudio.model,
+    config.ai.gemini.baseUrl,
+    config.ai.gemini.model,
+    config.ai.gemini.enabled ? 'on' : 'off',
+    config.ai.gemini.apiKey ? 'key' : '-',
+  ].join('|');
   if (!refresh && modeCache && modeCacheKey === key && Date.now() - modeCachedAt < ttlMs) return modeCache;
   const mode = await resolveAiMode(options.provider, options);
   modeCache = mode;

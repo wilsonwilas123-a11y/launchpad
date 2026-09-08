@@ -37,6 +37,9 @@ const config = {
   publicHost: process.env.LAUNCHPAD_PUBLIC_HOST || 'launchpad.app',
   webOrigin: process.env.LAUNCHPAD_WEB_ORIGIN || '',
   pg: {
+    // Render, Neon, Supabase and friends hand you one string. When it is set it
+    // wins outright — see db/connection.js for why nothing else is passed along.
+    url: process.env.DATABASE_URL || process.env.LAUNCHPAD_PG_URL || '',
     host: process.env.PGHOST || process.env.LAUNCHPAD_PG_HOST || '127.0.0.1',
     port: Number(process.env.PGPORT || process.env.LAUNCHPAD_PG_PORT || 5432),
     user: process.env.PGUSER || process.env.LAUNCHPAD_PG_USER || 'launchpad',
@@ -59,10 +62,46 @@ const config = {
     // own /api/auth/google/callback in google.js.
     redirectUri: process.env.GOOGLE_REDIRECT_URI || '',
   },
-  // AI provider: 'auto' uses the first model server that answers (an
-  // explicitly configured one, then LM Studio, then Ollama) and falls back to
-  // the built-in spec compiler otherwise. 'lmstudio' / 'llm' / 'ollama' require
-  // that one server; 'local' never calls out.
+  // Examples from outside. The Behance v2 API still answers, but it needs a key
+  // and sends no CORS headers, so the call has to be made here rather than in
+  // the browser — and Adobe stopped issuing keys, so this is optional by design:
+  // with no key the dashboard row shows Launchpad's own published sites and
+  // reports the reason instead of failing. See modules/inspiration/behance.js.
+  behance: {
+    apiKey: process.env.BEHANCE_API_KEY || '',
+    baseUrl: (process.env.LAUNCHPAD_BEHANCE_BASE_URL || 'https://api.behance.net/v2').replace(/\/+$/, ''),
+    // Whose work to show. Listing a few designers is the good setting, because
+    // the site-wide feed is everything anyone has ever posted.
+    users: (process.env.LAUNCHPAD_BEHANCE_USERS || '')
+      .split(',')
+      .map((value) => value.trim())
+      .filter(Boolean),
+    field: process.env.LAUNCHPAD_BEHANCE_FIELD || '',
+    sort: process.env.LAUNCHPAD_BEHANCE_SORT || 'appreciations',
+    perPage: Math.min(12, Number(process.env.LAUNCHPAD_BEHANCE_PER_PAGE || 8)),
+    timeoutMs: Number(process.env.LAUNCHPAD_BEHANCE_TIMEOUT_MS || 6000),
+    ttlMs: Number(process.env.LAUNCHPAD_BEHANCE_TTL_MS || 1000 * 60 * 15),
+  },
+  inspiration: {
+    // 'auto' calls Behance when a key exists, 'off' never calls out.
+    mode: (process.env.LAUNCHPAD_INSPIRATION || 'auto').toLowerCase(),
+    launchpadCount: Number(process.env.LAUNCHPAD_EXAMPLE_COUNT || 4),
+  },
+  // The examples row's own source list. Kept separate from the Behance block
+  // above because it needs no key, no network and no third party being up.
+  examples: {
+    // 'auto' (both, whichever is configured) · 'links' (only the file) ·
+    // 'behance' (only the API) · 'off' (neither).
+    mode: (process.env.LAUNCHPAD_EXAMPLES_SOURCE || 'auto').toLowerCase(),
+    file: process.env.LAUNCHPAD_EXAMPLES_FILE || '',
+    limit: Number(process.env.LAUNCHPAD_EXAMPLE_LIMIT || 8),
+  },
+
+  // AI provider: 'auto' uses the first model server that answers (Gemini when a
+  // key is configured, then an explicitly configured OpenAI-compatible server,
+  // then LM Studio, then Ollama) and falls back to the built-in spec compiler
+  // otherwise. 'gemini' / 'gemini-openai' / 'lmstudio' / 'llm' / 'ollama'
+  // require that one server; 'local' never calls out.
   ai: {
     provider: (process.env.LAUNCHPAD_AI_PROVIDER || 'auto').toLowerCase(),
     ollamaUrl: (process.env.OLLAMA_HOST || process.env.LAUNCHPAD_OLLAMA_URL || 'http://127.0.0.1:11434').replace(/\/$/, ''),
@@ -95,6 +134,28 @@ const config = {
       baseUrl: (process.env.LAUNCHPAD_LLM_BASE_URL || '').trim(),
       model: process.env.LAUNCHPAD_LLM_MODEL || '',
       apiKey: process.env.LAUNCHPAD_LLM_API_KEY || '',
+    },
+    // Google AI Studio's Gemini API — the one provider here that calls a paid-ish
+    // cloud service. The variable is deliberately NOT named GEMINI_API_KEY or
+    // GOOGLE_API_KEY alone: this file already carries GOOGLE_CLIENT_ID /
+    // GOOGLE_CLIENT_SECRET for OAuth sign-in, which is a different Google system
+    // and the values are not interchangeable. A key is optional: with none set,
+    // Gemini is skipped without a network call and the local servers answer.
+    gemini: {
+      apiKey: (process.env.GOOGLE_GEMINI_API_KEY || '').trim(),
+      // 'auto' picks a flash model from GET /v1beta/models; a name here wins.
+      model: process.env.GEMINI_MODEL || process.env.LAUNCHPAD_GEMINI_MODEL || 'gemini-2.5-flash',
+      baseUrl: (process.env.LAUNCHPAD_GEMINI_BASE_URL || 'https://generativelanguage.googleapis.com/v1beta').trim().replace(/\/+$/, ''),
+      // The OpenAI-compatible shim, for a legacy key that only works there.
+      openaiBaseUrl: (process.env.LAUNCHPAD_GEMINI_OPENAI_BASE_URL || 'https://generativelanguage.googleapis.com/v1beta/openai').trim().replace(/\/+$/, ''),
+      // A hosted model answers in seconds; nothing here waits minutes.
+      timeoutMs: Number(process.env.LAUNCHPAD_GEMINI_TIMEOUT_MS || 90000),
+      maxTokens: Number(process.env.LAUNCHPAD_GEMINI_MAX_TOKENS || 4000),
+      temperature: Number(process.env.LAUNCHPAD_GEMINI_TEMPERATURE || 0.3),
+      // responseMimeType: application/json, on unless a model argues with it.
+      jsonMode: !/^(0|false|off|no)$/i.test(process.env.LAUNCHPAD_GEMINI_JSON_MODE || ''),
+      // 'off' takes Gemini out of the ordering even with a key present.
+      enabled: (process.env.LAUNCHPAD_GEMINI || 'auto').toLowerCase() !== 'off',
     },
   },
 };

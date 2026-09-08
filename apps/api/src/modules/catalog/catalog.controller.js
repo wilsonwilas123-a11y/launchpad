@@ -7,6 +7,8 @@ const { getStore } = require('../../db');
 const { getOllamaClient, resolveAiModeCached } = require('../../generator/ollama');
 const { getLmStudioClient, getOpenAiCompatibleClient } = require('../../generator/lmstudio');
 const { googleConfig } = require('../auth/google');
+const { InspirationService } = require('./inspiration/inspiration.service');
+
 
 /**
  * Read-mostly product data: the website types, the design gallery, the section
@@ -79,7 +81,16 @@ class CatalogController {
     } catch {
       auth = { google: 'not configured' };
     }
-    return { ok: true, service: 'launchpad-api', env: config.env, database: store ? store.driver : 'unavailable', ai, auth };
+    // The examples row is reported here too, because a missing Behance key is
+    // exactly the kind of thing a deployed install should be able to see in one
+    // call instead of opening the dashboard and squinting at an empty row.
+    let inspiration;
+    try {
+      inspiration = peekInspirationStatus();
+    } catch {
+      inspiration = { provider: 'behance', configured: false, reason: 'not available' };
+    }
+    return { ok: true, service: 'launchpad-api', env: config.env, database: store ? store.driver : 'unavailable', ai, auth, inspiration };
   }
 }
 

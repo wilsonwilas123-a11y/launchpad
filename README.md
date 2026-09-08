@@ -174,7 +174,7 @@ Uploads go to `apps/api/storage/uploads/` and are served from `/uploads/*`. Per 
 
 ```bash
 npm run check         # the three below, plus seeding, against an API it starts itself
-npm test              # 45 API tests + 39 web tests (helpers, the layout contracts, Google token trust, the model-server contract), no server needed
+npm test              # 52 API tests + 41 web tests (helpers, the layout contracts, Google token trust, the model-server contract), no server needed
 npm run e2e           # HTTP walk of the whole loop against a running API
 npm run smoke         # renders the real app in jsdom against a running API
 ```
@@ -187,6 +187,12 @@ Both scripts are plain Node (`scripts/e2e.mjs`, `scripts/web-smoke.mjs`) — no 
 
 ---
 
+## Deploy
+
+[`RUNNING-AND-DEPLOYING.md`](./RUNNING-AND-DEPLOYING.md) has every command for each part — backend, frontend, database, tests, builds — plus the Render and Vercel setup, the `render.yaml` and `vercel.json` already in the repo, what to check after a deploy, and the failure table. The short version: Render runs `npm start -w @launchpad/api` with `DATABASE_URL` and a disk mounted at `apps/api/storage`; Vercel builds `npm run build -w @launchpad/web`, serves `apps/web/dist`, and rewrites `/api` + `/uploads` to the Render origin, which is the only edit the shipped `vercel.json` needs.
+
+---
+
 ## Environment
 
 | Variable | Default | Meaning |
@@ -194,6 +200,10 @@ Both scripts are plain Node (`scripts/e2e.mjs`, `scripts/web-smoke.mjs`) — no 
 | `PORT` / `LAUNCHPAD_API_PORT` | `4000` | API port. |
 | `LAUNCHPAD_STORE` | `auto` | `postgres` · `file` · `auto`. |
 | `PGHOST` `PGPORT` `PGUSER` `PGPASSWORD` `PGDATABASE` | local `launchpad` | Postgres connection. |
+| `DATABASE_URL` (or `LAUNCHPAD_PG_URL`) | unset | One-string Postgres connection, the way hosted providers give it. Wins over the fields above. |
+| `LAUNCHPAD_SERVE_WEB` | unset | `1` makes the API also serve `apps/web/dist`, for a single-service deploy. |
+| `BEHANCE_API_KEY` | unset | Fills the dashboard's examples row from Behance. Optional by design: Adobe no longer issues keys, and with none the row shows this API's published sites. |
+| `LAUNCHPAD_INSPIRATION` | `auto` | `off` stops the external calls even when a key is present. |
 | `LAUNCHPAD_STORAGE_DIR` | `apps/api/storage` | Uploads and the JSON store live here. |
 | `LAUNCHPAD_AI_PROVIDER` | `auto` | `auto` · `lmstudio` · `llm` · `ollama` (each required) · `local` (never call out). |
 | `LMSTUDIO_BASE_URL` `LMSTUDIO_MODEL` `LMSTUDIO_API_KEY` | `http://127.0.0.1:1234/v1`, loaded model, none | LM Studio server. A key only if you turned one on there. |

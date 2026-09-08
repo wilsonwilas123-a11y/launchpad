@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
@@ -43,4 +43,26 @@ test('a long model id cannot widen the header row', () => {
 test('the health probe that feeds it stays a single cheap call', () => {
   assert.match(session, /api\.health\(\)/, 'the session fetches health once on mount');
   assert.match(session, /\.catch\(\(\) => alive && setHealth\(\{ ok: false, database: 'unavailable' \}\)\)/, 'and a dead API degrades to a known shape, not an exception');
+});
+
+test('Gemini stays on the server: no key, no header, no host in the client', () => {
+  // The whole point of the api layer is that the credential never crosses it, and
+  // this is the check that keeps it that way when someone adds "just a settings
+  // field" later. The frontend gets label, model, endpoint and reason — nothing
+  // that identifies or authenticates the key.
+  const files = [];
+  const walk = (dir) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (/\.(jsx?|css)$/.test(entry.name)) files.push(readFileSync(full, 'utf8'));
+    }
+  };
+  walk(path.resolve(here, '..', 'src'));
+  const all = files.join('\n');
+  for (const forbidden of ['GOOGLE_GEMINI_API_KEY', 'GEMINI_MODEL', 'x-goog-api-key', 'generativelanguage.googleapis.com', 'AIza', 'LAUNCHPAD_GEMINI']) {
+    assert.equal(all.includes(forbidden), false, `${forbidden} belongs in apps/api, not in a bundle anyone can read`);
+  }
+  assert.equal(/Gemini/.test(read('pages/DashboardPage.jsx')), false, 'the chip prints whatever the API calls itself, so a new provider needs no frontend change');
+  assert.match(read('lib/api.js'), /health: \(\) => get\('/, 'and health is one ordinary authenticated-free call');
 });

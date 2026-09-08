@@ -1,0 +1,101 @@
+{
+  "_readme": "The examples row on the dashboard. Every card here is somebody else's live site: this file holds a title, a link, and the image they already publish for their own link previews. Nothing is downloaded, re-hosted, or copied into a project. To add one: title, url, cover (an https image you are happy to link to), author, blurb. To drop one: delete the object. The API re-reads this file when it changes - no restart. Eight appear at a time (LAUNCHPAD_EXAMPLE_LIMIT, 12 maximum), so the rest of the list is in reserve, not lost. Point LAUNCHPAD_EXAMPLES_FILE somewhere else to keep your own list, and set LAUNCHPAD_EXAMPLES_SOURCE=off to hide the row's outside half entirely.",
+  "_verified": "Titles, descriptions and cover URLs were read from each site's own og:title / og:description / og:image on 2026-09-05, and every cover answered 200 with an image type that day. If one stops loading, the card falls back to a colour block - it will not show a broken image.",
+  "browse": [
+    {
+      "label": "Lapa Ninja \u2014 landing page gallery",
+      "url": "https://www.lapa.ninja/"
+    },
+    {
+      "label": "Lapa \u2014 best landing pages",
+      "url": "https://www.lapa.ninja/websites/"
+    },
+    {
+      "label": "Godly \u2014 web inspiration for product websites",
+      "url": "https://godly.website/"
+    },
+    {
+      "label": "Land-book \u2014 landing page inspiration",
+      "url": "https://land-book.com/"
+    }
+  ],
+  "items": [
+    {
+      "title": "Linear \u2013 The system for product development",
+      "url": "https://linear.app",
+      "cover": "https://linear.app/static/og/homepage.jpg",
+      "author": "Linear",
+      "blurb": "Purpose-built for planning and building products with AI agents."
+    },
+    {
+      "title": "Raycast - Your shortcut to everything",
+      "url": "https://www.raycast.com",
+      "cover": "https://www.raycast.com/opengraph-image-pwu6ef.png?opengraph-image.1f-98etzkaz5s.png",
+      "author": "Raycast",
+      "blurb": "A collection of powerful productivity tools all within an extendable launcher."
+    },
+    {
+      "title": "Arc from The Browser Company",
+      "url": "https://arc.net",
+      "cover": "https://arc.net/og.png",
+      "author": "The Browser Company",
+      "blurb": "Experience a calmer, more personal internet in this browser designed for you."
+    },
+    {
+      "title": "Stripe | Financial Infrastructure to Grow Your Revenue",
+      "url": "https://stripe.com",
+      "cover": "https://images.stripeassets.com/fzn2n1nzq965/XtX984S1GJVsVOXFC7kMu/01988281e867728dfb09aa7793a6e3b9/Stripe.jpg?q=80",
+      "author": "Stripe",
+      "blurb": "Stripe is a financial services platform that helps all types of businesses accept payments."
+    },
+    {
+      "title": "AI-native project management | Plane",
+      "url": "https://plane.so",
+      "cover": "https://plane.so/opengraph-image-4usi79.png?opengraph-image.3jukto5wpveu4.png",
+      "author": "Plane",
+      "blurb": "Project management for teams and AI agents. Plan, track, and ship."
+    },
+    {
+      "title": "Cal.com | Scheduling Software for Online Bookings",
+      "url": "https://cal.com",
+      "cover": "https://framerusercontent.com/images/pPSh5HDe1qaySb4R7xBgMHudhU.png",
+      "author": "Cal.com",
+      "blurb": "A fully customizable scheduling software for individuals, businesses and developers."
+    },
+    {
+      "title": "Framer: AI design agent",
+      "url": "https://www.framer.com",
+      "cover": "https://framerusercontent.com/images/vt65Mbfi3w8ymfTyRfbmgM4Tyo.png",
+      "author": "Framer",
+      "blurb": "Go from idea to launch with an agent that designs and builds on the canvas."
+    },
+    {
+      "title": "The AI workspace that works for you. | Notion",
+      "url": "https://www.notion.so",
+      "cover": "https://www.notion.com/front-static/meta/teams-and-agents.jpg",
+      "author": "Notion",
+      "blurb": "Build custom agents, search across all your apps, and automate busywork."
+    },
+    {
+      "title": "Superhuman AI \u2014 the newsletter",
+      "url": "https://www.superhuman.ai",
+      "cover": "https://media.beehiiv.com/cdn-cgi/image/fit=scale-down,format=auto,onerror=redirect,quality=80/uploads/publication/thumbnail/faa6a747-8c1c-43c1-8155-91aa43268f01/landscape_Group_1000004120.png?v=1788664955",
+      "author": "Superhuman",
+      "blurb": "Keep up with the latest AI news, trends, and tools in just 3 minutes a day."
+    },
+    {
+      "title": "Tella | All-in-One Screen Recorder for Mac, Windows & Chrome",
+      "url": "https://tella.com",
+      "cover": "https://www.tella.com/marketing-site/og-image.png",
+      "author": "Tella",
+      "blurb": "Record your screen, camera, microphone, and system audio in one click."
+    },
+    {
+      "title": "Resend \u00b7 Email for developers",
+      "url": "https://resend.com",
+      "cover": "https://resend.com/static/cover.png",
+      "author": "Resend",
+      "blurb": "Deliver transactional and marketing emails at scale, without the spam folder."
+    }
+  ]
+}

@@ -9,6 +9,7 @@ import { Button, IconButton } from '../components/ui/Button';
 import { StatusPill } from '../components/ui/StatusPill';
 import { EmptyState, Modal, Tag } from '../components/ui/Primitives';
 import { Segmented } from '../components/ui/Segmented';
+import InspirationStrip from '../components/inspiration/InspirationStrip';
 import { useSession } from '../context/Session';
 import { useToast } from '../context/Toast';
 import { copyText, cx, relativeTime, shareLink } from '../lib/format';
@@ -195,6 +196,8 @@ export default function DashboardPage() {
               {!shown.length ? <p className="mt-10 text-center text-[15px] text-ink-400">Nothing matches that filter.</p> : null}
             </>
           )}
+
+          <InspirationStrip />
         </main>
       </div>
 
@@ -331,7 +334,12 @@ function EmptyDashboard({ onNew }) {
             <Button size="lg" onClick={onNew}>
               + Start Building
             </Button>
-            <a href="/" className="link-quiet px-2 text-[15px]">
+            {/* Deliberately not a link to the root route: that route answers a
+                signed-in visitor by redirecting back here, so the old version of
+                this link could never show anybody anything. A jump to the row
+                below needs no reload, and works with nothing configured outside
+                the app. */}
+            <a href="#inspiration" className="link-quiet px-2 text-[15px]">
               See an example first
             </a>
           </div>

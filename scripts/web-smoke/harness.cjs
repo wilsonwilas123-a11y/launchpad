@@ -184,6 +184,30 @@ async function main() {
   ok('dashboard shows the generated project', body.includes('NOVA Drop 01'), body.slice(0, 0));
   ok('dashboard card carries a real render as its thumbnail', bundle.html().includes('data:image/svg+xml') || bundle.html().includes('<img'));
   ok('dashboard reports completion or a live address', /section|Live|Ready|Draft/i.test(body));
+
+  /* The examples row is the answer to an empty dashboard, so it is checked here
+     rather than only in a source test: it has to render on this page, be a real
+     jump target for "See an example first", and stay honest when a source is
+     empty. It no longer depends on a key: the outside half comes from
+     apps/api/examples.json, a list this repo owns, because Lapa Ninja — the
+     gallery these sites are picked in — answers a server with a Cloudflare
+     challenge and has no feed, sitemap or API to call. So the row carries
+     curated cards plus click-out links, and Behance is the optional extra. */
+  ok('the examples row renders below the launches', /What this produces/.test(body));
+  const inspiration = window.document.querySelector('#inspiration');
+  ok('the empty-state link has a target that exists', Boolean(inspiration) && /Examples/.test(inspiration.textContent));
+  const external = [...(inspiration ? inspiration.querySelectorAll('div.grid a[target="_blank"]') : [])];
+  ok('every outside card is rel-protected and tagged with its source', external.length > 0 && external.every((node) => /noopener/.test(node.rel)) && external.every((node) => /Behance|Curated/.test(node.textContent)));
+  ok('every outside card opens a real page, never a script url', external.every((node) => /^https:\/\/[^/]+(\/|$)/.test(node.getAttribute('href') || '')), external.map((node) => node.getAttribute('href')).join(' ').slice(0, 120));
+  ok('curated cards are labelled as somebody else’s work', /Worth looking at/.test(body) && /belong to the people who made them/.test(body));
+  const galleries = [...(inspiration ? inspiration.querySelectorAll('a[target="_blank"]') : [])].filter((node) => !node.closest('div.grid'));
+  ok('the gallery links are click-outs, not fetches', galleries.some((node) => /lapa\.ninja/i.test(node.href) && /noopener/.test(node.rel)), galleries.map((node) => node.textContent.trim()).join(', '));
+  const mine = [...(inspiration ? inspiration.querySelectorAll("a[href^='/']:not([target])") : [])];
+  ok('this API’s own examples open inside the app, not out', mine.length > 0 && mine.every((node) => /^\/[^/]+$/.test(node.getAttribute('href') || '')));
+  const covers = [...(inspiration ? inspiration.querySelectorAll('img') : [])];
+  ok('a hot-linked cover is lazy, named and referrer-protected', covers.every((node) => node.getAttribute('loading') === 'lazy' && node.alt && node.getAttribute('referrerpolicy') === 'no-referrer'));
+  ok('a source that is empty says which one it was', /not set up on this API|No curated list on this API/.test(body) || external.length > 0);
+
   // The header chip is the product's only admission of what is writing the
   // site, so assert what it actually rendered against what the API claimed —
   // on a machine with LM Studio running this takes the other branch.

@@ -1,24 +1,55 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowLeft, CreditCard, LogOut, Trash2, UserRound } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  UserRound, CreditCard, Trash2, Camera, LogOut, 
+  Globe, Clock, Phone, ChevronRight, ChevronDown, Lock
+} from 'lucide-react';
+
 import { api } from '../lib/api';
 import { Logo } from '../components/brand/RocketMark';
 import { AmbientBackdrop } from '../components/motion/AmbientBackdrop';
 import { Button } from '../components/ui/Button';
 import { Field, Input } from '../components/ui/Field';
 import { Modal } from '../components/ui/Primitives';
-import { Segmented } from '../components/ui/Segmented';
 import { useSession } from '../context/Session';
 import { useToast } from '../context/Toast';
 import { cx, initials } from '../lib/format';
 import { BackLink } from '../components/ui/BackLink';
 import { GoogleMark } from '../components/auth/GoogleSignIn';
 
+/**
+ * @typedef {Object} UserProfile
+ * @property {string} id
+ * @property {string} email
+ * @property {string} [name]
+ * @property {string} [firstName]
+ * @property {string} [lastName]
+ * @property {string} [phone]
+ * @property {string} [language]
+ * @property {string} [timezone]
+ * @property {string} [avatarUrl]
+ * @property {'google' | 'password'} [provider]
+ * @property {boolean} [hasPassword]
+ * @property {'free' | 'pro' | 'team'} [plan]
+ */
+
+/**
+ * @typedef {Object} UpdateProfilePayload
+ * @property {string} [name]
+ * @property {string} [firstName]
+ * @property {string} [lastName]
+ * @property {string} [phone]
+ * @property {string} [language]
+ * @property {string} [timezone]
+ * @property {string} [avatarUrl]
+ * @property {string} [plan]
+ */
+
 const TABS = [
-  { value: 'profile', label: 'Profile', icon: UserRound },
-  { value: 'billing', label: 'Billing', icon: CreditCard },
-  { value: 'danger', label: 'Account', icon: Trash2 },
+  { value: 'profile', label: 'Personal Information', icon: UserRound },
+  { value: 'billing', label: 'Billing & Plan', icon: CreditCard },
+  { value: 'danger', label: 'Account Settings', icon: Trash2 },
 ];
 
 const PLANS = [
@@ -31,20 +62,60 @@ export default function AccountPage() {
   const { user, refresh, signOut } = useSession();
   const toast = useToast();
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
+
+  // Layout Tab State
   const [tab, setTab] = useState('profile');
-  const [name, setName] = useState(user?.name || '');
+
+  // Form States (Mapped from user session)
+  const nameParts = (user?.name || '').split(' ');
+  const [firstName, setFirstName] = useState(user?.firstName || nameParts[0] || '');
+  const [lastName, setLastName] = useState(user?.lastName || nameParts.slice(1).join(' ') || '');
+  const [phone, setPhone] = useState(user?.phone || '');
+  const [language, setLanguage] = useState(user?.language || 'English');
+  const [timezone, setTimezone] = useState(user?.timezone || 'UTC +00:00 - UTC');
+  const [avatarUrl, setAvatarUrl] = useState(user?.avatarUrl || '');
+
+  // Password & Security State
   const [passwords, setPasswords] = useState({ current: '', next: '', confirm: '' });
   const [busy, setBusy] = useState('');
   const [confirmText, setConfirmText] = useState('');
   const [showDelete, setShowDelete] = useState(false);
 
-  const save = async (event) => {
+  // Avatar Upload Handler
+  const handleAvatarChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setAvatarUrl(url);
+      toast.success('Avatar preview updated.');
+    }
+  };
+
+  const removeAvatar = () => {
+    setAvatarUrl('');
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  // Save Personal Info
+  const saveProfile = async (event) => {
     event.preventDefault();
     setBusy('profile');
     try {
-      await api.auth.updateProfile({ name });
+      /** @type {UpdateProfilePayload} */
+      const payload = {
+        name: `${firstName} ${lastName}`.trim(),
+        firstName,
+        lastName,
+        phone,
+        language,
+        timezone,
+        avatarUrl,
+      };
+
+      await api.auth.updateProfile(payload);
       await refresh();
-      toast.success('Profile saved.');
+      toast.success('Account settings saved.');
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -52,6 +123,7 @@ export default function AccountPage() {
     }
   };
 
+  // Change Password
   const changePassword = async (event) => {
     event.preventDefault();
     if (passwords.next !== passwords.confirm) return toast.error('Those passwords do not match.');
@@ -59,10 +131,8 @@ export default function AccountPage() {
     try {
       await api.auth.changePassword(passwords.current, passwords.next);
       setPasswords({ current: '', next: '', confirm: '' });
-      // A Google account goes from "no password" to "has one" here, and the
-      // form itself changes shape, so re-read who we are.
       await refresh();
-      toast.success(user?.hasPassword === false ? 'Password set. You can sign in with Google or email now.' : 'Password changed.');
+      toast.success(user?.hasPassword === false ? 'Password set. You can now sign in with email.' : 'Password updated.');
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -100,181 +170,355 @@ export default function AccountPage() {
   const plan = PLANS.find((item) => item.id === (user?.plan || 'free')) || PLANS[0];
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen bg-black text-white">
       <AmbientBackdrop variant="quiet" />
-      <div className="relative">
-        <header className="shell flex h-16 items-center gap-3 sm:h-20">
-          <BackLink to="/dashboard" label={<><span className="sm:hidden">Back</span><span className="hidden sm:inline">Back to Dashboard</span></>} />
-          <Logo className="ml-auto" size="sm" />
-        </header>
 
-        <main className="shell max-w-[760px] pb-24">
-          <div className="flex flex-wrap items-center gap-4">
-            <span className="grid h-12 w-12 place-items-center rounded-full border border-line bg-white/[0.05] font-display text-[17px]">
-              {initials(user?.name || user?.email)}
-            </span>
-            <div className="min-w-0">
-              <h1 className="font-display text-[26px] leading-tight tracking-[-0.02em]">{user?.name || user?.email}</h1>
-              <p className="text-[14px] text-ink-300">
-                {user?.email} · {plan.name} plan ·{' '}
-                {user?.provider === 'google' ? (
-                  <span className="text-ink-200">
-                    <GoogleMark className="mr-1 inline-block align-[-2px]" />
-                    Google
-                  </span>
-                ) : (
-                  'password'
-                )}
-              </p>
-            </div>
-            <Button variant="ghost" size="sm" className="ml-auto" onClick={() => { signOut(); navigate('/'); }}>
-              <LogOut className="h-3.5 w-3.5" />
-              Sign out
-            </Button>
-          </div>
+      <div className="relative flex min-h-screen">
+        {/* Left Vertical Rail Nav */}
+        <aside className="hidden w-20 flex-col items-center border-r border-white/10 py-6 sm:flex">
+          <Logo size="sm" className="mb-8" />
+          <nav className="flex flex-col gap-3">
+            {TABS.map((item) => {
+              const Icon = item.icon;
+              const active = tab === item.value;
+              return (
+                <button
+                  key={item.value}
+                  onClick={() => setTab(item.value)}
+                  title={item.label}
+                  className={cx(
+                    'grid h-11 w-11 place-items-center rounded-xl transition-all',
+                    active
+                      ? 'bg-white text-black shadow-lg'
+                      : 'text-ink-300 hover:bg-white/10 hover:text-white'
+                  )}
+                >
+                  <Icon className="h-5 w-5" />
+                </button>
+              );
+            })}
+          </nav>
+          <button
+            onClick={() => { signOut(); navigate('/'); }}
+            title="Sign out"
+            className="mt-auto grid h-11 w-11 place-items-center rounded-xl text-red-400 transition-all hover:bg-red-500/10"
+          >
+            <LogOut className="h-5 w-5" />
+          </button>
+        </aside>
 
-          <Segmented className="mt-8" value={tab} onChange={setTab} options={TABS.map(({ value, label, icon }) => ({ value, label, icon }))} />
+        {/* Main Content Area */}
+        <main className="flex-1 px-4 py-8 sm:px-10 lg:px-16">
+          <div className="mx-auto max-w-4xl">
+            
+            {/* Header & Breadcrumb */}
+            <header className="mb-8">
+              <div className="flex items-center gap-2 text-xs text-ink-300">
+                <BackLink to="/dashboard" label="Dashboard" />
+                <ChevronRight className="h-3 w-3" />
+                <span className="text-white">Settings</span>
+              </div>
+              <div className="mt-3 flex items-center justify-between">
+                <div>
+                  <h1 className="font-display text-3xl font-medium tracking-tight">Account Settings</h1>
+                  <p className="mt-1 text-sm text-ink-300">
+                    Manage your preferences, security, and profile information in one place.
+                  </p>
+                </div>
+                <Button variant="ghost" size="sm" className="sm:hidden" onClick={() => { signOut(); navigate('/'); }}>
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </div>
+            </header>
 
-          <motion.div key={tab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="mt-6 flex flex-col gap-4">
-            {tab === 'profile' ? (
-              <>
-                <Panel title="Your details">
-                  <form onSubmit={save} className="flex flex-col gap-4">
-                    <Field label="Name" htmlFor="account-name">
-                      <Input id="account-name" value={name} onChange={(event) => setName(event.target.value)} placeholder="Your name" />
-                    </Field>
-                    <Field label="Email" htmlFor="account-email" hint="Your sign-in address. Changing it would orphan your launches, so it stays.">
-                      <Input id="account-email" value={user?.email || ''} readOnly className="cursor-not-allowed opacity-60" />
-                    </Field>
-                    <div className="flex justify-end">
-                      <Button type="submit" loading={busy === 'profile'} disabled={!name.trim() || name === user?.name}>
-                        Save changes
-                      </Button>
-                    </div>
-                  </form>
-                </Panel>
-                <Panel title={user?.hasPassword === false ? 'Choose a password' : 'Password'}>
-                  <form onSubmit={changePassword} className="flex flex-col gap-4">
-                    {user?.hasPassword === false ? (
-                      <p className="text-[14.5px] leading-relaxed text-ink-300">
-                        This account was created with Google, so it has no password yet. Pick one and you will be able to sign in either way.
-                      </p>
-                    ) : (
-                      <Field label="Current password" htmlFor="current">
-                        <Input id="current" type="password" autoComplete="current-password" value={passwords.current} onChange={(e) => setPasswords({ ...passwords, current: e.target.value })} />
-                      </Field>
-                    )}
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <Field label="New password" htmlFor="next" hint="At least 8 characters.">
-                        <Input id="next" type="password" autoComplete="new-password" value={passwords.next} onChange={(e) => setPasswords({ ...passwords, next: e.target.value })} />
-                      </Field>
-                      <Field label="Confirm" htmlFor="confirm">
-                        <Input id="confirm" type="password" autoComplete="new-password" value={passwords.confirm} onChange={(e) => setPasswords({ ...passwords, confirm: e.target.value })} />
-                      </Field>
-                    </div>
-                    <div className="flex justify-end">
-                      <Button type="submit" variant="secondary" loading={busy === 'password'} disabled={passwords.next.length < 8}>
-                        {user?.hasPassword === false ? 'Set password' : 'Change password'}
-                      </Button>
-                    </div>
-                  </form>
-                </Panel>
-              </>
-            ) : null}
+            {/* Content Tabs */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={tab}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="flex flex-col gap-8"
+              >
+                {tab === 'profile' && (
+                  <>
+                    <section className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:p-8">
+                      <div className="mb-6">
+                        <h2 className="font-display text-lg font-medium">Personal Information</h2>
+                        <p className="text-xs text-ink-300">Edit your personal information and public profile.</p>
+                      </div>
 
-            {tab === 'billing' ? (
-              <>
-                <Panel title="Plan">
-                  <div className="flex flex-col gap-3">
-                    {PLANS.map((item) => {
-                      const active = item.id === plan.id;
-                      return (
-                        <div
-                          key={item.id}
-                          className={cx('flex items-center gap-4 rounded-tile border px-4 py-3.5', active ? 'border-white/35 bg-white/[0.05]' : 'border-line')}
-                        >
-                          <span className="min-w-0 flex-1">
-                            <span className="block text-[15px] text-white">{item.name}</span>
-                            <span className="block text-[13.5px] text-ink-300">{item.detail}</span>
-                          </span>
-                          {active ? (
-                            <span className="rounded-pill border border-line px-2.5 py-1 text-[12px] uppercase tracking-[0.14em] text-ink-300">Current</span>
+                      {/* Avatar Upload Row */}
+                      <div className="mb-8 flex items-center gap-5">
+                        <div className="relative">
+                          {avatarUrl ? (
+                            <img
+                              src={avatarUrl}
+                              alt="Avatar"
+                              className="h-20 w-20 rounded-full border border-white/20 object-cover"
+                            />
                           ) : (
-                            <Button size="sm" variant="secondary" onClick={() => setPlan(item.id)} loading={busy === 'plan'}>
-                              {item.id === 'free' ? 'Downgrade' : 'Upgrade'}
+                            <span className="grid h-20 w-20 place-items-center rounded-full border border-white/15 bg-white/5 font-display text-xl">
+                              {initials(user?.name || user?.email)}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <input
+                            type="file"
+                            ref={fileInputRef}
+                            onChange={handleAvatarChange}
+                            accept="image/*"
+                            className="hidden"
+                          />
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            onClick={() => fileInputRef.current?.click()}
+                          >
+                            Upload An Image
+                          </Button>
+                          {avatarUrl && (
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              className="text-red-400 hover:bg-red-500/10"
+                              onClick={removeAvatar}
+                            >
+                              <Trash2 className="h-4 w-4" />
                             </Button>
                           )}
                         </div>
-                      );
-                    })}
-                  </div>
-                </Panel>
-                <Panel title="Payment method">
-                  <div className="flex items-center gap-3 rounded-tile border border-line px-4 py-3.5">
-                    <span className="grid h-8 w-11 place-items-center rounded border border-line bg-white/[0.05] text-[9px] font-semibold tracking-widest text-ink-200">VISA</span>
-                    <span className="text-[14.5px]">ending 4242</span>
-                    <span className="ml-auto text-[13px] text-ink-400">This build does not charge cards.</span>
-                  </div>
-                  <p className="mt-4 text-[13.5px] text-ink-400">Invoices appear here as they are issued. None yet.</p>
-                </Panel>
-              </>
-            ) : null}
+                      </div>
 
-            {tab === 'danger' ? (
-              <Panel
-                title="Danger zone"
-                danger
-                body="Deleting your account removes every project, every asset and every form response captured by your published sites. It cannot be undone."
-              >
-                <ul className="mb-5 flex flex-col gap-2 text-[14.5px] text-ink-200">
-                  <li className="flex gap-2">
-                    <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-ink-400" />
-                    <span>Live sites stop serving immediately; the addresses are released.</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-ink-400" />
-                    <span>Backups roll off within 14 days.</span>
-                  </li>
-                </ul>
-                <Button variant="danger" onClick={() => setShowDelete(true)}>
-                  <Trash2 className="h-4 w-4" />
-                  Delete account
-                </Button>
-              </Panel>
-            ) : null}
-          </motion.div>
+                      {/* 2-Column Inputs Grid */}
+                      <form onSubmit={saveProfile} className="flex flex-col gap-6">
+                        <div className="grid gap-6 sm:grid-cols-2">
+                          <Field label="First name *" htmlFor="firstName">
+                            <Input
+                              id="firstName"
+                              value={firstName}
+                              onChange={(e) => setFirstName(e.target.value)}
+                              placeholder="First Name"
+                            />
+                          </Field>
+                          <Field label="Last name *" htmlFor="lastName">
+                            <Input
+                              id="lastName"
+                              value={lastName}
+                              onChange={(e) => setLastName(e.target.value)}
+                              placeholder="Last Name"
+                            />
+                          </Field>
+                        </div>
+
+                        <div className="grid gap-6 sm:grid-cols-2">
+                          <Field label="Email *" htmlFor="email" hint="Linked sign-in email address.">
+                            <Input
+                              id="email"
+                              value={user?.email || ''}
+                              readOnly
+                              className="cursor-not-allowed opacity-50"
+                            />
+                          </Field>
+                          <Field label="Phone number *" htmlFor="phone">
+                            <Input
+                              id="phone"
+                              value={phone}
+                              onChange={(e) => setPhone(e.target.value)}
+                              placeholder="+1 (555) 000-0000"
+                            />
+                          </Field>
+                        </div>
+
+                        <div className="grid gap-6 sm:grid-cols-2">
+                          <Field label="Language *" htmlFor="language">
+                            <div className="relative">
+                              <Input
+                                id="language"
+                                value={language}
+                                onChange={(e) => setLanguage(e.target.value)}
+                                placeholder="English"
+                              />
+                              <Globe className="absolute right-3 top-3 h-4 w-4 text-ink-300 pointer-events-none" />
+                            </div>
+                          </Field>
+                          <Field label="Time zone *" htmlFor="timezone">
+                            <div className="relative">
+                              <Input
+                                id="timezone"
+                                value={timezone}
+                                onChange={(e) => setTimezone(e.target.value)}
+                                placeholder="UTC +00:00"
+                              />
+                              <Clock className="absolute right-3 top-3 h-4 w-4 text-ink-300 pointer-events-none" />
+                            </div>
+                          </Field>
+                        </div>
+
+                        <div className="flex justify-end pt-4">
+                          <Button type="submit" loading={busy === 'profile'}>
+                            Save Changes
+                          </Button>
+                        </div>
+                      </form>
+                    </section>
+
+                    {/* Password Section */}
+                    <section className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:p-8">
+                      <div className="mb-6 flex items-center justify-between">
+                        <div>
+                          <h2 className="font-display text-lg font-medium">
+                            {user?.hasPassword === false ? 'Set Password' : 'Password & Security'}
+                          </h2>
+                          <p className="text-xs text-ink-300">
+                            {user?.hasPassword === false 
+                              ? 'This account was created via Google. Set a password to log in either way.' 
+                              : 'Update your current login password.'}
+                          </p>
+                        </div>
+                        {user?.provider === 'google' && (
+                          <span className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-ink-300">
+                            <GoogleMark className="h-3.5 w-3.5" /> Google Auth
+                          </span>
+                        )}
+                      </div>
+
+                      <form onSubmit={changePassword} className="flex flex-col gap-6">
+                        {user?.hasPassword !== false && (
+                          <Field label="Current Password" htmlFor="current">
+                            <Input
+                              id="current"
+                              type="password"
+                              autoComplete="current-password"
+                              value={passwords.current}
+                              onChange={(e) => setPasswords({ ...passwords, current: e.target.value })}
+                            />
+                          </Field>
+                        )}
+                        <div className="grid gap-6 sm:grid-cols-2">
+                          <Field label="New Password" htmlFor="next" hint="Min. 8 characters">
+                            <Input
+                              id="next"
+                              type="password"
+                              autoComplete="new-password"
+                              value={passwords.next}
+                              onChange={(e) => setPasswords({ ...passwords, next: e.target.value })}
+                            />
+                          </Field>
+                          <Field label="Confirm Password" htmlFor="confirm">
+                            <Input
+                              id="confirm"
+                              type="password"
+                              autoComplete="new-password"
+                              value={passwords.confirm}
+                              onChange={(e) => setPasswords({ ...passwords, confirm: e.target.value })}
+                            />
+                          </Field>
+                        </div>
+                        <div className="flex justify-end pt-2">
+                          <Button
+                            type="submit"
+                            variant="secondary"
+                            loading={busy === 'password'}
+                            disabled={passwords.next.length < 8}
+                          >
+                            {user?.hasPassword === false ? 'Set Password' : 'Change Password'}
+                          </Button>
+                        </div>
+                      </form>
+                    </section>
+                  </>
+                )}
+
+                {tab === 'billing' && (
+                  <section className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:p-8">
+                    <h2 className="font-display text-lg font-medium">Subscription & Billing</h2>
+                    <p className="mb-6 text-xs text-ink-300">Manage your active subscription plan.</p>
+                    <div className="grid gap-4 sm:grid-cols-3">
+                      {PLANS.map((item) => {
+                        const active = item.id === plan.id;
+                        return (
+                          <div
+                            key={item.id}
+                            className={cx(
+                              'flex flex-col justify-between rounded-xl border p-5 transition-all',
+                              active ? 'border-white bg-white/10' : 'border-white/10 bg-white/[0.02]'
+                            )}
+                          >
+                            <div>
+                              <span className="block text-sm font-semibold">{item.name}</span>
+                              <span className="mt-1 block text-xs text-ink-300">{item.detail}</span>
+                            </div>
+                            <div className="mt-6">
+                              {active ? (
+                                <span className="inline-block rounded-full border border-white/20 px-3 py-1 text-xs text-ink-300">
+                                  Current Plan
+                                </span>
+                              ) : (
+                                <Button size="sm" variant="secondary" onClick={() => setPlan(item.id)} loading={busy === 'plan'}>
+                                  {item.id === 'free' ? 'Downgrade' : 'Upgrade'}
+                                </Button>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </section>
+                )}
+
+                {tab === 'danger' && (
+                  <section className="rounded-2xl border border-red-500/30 bg-red-500/[0.02] p-6 sm:p-8">
+                    <h2 className="font-display text-lg font-medium text-red-200">Danger Zone</h2>
+                    <p className="mt-1 text-xs text-ink-300">
+                      Deleting your account removes all projects, assets, and custom settings immediately.
+                    </p>
+                    <div className="mt-6">
+                      <Button variant="danger" onClick={() => setShowDelete(true)}>
+                        <Trash2 className="h-4 w-4" />
+                        Delete Account
+                      </Button>
+                    </div>
+                  </section>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </main>
       </div>
 
+      {/* Delete Confirmation Modal */}
       <Modal
         open={showDelete}
         onClose={() => setShowDelete(false)}
         title="Delete your account?"
-        subtitle="Type DELETE to confirm. Every launch, asset and captured response goes with it."
+        subtitle="Type DELETE to confirm. Every launch, asset, and response will be removed."
         width="max-w-md"
         footer={
           <>
             <Button variant="ghost" onClick={() => setShowDelete(false)}>
-              Keep my account
+              Keep Account
             </Button>
-            <Button variant="danger" onClick={destroy} loading={busy === 'delete'} disabled={confirmText.trim().toUpperCase() !== 'DELETE'}>
-              Delete forever
+            <Button
+              variant="danger"
+              onClick={destroy}
+              loading={busy === 'delete'}
+              disabled={confirmText.trim().toUpperCase() !== 'DELETE'}
+            >
+              Delete Forever
             </Button>
           </>
         }
       >
-        <Input value={confirmText} onChange={(event) => setConfirmText(event.target.value)} placeholder="DELETE" aria-label="Type DELETE to confirm" />
+        <Input
+          value={confirmText}
+          onChange={(e) => setConfirmText(e.target.value)}
+          placeholder="DELETE"
+          aria-label="Type DELETE to confirm"
+        />
       </Modal>
     </div>
-  );
-}
-
-function Panel({ title, body, children, danger }) {
-  return (
-    <section className={cx('panel p-6', danger && 'border-red-400/25')}>
-      <h2 className="font-display text-[19px] tracking-[-0.02em]">{title}</h2>
-      {body ? <p className="mt-1.5 max-w-[62ch] text-[14.5px] leading-relaxed text-ink-300">{body}</p> : null}
-      <div className="mt-5">{children}</div>
-    </section>
   );
 }

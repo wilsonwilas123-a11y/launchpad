@@ -6,6 +6,8 @@ const { ProjectsModule } = require('./modules/projects/projects.module');
 const { GeneratorModule } = require('./generator/generator.module');
 const { CatalogModule } = require('./modules/catalog/catalog.module');
 const { PublicModule } = require('./modules/public/public.module');
+const { InspirationModule } = require('./modules/catalog/inspiration/inspiration.module');
+
 const { wireModule, wireInjectable } = require('./common/js-decorators');
 
 /**
@@ -15,7 +17,7 @@ const { wireModule, wireInjectable } = require('./common/js-decorators');
  */
 class AppModule {}
 wireModule(AppModule, {
-  imports: [DatabaseModule, AuthModule, GeneratorModule, ProjectsModule, CatalogModule, PublicModule],
+  imports: [DatabaseModule, AuthModule, GeneratorModule, ProjectsModule, CatalogModule, PublicModule, InspirationModule],
   providers: [{ provide: APP_GUARD, useClass: AuthGuard }],
 });
 

@@ -1,0 +1,126 @@
+THE EXAMPLES ROW (Behance + your own published sites) — 18 files
+================================================================
+
+This is the delta only: the files that changed while adding the examples row to
+the dashboard and fixing the dead "See an example first" link. Everything else in
+your copy stays as it is. If you have already applied the previous round (the
+deploy notes, DATABASE_URL, LAUNCHPAD_SERVE_WEB, the preview proxy), these 18
+files are all you need. If you never applied that round, use launchpad-fixes.zip
+instead — it has these plus those, and no merging is needed either way.
+
+
+WHERE THEY GO
+-------------
+Copy these over launchpad/, keeping the same folders. Paths are relative to
+launchpad/, exactly as in the repo. 18 files, 19 entries with this note.
+
+  NEW - backend (5)
+    apps/api/src/modules/inspiration/behance.js                 client, mapping, key redaction
+    apps/api/src/modules/inspiration/inspiration.service.js     the two sources, the cache, failure shapes
+    apps/api/src/modules/inspiration/inspiration.controller.js  GET /api/inspiration, public
+    apps/api/src/modules/inspiration/inspiration.module.js
+    apps/api/tests/behance.test.js                              11 tests, no network needed
+
+  EDITED - backend (4)
+    apps/api/src/common/tokens.js                               + INSPIRATION_SERVICE
+    apps/api/src/app.module.js                                  + InspirationModule
+    apps/api/src/config.js                                      + behance and inspiration blocks
+    apps/api/src/modules/catalog/catalog.controller.js          /api/health now reports the row's state
+
+  NEW - frontend (2)
+    apps/web/src/components/inspiration/InspirationStrip.jsx    the row itself, no new CSS needed
+    apps/web/tests/inspiration.test.js                          6 contract tests
+
+  EDITED - frontend (3)
+    apps/web/src/lib/api.js                                     + api.inspiration()
+    apps/web/src/pages/DashboardPage.jsx                        renders the row under the launches; the dead
+                                                                  "See an example first" now jumps to
+                                                                  #inspiration instead of /
+    scripts/web-smoke/harness.cjs                               6 assertions, checked while it renders
+
+  DOCS / CONFIG (4)
+    .env.example                                                9 new variables, documented
+    README.md                                                   two rows in the environment table
+    RUNNING-AND-DEPLOYING.md                                    new section 11 + the env block in section 2
+    render.yaml                                                 + BEHANCE_API_KEY (sync: false)
+
+config.js, tokens.js, app.module.js, README.md, .env.example and
+RUNNING-AND-DEPLOYING.md were edited in place, so these copies also still carry
+the previous round's changes (DATABASE_URL, LAUNCHPAD_SERVE_WEB, the deploy
+notes). If your copy never got that round, take launchpad-fixes.zip instead: it
+has these 18 plus those, and nothing needs merging by hand.
+
+
+AFTER COPYING
+-------------
+  npm install            # only if you ever delete node_modules
+  npm run test:api       # expect 63 passing
+  npm run test:web       # expect 47 passing
+  npm run build
+  npm run check          # everything, and it starts/stops its own API
+
+Then look at the dashboard, below your cards: there is a row labelled Examples.
+On a fresh install with nothing published yet it says so and names the one
+command that fills it — `npm run seed` — and then it shows your published sites.
+
+
+THE ENV VARIABLES (all optional)
+-------------------------------
+  BEHANCE_API_KEY=        *** you have one from before Adobe closed registration.
+                          With none, the row still works: it shows the sites this
+                          API published, and states that Behance is not set up.
+  LAUNCHPAD_BEHANCE_USERS=studionorth,ada-p
+                          whose work to show. Recommended over the site-wide feed,
+                          which is everything anyone ever posted. Max four names.
+  LAUNCHPAD_BEHANCE_FIELD=web-design
+  LAUNCHPAD_BEHANCE_SORT=appreciations      appreciations · views · recent
+  LAUNCHPAD_BEHANCE_PER_PAGE=8              12 at most
+  LAUNCHPAD_BEHANCE_TIMEOUT_MS=6000         it never blocks the dashboard longer
+  LAUNCHPAD_BEHANCE_TTL_MS=900000           15 minutes of cache, including failures
+  LAUNCHPAD_INSPIRATION=off                 stop calling out even if a key exists
+  LAUNCHPAD_EXAMPLE_COUNT=4                 how many of your own to show
+
+Check it from a shell:
+
+  curl -s localhost:4000/api/inspiration | head -c 300
+  curl -s localhost:4000/api/health | grep -o '"inspiration":{[^}]*}'
+  curl -s "localhost:4000/api/inspiration?refresh=1" | head -c 200
+
+  {"items":[…],"sources":{"launchpad":{"count":2,"ok":true},
+   "behance":{"configured":false,"ok":false,"count":0,"stale":false,"cachedAt":null,
+   "reason":"not configured: set BEHANCE_API_KEY (Adobe is not issuing new ones, see behance.js)"}}}
+
+  That is what no-key looks like, and it is deliberately not an error.
+
+
+WHAT IT WILL NOT DO
+-------------------
+  * It never puts the key in the browser, a log line or an error message. The key
+    goes in a query string, so every message that could carry a URL passes through
+    redactKeys() — there is a test named for exactly that.
+  * A dead, slow, rate-limited or refusing Behance cannot empty or hang the
+    dashboard: the last good cards stay, marked stale, and the failure is cached
+    for the same 15 minutes so a dead host costs one request, not one per reload.
+    (Not-configured is NOT marked stale, because a "Try again" button would be a
+    lie — there is nothing to retry.)
+  * Nothing from Behance is downloaded, re-hosted, or copied into a project. Each
+    card is a link out with the designer named and their profile linked, and the
+    strip says plainly that the work is theirs. Their CDN may still refuse a
+    hot-linked cover — then the card shows a colour block, not a broken image.
+  * api.behance.net sends no CORS headers, so the frontend never calls it
+    directly; it only ever calls /api/inspiration. There is nothing to configure
+    on Vercel for this.
+
+
+WHY IT IS SHAPED THIS WAY (measured, 5 Sept 2026)
+-------------------------------------------------
+  GET api.behance.net/v2/projects, no key      -> 403 "A client or user is required"
+  GET /v2/search/projects?q=…                  -> 404 (search removed from the API)
+  response headers                             -> no access-control-allow-origin
+  feeds.behance.net, Adobe's oEmbed host       -> no DNS at all
+  www.behance.net/gallery/… from a server      -> 403, 453 bytes (nothing to scrape)
+  new API keys                                 -> not issued any more; behance.net/dev
+                                                  is closed and the Adobe Developer
+                                                  Console has no Behance API
+So the useful half of this feature is the local half, and the outside half is a
+bonus for whoever already holds a key.

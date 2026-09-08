@@ -11,7 +11,7 @@
  *
  *   npm run check -- --keep       leave that API running afterwards to browse
  *   npm run check -- --no-serve   never start anything, just run the suites
- *   npm run check -- --only=e2e   run one step (test | seed | e2e | smoke)
+ *   npm run check -- --only=e2e   run one step (test | gemini | seed | e2e | smoke)
  *
  * An API you started yourself with `npm run dev` is reused as-is, and if this
  * script had to start one it shuts it down again on the way out — unless you
@@ -202,6 +202,15 @@ try {
       results.push(['seed', code]);
       if (code !== 0) failed ??= 'seed';
     }
+  }
+
+  // Its own ports, its own throwaway store, and a local stand-in for Google: this
+  // needs neither the API above nor a key, and it is the only step that proves a
+  // hosted provider is wired correctly without calling it.
+  if (wants('gemini')) {
+    const code = run('gemini provider (against a local stub)', ['run', 'check:gemini']);
+    results.push(['gemini stub check', code]);
+    if (code !== 0) failed ??= 'gemini stub check';
   }
 
   if (status && wants('e2e')) {

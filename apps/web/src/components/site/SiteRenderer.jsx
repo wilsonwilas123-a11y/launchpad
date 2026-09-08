@@ -117,38 +117,48 @@ function SiteNav({ spec, mobile, open, onToggle }) {
         borderBottom: '1px solid var(--s-line)',
       }}
     >
-      <div className="mx-auto flex items-center gap-4 px-5 py-3.5 sm:px-8" style={{ maxWidth: 'var(--s-max)' }}>
+      <div
+        className={cx('mx-auto flex items-center gap-4', mobile ? 'px-4 py-3' : 'px-5 py-3.5 sm:px-8')}
+        style={{ maxWidth: 'var(--s-max)' }}
+      >
         <a href="#hero" className="mr-auto flex items-baseline gap-2 truncate text-[17px]" style={{ fontFamily: 'var(--s-heading)', fontWeight: 600 }}>
           {spec.name}
         </a>
-        <nav className={cx('hidden items-center gap-7 lg:flex', mobile && 'hidden')}>
-          {nav.links.slice(0, 6).map((link, index) => (
-            <a
-              key={index}
-              href={link.action || '#'}
-              className="text-[13.5px] opacity-75 transition hover:opacity-100"
-              style={{ fontFamily: 'var(--s-label)' }}
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-        {nav.cta?.label ? (
-          <div className="hidden sm:block">
-            <ActionButton action={nav.cta.action}>
-              <span style={{ padding: '8px 16px', fontSize: 13.5, display: 'inline-flex', borderRadius: 'calc(var(--s-radius)*0.6)' }}>{nav.cta.label}</span>
-            </ActionButton>
-          </div>
+        {/* Composition is decided by the `mobile` prop, never by lg:/sm: —
+            those respond to the real browser viewport, but this renderer can be
+            scaled into a container far narrower (or wider) than that viewport
+            (the Hero preview, a dashboard tile). A prop-driven branch keeps the
+            mock and the real published site consistent with whatever device
+            they were actually asked to render. */}
+        {!mobile ? (
+          <nav className="flex items-center gap-7">
+            {nav.links.slice(0, 6).map((link, index) => (
+              <a
+                key={index}
+                href={link.action || '#'}
+                className="text-[13.5px] opacity-75 transition hover:opacity-100"
+                style={{ fontFamily: 'var(--s-label)' }}
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
         ) : null}
-        <button type="button" onClick={onToggle} aria-label="Menu" className="lg:hidden">
-          {open ? <X className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
-        </button>
+        {!mobile && nav.cta?.label ? (
+          <ActionButton action={nav.cta.action}>
+            <span style={{ padding: '8px 16px', fontSize: 13.5, display: 'inline-flex', borderRadius: 'calc(var(--s-radius)*0.6)' }}>{nav.cta.label}</span>
+          </ActionButton>
+        ) : null}
+        {mobile ? (
+          <button type="button" onClick={onToggle} aria-label="Menu">
+            {open ? <X className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
+          </button>
+        ) : null}
       </div>
-      {open ? (
+      {mobile && open ? (
         <motion.nav
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="lg:hidden"
           style={{ borderTop: '1px solid var(--s-line)' }}
         >
           <ul className="mx-auto flex flex-col px-5 py-2" style={{ maxWidth: 'var(--s-max)' }}>

@@ -12,6 +12,10 @@ export default defineConfig({
     // The sandbox reaches this dev server through a proxied host name, so the
     // host allow-list stays open in development.
     allowedHosts: true,
+    // ALLOW VITE TO GRAB ASSETS FROM YOUR MONOREPO ROOT
+    fs: {
+      allow: ['..']
+    },
     proxy: {
       '/api': { target: API, changeOrigin: true },
       '/uploads': { target: API, changeOrigin: true },

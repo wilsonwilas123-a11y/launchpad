@@ -1,0 +1,73 @@
+# Render Blueprint — the API, its database, and the disk that keeps uploads.
+#
+# Render reads this file automatically when you create a Blueprint from the repo
+# (New → Blueprint). Everything in it can also be set by hand in the dashboard;
+# the values are the ones this app actually reads. See RUNNING-AND-DEPLOYING.md
+# for the environment variables you still have to fill in yourself.
+#
+# The frontend is deliberately not here: it lives on Vercel, whose vercel.json
+# proxies /api and /uploads to this service. To host both on Render instead, set
+# LAUNCHPAD_SERVE_WEB=1 on this service and add `npm run build -w @launchpad/web`
+# to the build command — the API then serves apps/web/dist itself.
+
+services:
+  - type: web
+    name: launchpad-api
+    runtime: node
+    plan: starter
+    region: oregon
+    branch: main
+    rootDir: .
+    buildCommand: npm ci
+    startCommand: npm start -w @launchpad/api
+    healthCheckPath: /api/health
+    autoDeploy: true
+    # Uploaded images and (if you ever switch LAUNCHPAD_STORE to file) the JSON
+    # store live here. Without a disk, every deploy wipes them.
+    disk:
+      name: launchpad-storage
+      mountPath: /opt/render/project/src/apps/api/storage
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: LAUNCHPAD_STORE
+        value: postgres
+      - key: DATABASE_URL
+        fromDatabase:
+          name: launchpad-db
+          property: connectionString
+      - key: LAUNCHPAD_AUTH_SECRET
+        generateValue: true
+      # Your Vercel origin. The OAuth redirect returns to this host.
+      - key: LAUNCHPAD_WEB_ORIGIN
+        sync: false
+      # Bare host, no scheme: it is what published links are shown as.
+      - key: LAUNCHPAD_PUBLIC_HOST
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URI
+        sync: false
+      # A model server on your laptop cannot be reached from Render, so the
+      # built-in spec compiler writes the pages. Point LAUNCHPAD_LLM_BASE_URL at
+      # a reachable OpenAI-compatible server (and drop this to `auto`) if you
+      # have one.
+      - key: LAUNCHPAD_AI_PROVIDER
+        value: local
+      # Optional: the examples row under the dashboard. With no key the row
+      # still shows this service's own published sites, so it is safe to leave
+      # blank (Adobe is not issuing new keys). Never put this in the frontend —
+      # api.behance.net sends no CORS headers, so the API has to make the call.
+      - key: BEHANCE_API_KEY
+        sync: false
+
+databases:
+  - name: launchpad-db
+    plan: starter
+    region: oregon
+    postgresMajorVersion: '16'
+    # Empty list = only services in this Blueprint may connect.
+    ipAllowList: []

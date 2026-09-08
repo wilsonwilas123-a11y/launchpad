@@ -119,6 +119,12 @@ export const api = {
     removeAsset: (id, assetId) => del(`/projects/${id}/assets/${assetId}`),
   },
 
+  /**
+   * The examples row on the dashboard: this API's published sites, plus Behance
+   * when a key is configured. Public because everything in it already is, and
+   * because it has to render for a brand-new account with nothing of its own.
+   */
+  inspiration: (options = {}) => get(`/inspiration${options.refresh ? '?refresh=1' : ''}`, { auth: false, signal: options.signal }),
   publicGallery: () => get('/public', { auth: false }),
   publicSite: (slug) => get(`/public/${encodeURIComponent(slug)}`, { auth: false }),
   publicStatus: (slug) => get(`/public/${encodeURIComponent(slug)}/status`, { auth: false }),

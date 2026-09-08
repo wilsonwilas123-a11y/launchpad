@@ -85,8 +85,12 @@
 }
 
 @layer components {
+  /* xl/2xl steps added on top of the 1240px base: on wide monitors the base
+     width alone leaves the hero's bigger preview column and its text column
+     fighting for space, so the ceiling climbs further at those breakpoints
+     instead of staying fixed past 1280px. */
   .shell {
-    @apply mx-auto w-full max-w-[1240px] px-5 sm:px-7 lg:px-10;
+    @apply mx-auto w-full max-w-[1240px] px-5 sm:px-7 lg:px-10 xl:max-w-[1360px] 2xl:max-w-[1680px];
   }
   .hairline {
     border: 1px solid var(--hairline);

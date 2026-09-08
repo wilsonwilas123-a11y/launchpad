@@ -26,19 +26,25 @@ export default function HeroSection({ spec, slug = 'nova', live = false }) {
   };
 
   return (
-    <section className="relative overflow-hidden pb-16 pt-28 sm:pb-24 sm:pt-32 lg:pb-28 lg:pt-36">
+    <section className="relative overflow-hidden pb-10 pt-20 sm:pb-14 sm:pt-24 lg:pb-16 lg:pt-24">
       <div className="shell">
         {/* minmax(0,…) on both tracks: a plain 1fr track refuses to shrink below
             the width of what it holds, which is how the preview used to shove the
-            whole hero off the right edge of the screen. */}
-        <div className="grid grid-cols-1 items-center gap-10 min-w-0 sm:gap-12 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-14 xl:gap-20">
-          <div className="min-w-0 max-w-[600px]">
+            whole hero off the right edge of the screen. The ratio itself skews
+            further toward the preview at each breakpoint — on a big desktop the
+            proof matters more than the column of copy next to it. */}
+        {/* Tight gap on purpose — the ask was less dead air between the two
+            columns. The preview's fixed width climbs close to its native 1180px
+            resolution at 2xl, which is its real ceiling: past that the internal
+            scale caps at 1 and extra track width just becomes blank card margin. */}
+        <div className="grid grid-cols-1 items-start gap-10 min-w-0 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_620px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_820px] xl:gap-10 2xl:grid-cols-[minmax(0,1fr)_1080px] 2xl:gap-12">
+          <div className="min-w-0 max-w-[540px] lg:mt-10 xl:mt-16 2xl:mt-20">
             <Reveal>
               <motion.p
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="mb-6 inline-flex min-h-[34px] items-center gap-2 rounded-pill border border-line bg-white/[0.03] px-3.5 py-2 text-[14px] text-ink-200"
+                className="mb-5 inline-flex min-h-[34px] items-center gap-2 rounded-pill border border-line bg-white/[0.03] px-3.5 py-2 text-[14px] text-ink-200"
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse-soft" />
                 The AI website studio for launches
