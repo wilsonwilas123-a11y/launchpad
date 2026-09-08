@@ -5339,6 +5339,1940 @@
       ],
       "createdAt": "2026-09-06T13:56:09.300Z",
       "updatedAt": "2026-09-06T13:56:09.300Z"
+    },
+    {
+      "id": "f56dfa24-9d03-4e0b-ad15-53d0c486b3ca",
+      "userId": "81fb9e25-1765-43cc-b2a4-6f21bd0394f7",
+      "name": "Wilson Yam",
+      "type": "business",
+      "description": "i want  a website that will shoxase what i sell like my yam uisness",
+      "visualDirection": "modern layout",
+      "targetAudience": null,
+      "goal": null,
+      "selectedPlatforms": [
+        "mobile",
+        "desktop"
+      ],
+      "selectedDesign": null,
+      "designDetails": {
+        "businessName": "Wilson Yam",
+        "tagline": "",
+        "desiredSections": [
+          "hero",
+          "about",
+          "features",
+          "team",
+          "testimonials",
+          "pricing",
+          "contact",
+          "footer",
+          "productShowcase"
+        ],
+        "excludedSections": [],
+        "extraNotes": "",
+        "audience": "for me"
+      },
+      "assets": [
+        {
+          "id": "aae0742d-73b9-4d1c-a307-157d5320ba14",
+          "filename": "Screenshot 2026-06-22 193303.png",
+          "mime": "image/png",
+          "size": 3731,
+          "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\aae0742d-73b9-4d1c-a307-157d5320ba14.png",
+          "url": "/uploads/aae0742d-73b9-4d1c-a307-157d5320ba14.png",
+          "name": "Screenshot 2026 06 22 193303",
+          "description": "",
+          "caption": "",
+          "assetCategory": "screens",
+          "selectedSection": null,
+          "originalSlot": null,
+          "addedAt": "2026-09-08T17:28:39.187Z",
+          "categoryLabel": "Product screenshot",
+          "categorisedBy": "slot",
+          "categorisedFrom": null,
+          "recommendedSections": [
+            "gallery"
+          ],
+          "suggestedSection": "gallery"
+        },
+        {
+          "id": "08db2085-6317-4c2e-8a39-4c38c8a24724",
+          "filename": "Screenshot 2026-06-21 205217.png",
+          "mime": "image/png",
+          "size": 142401,
+          "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\08db2085-6317-4c2e-8a39-4c38c8a24724.png",
+          "url": "/uploads/08db2085-6317-4c2e-8a39-4c38c8a24724.png",
+          "name": "Screenshot 2026 06 21 205217",
+          "description": "THIS IS THE HERO PHOTO\n",
+          "caption": "",
+          "assetCategory": "screens",
+          "selectedSection": null,
+          "originalSlot": null,
+          "addedAt": "2026-09-08T17:29:40.536Z",
+          "categoryLabel": "Product screenshot",
+          "categorisedBy": "slot",
+          "categorisedFrom": null,
+          "recommendedSections": [
+            "gallery"
+          ],
+          "suggestedSection": "gallery"
+        },
+        {
+          "id": "d0a14a0a-fff3-4de4-ae78-ad9573e37fba",
+          "filename": "Screenshot 2026-08-04 023148.png",
+          "mime": "image/png",
+          "size": 35262,
+          "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\d0a14a0a-fff3-4de4-ae78-ad9573e37fba.png",
+          "url": "/uploads/d0a14a0a-fff3-4de4-ae78-ad9573e37fba.png",
+          "name": "Screenshot 2026 08 04 023148",
+          "description": "",
+          "caption": "",
+          "assetCategory": "screens",
+          "selectedSection": null,
+          "originalSlot": null,
+          "addedAt": "2026-09-08T17:29:57.097Z",
+          "categoryLabel": "Product screenshot",
+          "categorisedBy": "slot",
+          "categorisedFrom": null,
+          "recommendedSections": [
+            "gallery"
+          ],
+          "suggestedSection": "gallery"
+        },
+        {
+          "id": "ff739ca7-d0fa-463c-9ef4-8e1e0b6de7ca",
+          "filename": "Screenshot 2026-08-04 024051.png",
+          "mime": "image/png",
+          "size": 10365,
+          "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\ff739ca7-d0fa-463c-9ef4-8e1e0b6de7ca.png",
+          "url": "/uploads/ff739ca7-d0fa-463c-9ef4-8e1e0b6de7ca.png",
+          "name": "Screenshot 2026 08 04 024051",
+          "description": "",
+          "caption": "",
+          "assetCategory": "screens",
+          "selectedSection": null,
+          "originalSlot": null,
+          "addedAt": "2026-09-08T17:29:57.099Z",
+          "categoryLabel": "Product screenshot",
+          "categorisedBy": "slot",
+          "categorisedFrom": null,
+          "recommendedSections": [
+            "gallery"
+          ],
+          "suggestedSection": "gallery"
+        },
+        {
+          "id": "b114bb64-7693-4eda-921e-11531373aa56",
+          "filename": "Screenshot 2026-08-04 032430.png",
+          "mime": "image/png",
+          "size": 136661,
+          "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\b114bb64-7693-4eda-921e-11531373aa56.png",
+          "url": "/uploads/b114bb64-7693-4eda-921e-11531373aa56.png",
+          "name": "Screenshot 2026 08 04 032430",
+          "description": "",
+          "caption": "",
+          "assetCategory": "screens",
+          "selectedSection": null,
+          "originalSlot": null,
+          "addedAt": "2026-09-08T17:29:57.101Z",
+          "categoryLabel": "Product screenshot",
+          "categorisedBy": "slot",
+          "categorisedFrom": null,
+          "recommendedSections": [
+            "gallery"
+          ],
+          "suggestedSection": "gallery"
+        },
+        {
+          "id": "ffe4b5d9-ea74-4a77-8eba-b93e07dfc5f5",
+          "filename": "Screenshot 2026-08-04 033550.png",
+          "mime": "image/png",
+          "size": 1093,
+          "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\ffe4b5d9-ea74-4a77-8eba-b93e07dfc5f5.png",
+          "url": "/uploads/ffe4b5d9-ea74-4a77-8eba-b93e07dfc5f5.png",
+          "name": "Screenshot 2026 08 04 033550",
+          "description": "",
+          "caption": "",
+          "assetCategory": "screens",
+          "selectedSection": null,
+          "originalSlot": null,
+          "addedAt": "2026-09-08T17:29:57.103Z",
+          "categoryLabel": "Product screenshot",
+          "categorisedBy": "slot",
+          "categorisedFrom": null,
+          "recommendedSections": [
+            "gallery"
+          ],
+          "suggestedSection": "gallery"
+        },
+        {
+          "id": "29519c5b-5713-43e6-bf89-8a1733e00185",
+          "filename": "Screenshot 2026-08-04 033614.png",
+          "mime": "image/png",
+          "size": 5202,
+          "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\29519c5b-5713-43e6-bf89-8a1733e00185.png",
+          "url": "/uploads/29519c5b-5713-43e6-bf89-8a1733e00185.png",
+          "name": "Screenshot 2026 08 04 033614",
+          "description": "",
+          "caption": "",
+          "assetCategory": "screens",
+          "selectedSection": null,
+          "originalSlot": null,
+          "addedAt": "2026-09-08T17:29:57.104Z",
+          "categoryLabel": "Product screenshot",
+          "categorisedBy": "slot",
+          "categorisedFrom": null,
+          "recommendedSections": [
+            "gallery"
+          ],
+          "suggestedSection": "gallery"
+        },
+        {
+          "id": "72f594df-45ad-4bd0-a0b4-553eadd58d3e",
+          "filename": "Screenshot 2026-08-04 205415.png",
+          "mime": "image/png",
+          "size": 1082140,
+          "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\72f594df-45ad-4bd0-a0b4-553eadd58d3e.png",
+          "url": "/uploads/72f594df-45ad-4bd0-a0b4-553eadd58d3e.png",
+          "name": "Screenshot 2026 08 04 205415",
+          "description": "",
+          "caption": "",
+          "assetCategory": "screens",
+          "selectedSection": null,
+          "originalSlot": null,
+          "addedAt": "2026-09-08T17:29:57.107Z",
+          "categoryLabel": "Product screenshot",
+          "categorisedBy": "slot",
+          "categorisedFrom": null,
+          "recommendedSections": [
+            "gallery"
+          ],
+          "suggestedSection": "gallery"
+        },
+        {
+          "id": "c38bbe27-8ebc-45e6-9a18-b6cd0ef7e066",
+          "filename": "Screenshot 2026-08-04 205903.png",
+          "mime": "image/png",
+          "size": 1041463,
+          "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\c38bbe27-8ebc-45e6-9a18-b6cd0ef7e066.png",
+          "url": "/uploads/c38bbe27-8ebc-45e6-9a18-b6cd0ef7e066.png",
+          "name": "Screenshot 2026 08 04 205903",
+          "description": "",
+          "caption": "",
+          "assetCategory": "screens",
+          "selectedSection": null,
+          "originalSlot": null,
+          "addedAt": "2026-09-08T17:29:57.112Z",
+          "categoryLabel": "Product screenshot",
+          "categorisedBy": "slot",
+          "categorisedFrom": null,
+          "recommendedSections": [
+            "gallery"
+          ],
+          "suggestedSection": "gallery"
+        },
+        {
+          "id": "03dbdcd9-f082-4c5e-ad58-4a0e0a43846b",
+          "filename": "Screenshot 2026-08-04 210306.png",
+          "mime": "image/png",
+          "size": 233454,
+          "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\03dbdcd9-f082-4c5e-ad58-4a0e0a43846b.png",
+          "url": "/uploads/03dbdcd9-f082-4c5e-ad58-4a0e0a43846b.png",
+          "name": "Screenshot 2026 08 04 210306",
+          "description": "",
+          "caption": "",
+          "assetCategory": "screens",
+          "selectedSection": null,
+          "originalSlot": null,
+          "addedAt": "2026-09-08T17:29:57.115Z",
+          "categoryLabel": "Product screenshot",
+          "categorisedBy": "slot",
+          "categorisedFrom": null,
+          "recommendedSections": [
+            "gallery"
+          ],
+          "suggestedSection": "gallery"
+        },
+        {
+          "id": "0a9a057a-a122-4593-b426-dc5aa2dbae59",
+          "filename": "Screenshot 2026-08-04 210317.png",
+          "mime": "image/png",
+          "size": 5197,
+          "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\0a9a057a-a122-4593-b426-dc5aa2dbae59.png",
+          "url": "/uploads/0a9a057a-a122-4593-b426-dc5aa2dbae59.png",
+          "name": "Screenshot 2026 08 04 210317",
+          "description": "",
+          "caption": "",
+          "assetCategory": "screens",
+          "selectedSection": null,
+          "originalSlot": null,
+          "addedAt": "2026-09-08T17:29:57.117Z",
+          "categoryLabel": "Product screenshot",
+          "categorisedBy": "slot",
+          "categorisedFrom": null,
+          "recommendedSections": [
+            "gallery"
+          ],
+          "suggestedSection": "gallery"
+        },
+        {
+          "id": "692688e9-4eeb-4a13-85cf-64eaa9d8ef83",
+          "filename": "Screenshot 2026-08-04 210339.png",
+          "mime": "image/png",
+          "size": 1207256,
+          "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\692688e9-4eeb-4a13-85cf-64eaa9d8ef83.png",
+          "url": "/uploads/692688e9-4eeb-4a13-85cf-64eaa9d8ef83.png",
+          "name": "Screenshot 2026 08 04 210339",
+          "description": "",
+          "caption": "",
+          "assetCategory": "screens",
+          "selectedSection": null,
+          "originalSlot": null,
+          "addedAt": "2026-09-08T17:29:57.120Z",
+          "categoryLabel": "Product screenshot",
+          "categorisedBy": "slot",
+          "categorisedFrom": null,
+          "recommendedSections": [
+            "gallery"
+          ],
+          "suggestedSection": "gallery"
+        }
+      ],
+      "spec": {
+        "version": 1,
+        "websiteType": "business",
+        "typeLabel": "Business",
+        "name": "Wilson Yam",
+        "tagline": "Wilson Yam — service for locals who want it done once, properly",
+        "headline": "Book Wilson Yam, forget the worry",
+        "subheadline": "Transparent pricing, real people, and a phone that gets answered.",
+        "theme": {
+          "mode": "dark",
+          "colors": {
+            "background": "#12100e",
+            "surface": "#1b1714",
+            "surfaceAlt": "#241e19",
+            "text": "#f7f2ea",
+            "textMuted": "#a89b8a",
+            "accent": "#7d6f68",
+            "accentText": "#12100e",
+            "border": "rgba(255,255,255,0.08)",
+            "overlay": "rgba(3,3,5,0.72)"
+          },
+          "typography": {
+            "headingFont": "display",
+            "bodyFont": "sans",
+            "labelFont": "sans",
+            "scale": 1.14,
+            "headingWeight": 600,
+            "headingTracking": "-0.03em",
+            "bodySize": 17
+          },
+          "radius": 22,
+          "spacing": "airy",
+          "visualStyle": "modern",
+          "effects": [],
+          "imagery": {
+            "treatment": "contrast",
+            "radius": 12,
+            "fit": "cover",
+            "overlay": 0.6000000000000001
+          },
+          "designId": "ai-chosen",
+          "designName": "AI-chosen direction"
+        },
+        "platform": {
+          "targets": [
+            "mobile",
+            "desktop"
+          ],
+          "mode": "both",
+          "label": "Mobile + Laptop",
+          "behavior": "Fluid responsive: mobile → tablet → laptop → desktop, with layout, type, imagery and navigation re-composed at each step.",
+          "typeScale": 1,
+          "density": "balanced",
+          "navStyle": "adaptive",
+          "maxWidth": 1240,
+          "gridColumns": 3,
+          "sectionPadding": 104,
+          "radiusBias": 2,
+          "breakpoints": [
+            430,
+            768,
+            1024,
+            1280
+          ],
+          "notes": "Generated with distinct mobile and desktop compositions rather than a scaled-down desktop layout."
+        },
+        "sections": [
+          {
+            "id": "hero-00",
+            "type": "hero",
+            "label": "About",
+            "order": 0,
+            "content": {
+              "eyebrow": "Licensed, insured, on time",
+              "headline": "Book Wilson Yam, forget the worry",
+              "subheadline": "Transparent pricing, real people, and a phone that gets answered.",
+              "primary": {
+                "label": "Book a call",
+                "action": "#contact"
+              },
+              "secondary": {
+                "label": "What we do",
+                "action": "#features"
+              },
+              "layout": "split",
+              "imageAssetId": "Aae0742d-73b9-4d1c-a307-157d5320ba14",
+              "overlay": 0,
+              "badges": [
+                "Independent",
+                "Made with care",
+                "Since 2026"
+              ],
+              "portraitAssetId": null,
+              "meta": null,
+              "minHeight": "88vh"
+            },
+            "settings": {
+              "padding": "xl",
+              "align": "left",
+              "bleed": false
+            },
+            "assets": [],
+            "hidden": false
+          },
+          {
+            "id": "about-01",
+            "type": "about",
+            "label": "About",
+            "order": 1,
+            "content": {
+              "heading": "Why Wilson Yam exists",
+              "body": "We are Wilson Yam. We make service for locals who want it done once, properly who would rather have one good option than twelve mediocre ones. Everything here is written by the people who build it, which is why it reads like a person and not a brochure.",
+              "bullets": [
+                "Started in Accra, still Accra",
+                "Made for locals who want it done once, properly",
+                "The job gets done once — that is the whole brief"
+              ],
+              "imageAssetId": "Aae0742d-73b9-4d1c-a307-157d5320ba14",
+              "stats": [
+                {
+                  "value": "7",
+                  "label": "Founding year"
+                },
+                {
+                  "value": "540",
+                  "label": "Jobs a month"
+                },
+                {
+                  "value": "4",
+                  "label": "Day reply, maximum"
+                }
+              ]
+            },
+            "settings": {
+              "padding": "lg",
+              "columns": 2,
+              "rule": false
+            },
+            "assets": [
+              "ff739ca7-d0fa-463c-9ef4-8e1e0b6de7ca",
+              "b114bb64-7693-4eda-921e-11531373aa56",
+              "ffe4b5d9-ea74-4a77-8eba-b93e07dfc5f5",
+              "29519c5b-5713-43e6-bf89-8a1733e00185",
+              "72f594df-45ad-4bd0-a0b4-553eadd58d3e",
+              "c38bbe27-8ebc-45e6-9a18-b6cd0ef7e066",
+              "03dbdcd9-f082-4c5e-ad58-4a0e0a43846b",
+              "0a9a057a-a122-4593-b426-dc5aa2dbae59",
+              "692688e9-4eeb-4a13-85cf-64eaa9d8ef83",
+              "aae0742d-73b9-4d1c-a307-157d5320ba14",
+              "08db2085-6317-4c2e-8a39-4c38c8a24724",
+              "d0a14a0a-fff3-4de4-ae78-ad9573e37fba"
+            ],
+            "hidden": false
+          },
+          {
+            "id": "features-02",
+            "type": "features",
+            "label": "Features",
+            "order": 2,
+            "content": {
+              "heading": "How Wilson Yam works",
+              "sub": "Built with locals who want it done once, properly, not for a theoretical someone.",
+              "items": [
+                {
+                  "title": "Documented work",
+                  "body": "Photos, notes and a signed job sheet for every visit. Useful when something goes wrong later.",
+                  "icon": "Sparkles"
+                },
+                {
+                  "title": "Local and accountable",
+                  "body": "Based in Accra, working within 30km, and our reputation depends on you telling friends.",
+                  "icon": "ShieldCheck"
+                },
+                {
+                  "title": "Fixed, transparent pricing",
+                  "body": "You get the number before we start. Nothing appears on the invoice that was not quoted.",
+                  "icon": "Gauge"
+                },
+                {
+                  "title": "Real people, fast",
+                  "body": "Call +234 8030864 981 and a human picks up. Average reply time is 2 hours.",
+                  "icon": "Layers"
+                }
+              ],
+              "columns": 3
+            },
+            "settings": {
+              "padding": "lg",
+              "variant": "grid"
+            },
+            "assets": [],
+            "hidden": false
+          },
+          {
+            "id": "team-03",
+            "type": "team",
+            "label": "Team",
+            "order": 3,
+            "content": {
+              "heading": "Wilson Yam, out loud",
+              "sub": "Small on purpose. You deal with the people who make the thing.",
+              "items": [
+                {
+                  "name": "Ada Okonkwo",
+                  "role": "Founder, creative",
+                  "bio": "Started this in a spare room and never moved out.",
+                  "imageAssetId": null
+                },
+                {
+                  "name": "Bisi Adeniran",
+                  "role": "Head of product",
+                  "bio": "Ships the boring parts properly, which is most of them.",
+                  "imageAssetId": null
+                },
+                {
+                  "name": "Kwame Mensah",
+                  "role": "Studio manager",
+                  "bio": "Keeps the calendar, the suppliers and your sanity.",
+                  "imageAssetId": null
+                }
+              ]
+            },
+            "settings": {
+              "padding": "lg",
+              "columns": 3
+            },
+            "assets": [],
+            "hidden": false
+          },
+          {
+            "id": "testimonials-04",
+            "type": "testimonials",
+            "label": "Testimonials",
+            "order": 4,
+            "content": {
+              "heading": "What people said after",
+              "items": [
+                {
+                  "quote": "They answered my 11pm message. I do not know how, but they did.",
+                  "name": "Daniel B.",
+                  "role": "buyer"
+                },
+                {
+                  "quote": "We switched from a tool three times the price and nothing got worse. Half the complaints stopped.",
+                  "name": "Grace E.",
+                  "role": "Head of product at a 40-person team"
+                },
+                {
+                  "quote": "It arrived when they said it would, and it works the way they described it. That is the whole review.",
+                  "name": "Amaka O.",
+                  "role": "Founder, first order on day one"
+                }
+              ],
+              "layout": "cards"
+            },
+            "settings": {
+              "padding": "md",
+              "rule": true
+            },
+            "assets": [],
+            "hidden": false
+          },
+          {
+            "id": "pricing-05",
+            "type": "pricing",
+            "label": "Pricing",
+            "order": 5,
+            "content": {
+              "heading": "Pricing, up front",
+              "sub": "No demo call required. Everything includes tax.",
+              "plans": [
+                {
+                  "name": "Starter",
+                  "price": "₦0",
+                  "unit": "While in early access",
+                  "blurb": "For one person with one problem to fix.",
+                  "features": [
+                    "Up to 3 seats",
+                    "CSV import",
+                    "Community support"
+                  ],
+                  "featured": false,
+                  "cta": "Start free"
+                },
+                {
+                  "name": "Pro",
+                  "price": "₦80,500",
+                  "unit": "Per workspace / month",
+                  "blurb": "The plan locals who want it done once, properly actually pick.",
+                  "features": [
+                    "Unlimited seats",
+                    "Digest + audit trail",
+                    "SSO",
+                    "Priority reply in under 2h"
+                  ],
+                  "featured": true,
+                  "cta": "Start with Pro"
+                },
+                {
+                  "name": "Company",
+                  "price": "Let’s talk",
+                  "unit": "annual",
+                  "blurb": "When procurement enters the room.",
+                  "features": [
+                    "Everything in Pro",
+                    "Custom contract + DPA",
+                    "Named engineer",
+                    "Security review pack"
+                  ],
+                  "featured": false,
+                  "cta": "Talk to us"
+                }
+              ],
+              "note": "Payment on delivery, receipts by email."
+            },
+            "settings": {
+              "padding": "lg",
+              "emphasiseMiddle": true
+            },
+            "assets": [],
+            "hidden": false
+          },
+          {
+            "id": "contact-06",
+            "type": "contact",
+            "label": "Contact",
+            "order": 6,
+            "content": {
+              "heading": "Talk to a person",
+              "body": "Call, or send the details and we will quote it back the same day.",
+              "fields": [
+                {
+                  "key": "name",
+                  "label": "Name",
+                  "type": "text",
+                  "required": true
+                },
+                {
+                  "key": "email",
+                  "label": "Email",
+                  "type": "email",
+                  "required": true
+                },
+                {
+                  "key": "message",
+                  "label": "What do you need?",
+                  "type": "textarea",
+                  "required": true
+                }
+              ],
+              "channels": [
+                {
+                  "label": "Call",
+                  "value": "+234 8030864 981",
+                  "kind": "tel"
+                },
+                {
+                  "label": "Email",
+                  "value": "Hello@wilson-yam.app",
+                  "kind": "mailto"
+                },
+                {
+                  "label": "Studio",
+                  "value": "Accra · Mon–Fri 9:30–17:30",
+                  "kind": "text"
+                }
+              ],
+              "note": "We reply inside a day. If it is urgent, call."
+            },
+            "settings": {
+              "padding": "lg",
+              "columns": 2
+            },
+            "assets": [],
+            "hidden": false
+          },
+          {
+            "id": "productShowcase-07",
+            "type": "productShowcase",
+            "label": "Product showcase",
+            "order": 7,
+            "content": {
+              "heading": "The drop",
+              "sub": "Everything below is real, available and priced without a sales call.",
+              "products": [
+                {
+                  "name": "Drop 01 — Shell Jacket",
+                  "price": "₦80,500",
+                  "unit": "incl. tax",
+                  "blurb": "Water-repelled cotton twill, taped seams, cut long.",
+                  "imageAssetId": "aae0742d-73b9-4d1c-a307-157d5320ba14",
+                  "tag": "Most wanted",
+                  "cta": "Reserve on the list",
+                  "features": [
+                    [
+                      "Water-repelled, taped seams"
+                    ],
+                    [
+                      "Ripstop, six pockets"
+                    ],
+                    [
+                      "240gsm organic jersey"
+                    ]
+                  ]
+                },
+                {
+                  "name": "Drop 01 — Cargo Trouser",
+                  "price": "₦92,500",
+                  "unit": "incl. tax",
+                  "blurb": "Two-way zip cargo, ripstop, six pockets.",
+                  "imageAssetId": "08db2085-6317-4c2e-8a39-4c38c8a24724",
+                  "tag": "Restocking",
+                  "cta": "Reserve on the list",
+                  "features": [
+                    [
+                      "Water-repelled, taped seams"
+                    ],
+                    [
+                      "Ripstop, six pockets"
+                    ],
+                    [
+                      "240gsm organic jersey"
+                    ]
+                  ]
+                },
+                {
+                  "name": "Drop 01 — Heavy Tee",
+                  "price": "₦104,500",
+                  "unit": "incl. tax",
+                  "blurb": "240gsm organic jersey, boxy through the shoulder, made in Accra.",
+                  "imageAssetId": "d0a14a0a-fff3-4de4-ae78-ad9573e37fba",
+                  "tag": "",
+                  "cta": "Reserve on the list",
+                  "features": [
+                    [
+                      "Water-repelled, taped seams"
+                    ],
+                    [
+                      "Ripstop, six pockets"
+                    ],
+                    [
+                      "240gsm organic jersey"
+                    ]
+                  ]
+                }
+              ],
+              "layout": "grid",
+              "note": "Prices include duties for local orders."
+            },
+            "settings": {
+              "padding": "lg",
+              "columns": 3,
+              "hoverReveal": true
+            },
+            "assets": [
+              "aae0742d-73b9-4d1c-a307-157d5320ba14",
+              "08db2085-6317-4c2e-8a39-4c38c8a24724",
+              "d0a14a0a-fff3-4de4-ae78-ad9573e37fba"
+            ],
+            "hidden": false
+          },
+          {
+            "id": "footer-08",
+            "type": "footer",
+            "label": "Footer",
+            "order": 8,
+            "content": {
+              "tagline": "Wilson Yam — service for locals who want it done once, properly.",
+              "columns": [
+                {
+                  "title": "Wilson Yam",
+                  "links": []
+                },
+                {
+                  "title": "Elsewhere",
+                  "links": [
+                    "Instagram",
+                    "TikTok",
+                    "Newsletter"
+                  ]
+                },
+                {
+                  "title": "Legal",
+                  "links": [
+                    "Terms",
+                    "Privacy",
+                    "Refunds"
+                  ]
+                }
+              ],
+              "legal": "© 2026 Wilson Yam. All rights reserved.",
+              "social": [
+                "instagram",
+                "tiktok",
+                "x"
+              ],
+              "credits": "Built with Launchpad"
+            },
+            "settings": {
+              "padding": "md",
+              "columns": 3
+            },
+            "assets": [],
+            "hidden": false
+          }
+        ],
+        "nav": {
+          "links": [
+            {
+              "label": "About",
+              "action": "#about"
+            },
+            {
+              "label": "What you get",
+              "action": "#features"
+            },
+            {
+              "label": "Team",
+              "action": "#team"
+            },
+            {
+              "label": "Testimonials",
+              "action": "#testimonials"
+            },
+            {
+              "label": "Pricing",
+              "action": "#pricing"
+            }
+          ],
+          "cta": {
+            "label": "Get a quote",
+            "action": "#contact"
+          },
+          "style": "blur",
+          "showLaunchpadBadge": true
+        },
+        "copy": {
+          "tone": "modern",
+          "context": {
+            "websiteType": "business",
+            "brand": "Wilson Yam",
+            "noun": "service",
+            "audience": "locals who want it done once, properly",
+            "value": "the job gets done once",
+            "count": "540",
+            "days": "4",
+            "hours": "2",
+            "weeks": "5",
+            "seconds": "4",
+            "points": "30",
+            "years": "7",
+            "price": "₦80,500",
+            "prices": [
+              "₦80,500"
+            ],
+            "date": "Thursday 15 October",
+            "dateShort": "15 Oct 2026",
+            "iso": "2026-10-15T17:30:06.588Z",
+            "time": "19:00",
+            "venue": "will shoxase wh",
+            "city": "Accra",
+            "year": "2026",
+            "material": "waxed canvas",
+            "role": "operations lead",
+            "format": "listening",
+            "act": "5",
+            "unit": "workspace",
+            "phone": "+234 8030864 981",
+            "radius": "30",
+            "launchDate": "2026-10-15T17:30:06.588Z"
+          }
+        },
+        "meta": {
+          "generatedBy": "launchpad-compiler",
+          "designId": "ai-chosen",
+          "designName": "AI-chosen direction",
+          "description": "i want  a website that will shoxase what i sell like my yam uisness",
+          "audience": "locals who want it done once, properly",
+          "goal": null,
+          "visualDirection": "modern layout",
+          "extraNotes": "",
+          "keywords": [
+            "i",
+            "want",
+            "a",
+            "website",
+            "that",
+            "will",
+            "shoxase",
+            "what",
+            "sell",
+            "like",
+            "my",
+            "yam",
+            "uisness"
+          ],
+          "intent": {
+            "colors": [],
+            "moods": [
+              "modern"
+            ],
+            "requestedSections": [
+              "hero",
+              "about",
+              "features",
+              "team",
+              "testimonials",
+              "pricing",
+              "contact",
+              "footer",
+              "productShowcase"
+            ],
+            "launchDate": "2026-10-15T17:30:06.588Z"
+          },
+          "masterPrompt": "Website type: business\nBusiness/Project name: Wilson Yam\n\nUser's original description:\n\"i want  a website that will shoxase what i sell like my yam uisness\"\n\nWho it is for: for me\nVisual direction, in the user's own words: modern layout\n\nSelected design direction:\n- Style: modern\n- Layout: Split hero with proof badges, generous whitespace, card-based services\n- Color palette: #08080a, #f6f6f7, #ffffff\n\nPlatforms to optimise for: mobile, desktop\n\nSections to include: hero, about, features, team, testimonials, pricing, contact, footer, productShowcase\n\nGenerate a structured website specification (theme, sections, section order, copy, CTAs) matching the above.",
+          "aiProvider": "local",
+          "aiModel": "gemini-2.5-flash",
+          "aiReport": null,
+          "fallbackReason": "Gemini has no model at /models/gemini-2.5-flash:generateContent — This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.6-flash for the latest features and improvements. We recommend you to use the Interactions API. NOT_FOUND. Check GEMINI_MODEL against GET https://generativelanguage.googleapis.com/v1beta/models. Create the key at https://aistudio.google.com/apikey and put it in GOOGLE_GEMINI_API_KEY (server-side only).",
+          "elapsedMs": 517,
+          "designStyleTags": [
+            "modern"
+          ],
+          "designLayoutHints": "Split hero with proof badges, generous whitespace, card-based services",
+          "designPalette": [
+            "#08080a",
+            "#f6f6f7",
+            "#ffffff"
+          ],
+          "slugHint": "wilson-yam"
+        },
+        "assets": [
+          {
+            "id": "aae0742d-73b9-4d1c-a307-157d5320ba14",
+            "filename": "Screenshot 2026-06-22 193303.png",
+            "mime": "image/png",
+            "size": 3731,
+            "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\aae0742d-73b9-4d1c-a307-157d5320ba14.png",
+            "url": "/uploads/aae0742d-73b9-4d1c-a307-157d5320ba14.png",
+            "name": "Screenshot 2026 06 22 193303",
+            "description": "",
+            "caption": "",
+            "assetCategory": "screens",
+            "selectedSection": null,
+            "originalSlot": null,
+            "addedAt": "2026-09-08T17:28:39.187Z",
+            "categoryLabel": "Product screenshot",
+            "categorisedBy": "slot",
+            "categorisedFrom": null,
+            "recommendedSections": [
+              "gallery"
+            ],
+            "suggestedSection": "gallery",
+            "usage": "about"
+          },
+          {
+            "id": "08db2085-6317-4c2e-8a39-4c38c8a24724",
+            "filename": "Screenshot 2026-06-21 205217.png",
+            "mime": "image/png",
+            "size": 142401,
+            "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\08db2085-6317-4c2e-8a39-4c38c8a24724.png",
+            "url": "/uploads/08db2085-6317-4c2e-8a39-4c38c8a24724.png",
+            "name": "Screenshot 2026 06 21 205217",
+            "description": "THIS IS THE HERO PHOTO\n",
+            "caption": "",
+            "assetCategory": "screens",
+            "selectedSection": null,
+            "originalSlot": null,
+            "addedAt": "2026-09-08T17:29:40.536Z",
+            "categoryLabel": "Product screenshot",
+            "categorisedBy": "slot",
+            "categorisedFrom": null,
+            "recommendedSections": [
+              "gallery"
+            ],
+            "suggestedSection": "gallery",
+            "usage": "about"
+          },
+          {
+            "id": "d0a14a0a-fff3-4de4-ae78-ad9573e37fba",
+            "filename": "Screenshot 2026-08-04 023148.png",
+            "mime": "image/png",
+            "size": 35262,
+            "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\d0a14a0a-fff3-4de4-ae78-ad9573e37fba.png",
+            "url": "/uploads/d0a14a0a-fff3-4de4-ae78-ad9573e37fba.png",
+            "name": "Screenshot 2026 08 04 023148",
+            "description": "",
+            "caption": "",
+            "assetCategory": "screens",
+            "selectedSection": null,
+            "originalSlot": null,
+            "addedAt": "2026-09-08T17:29:57.097Z",
+            "categoryLabel": "Product screenshot",
+            "categorisedBy": "slot",
+            "categorisedFrom": null,
+            "recommendedSections": [
+              "gallery"
+            ],
+            "suggestedSection": "gallery",
+            "usage": "about"
+          },
+          {
+            "id": "ff739ca7-d0fa-463c-9ef4-8e1e0b6de7ca",
+            "filename": "Screenshot 2026-08-04 024051.png",
+            "mime": "image/png",
+            "size": 10365,
+            "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\ff739ca7-d0fa-463c-9ef4-8e1e0b6de7ca.png",
+            "url": "/uploads/ff739ca7-d0fa-463c-9ef4-8e1e0b6de7ca.png",
+            "name": "Screenshot 2026 08 04 024051",
+            "description": "",
+            "caption": "",
+            "assetCategory": "screens",
+            "selectedSection": null,
+            "originalSlot": null,
+            "addedAt": "2026-09-08T17:29:57.099Z",
+            "categoryLabel": "Product screenshot",
+            "categorisedBy": "slot",
+            "categorisedFrom": null,
+            "recommendedSections": [
+              "gallery"
+            ],
+            "suggestedSection": "gallery",
+            "usage": "about"
+          },
+          {
+            "id": "b114bb64-7693-4eda-921e-11531373aa56",
+            "filename": "Screenshot 2026-08-04 032430.png",
+            "mime": "image/png",
+            "size": 136661,
+            "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\b114bb64-7693-4eda-921e-11531373aa56.png",
+            "url": "/uploads/b114bb64-7693-4eda-921e-11531373aa56.png",
+            "name": "Screenshot 2026 08 04 032430",
+            "description": "",
+            "caption": "",
+            "assetCategory": "screens",
+            "selectedSection": null,
+            "originalSlot": null,
+            "addedAt": "2026-09-08T17:29:57.101Z",
+            "categoryLabel": "Product screenshot",
+            "categorisedBy": "slot",
+            "categorisedFrom": null,
+            "recommendedSections": [
+              "gallery"
+            ],
+            "suggestedSection": "gallery",
+            "usage": "about"
+          },
+          {
+            "id": "ffe4b5d9-ea74-4a77-8eba-b93e07dfc5f5",
+            "filename": "Screenshot 2026-08-04 033550.png",
+            "mime": "image/png",
+            "size": 1093,
+            "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\ffe4b5d9-ea74-4a77-8eba-b93e07dfc5f5.png",
+            "url": "/uploads/ffe4b5d9-ea74-4a77-8eba-b93e07dfc5f5.png",
+            "name": "Screenshot 2026 08 04 033550",
+            "description": "",
+            "caption": "",
+            "assetCategory": "screens",
+            "selectedSection": null,
+            "originalSlot": null,
+            "addedAt": "2026-09-08T17:29:57.103Z",
+            "categoryLabel": "Product screenshot",
+            "categorisedBy": "slot",
+            "categorisedFrom": null,
+            "recommendedSections": [
+              "gallery"
+            ],
+            "suggestedSection": "gallery",
+            "usage": "about"
+          },
+          {
+            "id": "29519c5b-5713-43e6-bf89-8a1733e00185",
+            "filename": "Screenshot 2026-08-04 033614.png",
+            "mime": "image/png",
+            "size": 5202,
+            "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\29519c5b-5713-43e6-bf89-8a1733e00185.png",
+            "url": "/uploads/29519c5b-5713-43e6-bf89-8a1733e00185.png",
+            "name": "Screenshot 2026 08 04 033614",
+            "description": "",
+            "caption": "",
+            "assetCategory": "screens",
+            "selectedSection": null,
+            "originalSlot": null,
+            "addedAt": "2026-09-08T17:29:57.104Z",
+            "categoryLabel": "Product screenshot",
+            "categorisedBy": "slot",
+            "categorisedFrom": null,
+            "recommendedSections": [
+              "gallery"
+            ],
+            "suggestedSection": "gallery",
+            "usage": "about"
+          },
+          {
+            "id": "72f594df-45ad-4bd0-a0b4-553eadd58d3e",
+            "filename": "Screenshot 2026-08-04 205415.png",
+            "mime": "image/png",
+            "size": 1082140,
+            "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\72f594df-45ad-4bd0-a0b4-553eadd58d3e.png",
+            "url": "/uploads/72f594df-45ad-4bd0-a0b4-553eadd58d3e.png",
+            "name": "Screenshot 2026 08 04 205415",
+            "description": "",
+            "caption": "",
+            "assetCategory": "screens",
+            "selectedSection": null,
+            "originalSlot": null,
+            "addedAt": "2026-09-08T17:29:57.107Z",
+            "categoryLabel": "Product screenshot",
+            "categorisedBy": "slot",
+            "categorisedFrom": null,
+            "recommendedSections": [
+              "gallery"
+            ],
+            "suggestedSection": "gallery",
+            "usage": "about"
+          },
+          {
+            "id": "c38bbe27-8ebc-45e6-9a18-b6cd0ef7e066",
+            "filename": "Screenshot 2026-08-04 205903.png",
+            "mime": "image/png",
+            "size": 1041463,
+            "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\c38bbe27-8ebc-45e6-9a18-b6cd0ef7e066.png",
+            "url": "/uploads/c38bbe27-8ebc-45e6-9a18-b6cd0ef7e066.png",
+            "name": "Screenshot 2026 08 04 205903",
+            "description": "",
+            "caption": "",
+            "assetCategory": "screens",
+            "selectedSection": null,
+            "originalSlot": null,
+            "addedAt": "2026-09-08T17:29:57.112Z",
+            "categoryLabel": "Product screenshot",
+            "categorisedBy": "slot",
+            "categorisedFrom": null,
+            "recommendedSections": [
+              "gallery"
+            ],
+            "suggestedSection": "gallery",
+            "usage": "about"
+          },
+          {
+            "id": "03dbdcd9-f082-4c5e-ad58-4a0e0a43846b",
+            "filename": "Screenshot 2026-08-04 210306.png",
+            "mime": "image/png",
+            "size": 233454,
+            "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\03dbdcd9-f082-4c5e-ad58-4a0e0a43846b.png",
+            "url": "/uploads/03dbdcd9-f082-4c5e-ad58-4a0e0a43846b.png",
+            "name": "Screenshot 2026 08 04 210306",
+            "description": "",
+            "caption": "",
+            "assetCategory": "screens",
+            "selectedSection": null,
+            "originalSlot": null,
+            "addedAt": "2026-09-08T17:29:57.115Z",
+            "categoryLabel": "Product screenshot",
+            "categorisedBy": "slot",
+            "categorisedFrom": null,
+            "recommendedSections": [
+              "gallery"
+            ],
+            "suggestedSection": "gallery",
+            "usage": "about"
+          },
+          {
+            "id": "0a9a057a-a122-4593-b426-dc5aa2dbae59",
+            "filename": "Screenshot 2026-08-04 210317.png",
+            "mime": "image/png",
+            "size": 5197,
+            "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\0a9a057a-a122-4593-b426-dc5aa2dbae59.png",
+            "url": "/uploads/0a9a057a-a122-4593-b426-dc5aa2dbae59.png",
+            "name": "Screenshot 2026 08 04 210317",
+            "description": "",
+            "caption": "",
+            "assetCategory": "screens",
+            "selectedSection": null,
+            "originalSlot": null,
+            "addedAt": "2026-09-08T17:29:57.117Z",
+            "categoryLabel": "Product screenshot",
+            "categorisedBy": "slot",
+            "categorisedFrom": null,
+            "recommendedSections": [
+              "gallery"
+            ],
+            "suggestedSection": "gallery",
+            "usage": "about"
+          },
+          {
+            "id": "692688e9-4eeb-4a13-85cf-64eaa9d8ef83",
+            "filename": "Screenshot 2026-08-04 210339.png",
+            "mime": "image/png",
+            "size": 1207256,
+            "path": "C:\\Users\\USER\\Downloads\\launchpad\\launchpad\\apps\\api\\storage\\uploads\\692688e9-4eeb-4a13-85cf-64eaa9d8ef83.png",
+            "url": "/uploads/692688e9-4eeb-4a13-85cf-64eaa9d8ef83.png",
+            "name": "Screenshot 2026 08 04 210339",
+            "description": "",
+            "caption": "",
+            "assetCategory": "screens",
+            "selectedSection": null,
+            "originalSlot": null,
+            "addedAt": "2026-09-08T17:29:57.120Z",
+            "categoryLabel": "Product screenshot",
+            "categorisedBy": "slot",
+            "categorisedFrom": null,
+            "recommendedSections": [
+              "gallery"
+            ],
+            "suggestedSection": "gallery",
+            "usage": "about"
+          }
+        ],
+        "assetMap": [
+          {
+            "assetId": "aae0742d-73b9-4d1c-a307-157d5320ba14",
+            "filename": "Screenshot 2026-06-22 193303.png",
+            "section": "about",
+            "reason": "Kept in About so the image is not wasted. You can move it anywhere in the builder.",
+            "slot": "about:12:screens"
+          },
+          {
+            "assetId": "08db2085-6317-4c2e-8a39-4c38c8a24724",
+            "filename": "Screenshot 2026-06-21 205217.png",
+            "section": "about",
+            "reason": "Kept in About so the image is not wasted. You can move it anywhere in the builder.",
+            "slot": "about:12:screens"
+          },
+          {
+            "assetId": "d0a14a0a-fff3-4de4-ae78-ad9573e37fba",
+            "filename": "Screenshot 2026-08-04 023148.png",
+            "section": "about",
+            "reason": "Kept in About so the image is not wasted. You can move it anywhere in the builder.",
+            "slot": "about:12:screens"
+          },
+          {
+            "assetId": "ff739ca7-d0fa-463c-9ef4-8e1e0b6de7ca",
+            "filename": "Screenshot 2026-08-04 024051.png",
+            "section": "about",
+            "reason": "Kept in About so the image is not wasted. You can move it anywhere in the builder.",
+            "slot": "about:12:screens"
+          },
+          {
+            "assetId": "b114bb64-7693-4eda-921e-11531373aa56",
+            "filename": "Screenshot 2026-08-04 032430.png",
+            "section": "about",
+            "reason": "Kept in About so the image is not wasted. You can move it anywhere in the builder.",
+            "slot": "about:12:screens"
+          },
+          {
+            "assetId": "ffe4b5d9-ea74-4a77-8eba-b93e07dfc5f5",
+            "filename": "Screenshot 2026-08-04 033550.png",
+            "section": "about",
+            "reason": "Kept in About so the image is not wasted. You can move it anywhere in the builder.",
+            "slot": "about:12:screens"
+          },
+          {
+            "assetId": "29519c5b-5713-43e6-bf89-8a1733e00185",
+            "filename": "Screenshot 2026-08-04 033614.png",
+            "section": "about",
+            "reason": "Kept in About so the image is not wasted. You can move it anywhere in the builder.",
+            "slot": "about:12:screens"
+          },
+          {
+            "assetId": "72f594df-45ad-4bd0-a0b4-553eadd58d3e",
+            "filename": "Screenshot 2026-08-04 205415.png",
+            "section": "about",
+            "reason": "Kept in About so the image is not wasted. You can move it anywhere in the builder.",
+            "slot": "about:12:screens"
+          },
+          {
+            "assetId": "c38bbe27-8ebc-45e6-9a18-b6cd0ef7e066",
+            "filename": "Screenshot 2026-08-04 205903.png",
+            "section": "about",
+            "reason": "Kept in About so the image is not wasted. You can move it anywhere in the builder.",
+            "slot": "about:12:screens"
+          },
+          {
+            "assetId": "03dbdcd9-f082-4c5e-ad58-4a0e0a43846b",
+            "filename": "Screenshot 2026-08-04 210306.png",
+            "section": "about",
+            "reason": "Kept in About so the image is not wasted. You can move it anywhere in the builder.",
+            "slot": "about:12:screens"
+          },
+          {
+            "assetId": "0a9a057a-a122-4593-b426-dc5aa2dbae59",
+            "filename": "Screenshot 2026-08-04 210317.png",
+            "section": "about",
+            "reason": "Kept in About so the image is not wasted. You can move it anywhere in the builder.",
+            "slot": "about:12:screens"
+          },
+          {
+            "assetId": "692688e9-4eeb-4a13-85cf-64eaa9d8ef83",
+            "filename": "Screenshot 2026-08-04 210339.png",
+            "section": "about",
+            "reason": "Kept in About so the image is not wasted. You can move it anywhere in the builder.",
+            "slot": "about:12:screens"
+          }
+        ],
+        "stats": {
+          "assets": 12,
+          "used": 12,
+          "unused": 0
+        }
+      },
+      "theme": {
+        "mode": "dark",
+        "colors": {
+          "background": "#12100e",
+          "surface": "#1b1714",
+          "surfaceAlt": "#241e19",
+          "text": "#f7f2ea",
+          "textMuted": "#a89b8a",
+          "accent": "#7d6f68",
+          "accentText": "#12100e",
+          "border": "rgba(255,255,255,0.08)",
+          "overlay": "rgba(3,3,5,0.72)"
+        },
+        "typography": {
+          "headingFont": "display",
+          "bodyFont": "sans",
+          "labelFont": "sans",
+          "scale": 1.14,
+          "headingWeight": 600,
+          "headingTracking": "-0.03em",
+          "bodySize": 17
+        },
+        "radius": 22,
+        "spacing": "airy",
+        "visualStyle": "modern",
+        "effects": [],
+        "imagery": {
+          "treatment": "contrast",
+          "radius": 12,
+          "fit": "cover",
+          "overlay": 0.6000000000000001
+        },
+        "designId": "ai-chosen",
+        "designName": "AI-chosen direction"
+      },
+      "sections": [
+        {
+          "id": "hero-00",
+          "type": "hero",
+          "label": "About",
+          "order": 0,
+          "content": {
+            "eyebrow": "Licensed, insured, on time",
+            "headline": "Book Wilson Yam, forget the worry",
+            "subheadline": "Transparent pricing, real people, and a phone that gets answered.",
+            "primary": {
+              "label": "Book a call",
+              "action": "#contact"
+            },
+            "secondary": {
+              "label": "What we do",
+              "action": "#features"
+            },
+            "layout": "split",
+            "imageAssetId": "Aae0742d-73b9-4d1c-a307-157d5320ba14",
+            "overlay": 0,
+            "badges": [
+              "Independent",
+              "Made with care",
+              "Since 2026"
+            ],
+            "portraitAssetId": null,
+            "meta": null,
+            "minHeight": "88vh"
+          },
+          "settings": {
+            "padding": "xl",
+            "align": "left",
+            "bleed": false
+          },
+          "assets": [],
+          "hidden": false
+        },
+        {
+          "id": "about-01",
+          "type": "about",
+          "label": "About",
+          "order": 1,
+          "content": {
+            "heading": "Why Wilson Yam exists",
+            "body": "We are Wilson Yam. We make service for locals who want it done once, properly who would rather have one good option than twelve mediocre ones. Everything here is written by the people who build it, which is why it reads like a person and not a brochure.",
+            "bullets": [
+              "Started in Accra, still Accra",
+              "Made for locals who want it done once, properly",
+              "The job gets done once — that is the whole brief"
+            ],
+            "imageAssetId": "Aae0742d-73b9-4d1c-a307-157d5320ba14",
+            "stats": [
+              {
+                "value": "7",
+                "label": "Founding year"
+              },
+              {
+                "value": "540",
+                "label": "Jobs a month"
+              },
+              {
+                "value": "4",
+                "label": "Day reply, maximum"
+              }
+            ]
+          },
+          "settings": {
+            "padding": "lg",
+            "columns": 2,
+            "rule": false
+          },
+          "assets": [
+            "ff739ca7-d0fa-463c-9ef4-8e1e0b6de7ca",
+            "b114bb64-7693-4eda-921e-11531373aa56",
+            "ffe4b5d9-ea74-4a77-8eba-b93e07dfc5f5",
+            "29519c5b-5713-43e6-bf89-8a1733e00185",
+            "72f594df-45ad-4bd0-a0b4-553eadd58d3e",
+            "c38bbe27-8ebc-45e6-9a18-b6cd0ef7e066",
+            "03dbdcd9-f082-4c5e-ad58-4a0e0a43846b",
+            "0a9a057a-a122-4593-b426-dc5aa2dbae59",
+            "692688e9-4eeb-4a13-85cf-64eaa9d8ef83",
+            "aae0742d-73b9-4d1c-a307-157d5320ba14",
+            "08db2085-6317-4c2e-8a39-4c38c8a24724",
+            "d0a14a0a-fff3-4de4-ae78-ad9573e37fba"
+          ],
+          "hidden": false
+        },
+        {
+          "id": "features-02",
+          "type": "features",
+          "label": "Features",
+          "order": 2,
+          "content": {
+            "heading": "How Wilson Yam works",
+            "sub": "Built with locals who want it done once, properly, not for a theoretical someone.",
+            "items": [
+              {
+                "title": "Documented work",
+                "body": "Photos, notes and a signed job sheet for every visit. Useful when something goes wrong later.",
+                "icon": "Sparkles"
+              },
+              {
+                "title": "Local and accountable",
+                "body": "Based in Accra, working within 30km, and our reputation depends on you telling friends.",
+                "icon": "ShieldCheck"
+              },
+              {
+                "title": "Fixed, transparent pricing",
+                "body": "You get the number before we start. Nothing appears on the invoice that was not quoted.",
+                "icon": "Gauge"
+              },
+              {
+                "title": "Real people, fast",
+                "body": "Call +234 8030864 981 and a human picks up. Average reply time is 2 hours.",
+                "icon": "Layers"
+              }
+            ],
+            "columns": 3
+          },
+          "settings": {
+            "padding": "lg",
+            "variant": "grid"
+          },
+          "assets": [],
+          "hidden": false
+        },
+        {
+          "id": "team-03",
+          "type": "team",
+          "label": "Team",
+          "order": 3,
+          "content": {
+            "heading": "Wilson Yam, out loud",
+            "sub": "Small on purpose. You deal with the people who make the thing.",
+            "items": [
+              {
+                "name": "Ada Okonkwo",
+                "role": "Founder, creative",
+                "bio": "Started this in a spare room and never moved out.",
+                "imageAssetId": null
+              },
+              {
+                "name": "Bisi Adeniran",
+                "role": "Head of product",
+                "bio": "Ships the boring parts properly, which is most of them.",
+                "imageAssetId": null
+              },
+              {
+                "name": "Kwame Mensah",
+                "role": "Studio manager",
+                "bio": "Keeps the calendar, the suppliers and your sanity.",
+                "imageAssetId": null
+              }
+            ]
+          },
+          "settings": {
+            "padding": "lg",
+            "columns": 3
+          },
+          "assets": [],
+          "hidden": false
+        },
+        {
+          "id": "testimonials-04",
+          "type": "testimonials",
+          "label": "Testimonials",
+          "order": 4,
+          "content": {
+            "heading": "What people said after",
+            "items": [
+              {
+                "quote": "They answered my 11pm message. I do not know how, but they did.",
+                "name": "Daniel B.",
+                "role": "buyer"
+              },
+              {
+                "quote": "We switched from a tool three times the price and nothing got worse. Half the complaints stopped.",
+                "name": "Grace E.",
+                "role": "Head of product at a 40-person team"
+              },
+              {
+                "quote": "It arrived when they said it would, and it works the way they described it. That is the whole review.",
+                "name": "Amaka O.",
+                "role": "Founder, first order on day one"
+              }
+            ],
+            "layout": "cards"
+          },
+          "settings": {
+            "padding": "md",
+            "rule": true
+          },
+          "assets": [],
+          "hidden": false
+        },
+        {
+          "id": "pricing-05",
+          "type": "pricing",
+          "label": "Pricing",
+          "order": 5,
+          "content": {
+            "heading": "Pricing, up front",
+            "sub": "No demo call required. Everything includes tax.",
+            "plans": [
+              {
+                "name": "Starter",
+                "price": "₦0",
+                "unit": "While in early access",
+                "blurb": "For one person with one problem to fix.",
+                "features": [
+                  "Up to 3 seats",
+                  "CSV import",
+                  "Community support"
+                ],
+                "featured": false,
+                "cta": "Start free"
+              },
+              {
+                "name": "Pro",
+                "price": "₦80,500",
+                "unit": "Per workspace / month",
+                "blurb": "The plan locals who want it done once, properly actually pick.",
+                "features": [
+                  "Unlimited seats",
+                  "Digest + audit trail",
+                  "SSO",
+                  "Priority reply in under 2h"
+                ],
+                "featured": true,
+                "cta": "Start with Pro"
+              },
+              {
+                "name": "Company",
+                "price": "Let’s talk",
+                "unit": "annual",
+                "blurb": "When procurement enters the room.",
+                "features": [
+                  "Everything in Pro",
+                  "Custom contract + DPA",
+                  "Named engineer",
+                  "Security review pack"
+                ],
+                "featured": false,
+                "cta": "Talk to us"
+              }
+            ],
+            "note": "Payment on delivery, receipts by email."
+          },
+          "settings": {
+            "padding": "lg",
+            "emphasiseMiddle": true
+          },
+          "assets": [],
+          "hidden": false
+        },
+        {
+          "id": "contact-06",
+          "type": "contact",
+          "label": "Contact",
+          "order": 6,
+          "content": {
+            "heading": "Talk to a person",
+            "body": "Call, or send the details and we will quote it back the same day.",
+            "fields": [
+              {
+                "key": "name",
+                "label": "Name",
+                "type": "text",
+                "required": true
+              },
+              {
+                "key": "email",
+                "label": "Email",
+                "type": "email",
+                "required": true
+              },
+              {
+                "key": "message",
+                "label": "What do you need?",
+                "type": "textarea",
+                "required": true
+              }
+            ],
+            "channels": [
+              {
+                "label": "Call",
+                "value": "+234 8030864 981",
+                "kind": "tel"
+              },
+              {
+                "label": "Email",
+                "value": "Hello@wilson-yam.app",
+                "kind": "mailto"
+              },
+              {
+                "label": "Studio",
+                "value": "Accra · Mon–Fri 9:30–17:30",
+                "kind": "text"
+              }
+            ],
+            "note": "We reply inside a day. If it is urgent, call."
+          },
+          "settings": {
+            "padding": "lg",
+            "columns": 2
+          },
+          "assets": [],
+          "hidden": false
+        },
+        {
+          "id": "productShowcase-07",
+          "type": "productShowcase",
+          "label": "Product showcase",
+          "order": 7,
+          "content": {
+            "heading": "The drop",
+            "sub": "Everything below is real, available and priced without a sales call.",
+            "products": [
+              {
+                "name": "Drop 01 — Shell Jacket",
+                "price": "₦80,500",
+                "unit": "incl. tax",
+                "blurb": "Water-repelled cotton twill, taped seams, cut long.",
+                "imageAssetId": "aae0742d-73b9-4d1c-a307-157d5320ba14",
+                "tag": "Most wanted",
+                "cta": "Reserve on the list",
+                "features": [
+                  [
+                    "Water-repelled, taped seams"
+                  ],
+                  [
+                    "Ripstop, six pockets"
+                  ],
+                  [
+                    "240gsm organic jersey"
+                  ]
+                ]
+              },
+              {
+                "name": "Drop 01 — Cargo Trouser",
+                "price": "₦92,500",
+                "unit": "incl. tax",
+                "blurb": "Two-way zip cargo, ripstop, six pockets.",
+                "imageAssetId": "08db2085-6317-4c2e-8a39-4c38c8a24724",
+                "tag": "Restocking",
+                "cta": "Reserve on the list",
+                "features": [
+                  [
+                    "Water-repelled, taped seams"
+                  ],
+                  [
+                    "Ripstop, six pockets"
+                  ],
+                  [
+                    "240gsm organic jersey"
+                  ]
+                ]
+              },
+              {
+                "name": "Drop 01 — Heavy Tee",
+                "price": "₦104,500",
+                "unit": "incl. tax",
+                "blurb": "240gsm organic jersey, boxy through the shoulder, made in Accra.",
+                "imageAssetId": "d0a14a0a-fff3-4de4-ae78-ad9573e37fba",
+                "tag": "",
+                "cta": "Reserve on the list",
+                "features": [
+                  [
+                    "Water-repelled, taped seams"
+                  ],
+                  [
+                    "Ripstop, six pockets"
+                  ],
+                  [
+                    "240gsm organic jersey"
+                  ]
+                ]
+              }
+            ],
+            "layout": "grid",
+            "note": "Prices include duties for local orders."
+          },
+          "settings": {
+            "padding": "lg",
+            "columns": 3,
+            "hoverReveal": true
+          },
+          "assets": [
+            "aae0742d-73b9-4d1c-a307-157d5320ba14",
+            "08db2085-6317-4c2e-8a39-4c38c8a24724",
+            "d0a14a0a-fff3-4de4-ae78-ad9573e37fba"
+          ],
+          "hidden": false
+        },
+        {
+          "id": "footer-08",
+          "type": "footer",
+          "label": "Footer",
+          "order": 8,
+          "content": {
+            "tagline": "Wilson Yam — service for locals who want it done once, properly.",
+            "columns": [
+              {
+                "title": "Wilson Yam",
+                "links": []
+              },
+              {
+                "title": "Elsewhere",
+                "links": [
+                  "Instagram",
+                  "TikTok",
+                  "Newsletter"
+                ]
+              },
+              {
+                "title": "Legal",
+                "links": [
+                  "Terms",
+                  "Privacy",
+                  "Refunds"
+                ]
+              }
+            ],
+            "legal": "© 2026 Wilson Yam. All rights reserved.",
+            "social": [
+              "instagram",
+              "tiktok",
+              "x"
+            ],
+            "credits": "Built with Launchpad"
+          },
+          "settings": {
+            "padding": "md",
+            "columns": 3
+          },
+          "assets": [],
+          "hidden": false
+        }
+      ],
+      "status": "ready",
+      "published": false,
+      "slug": null,
+      "publishedAt": null,
+      "publishedRevision": 0,
+      "hasUnpublishedChanges": false,
+      "masterPrompt": "Website type: business\nBusiness/Project name: Wilson Yam\n\nUser's original description:\n\"i want  a website that will shoxase what i sell like my yam uisness\"\n\nWho it is for: for me\nVisual direction, in the user's own words: modern layout\n\nSelected design direction:\n- Style: modern\n- Layout: Split hero with proof badges, generous whitespace, card-based services\n- Color palette: #08080a, #f6f6f7, #ffffff\n\nPlatforms to optimise for: mobile, desktop\n\nSections to include: hero, about, features, team, testimonials, pricing, contact, footer, productShowcase\n\nGenerate a structured website specification (theme, sections, section order, copy, CTAs) matching the above.",
+      "ai": {
+        "provider": "local",
+        "model": "gemini-2.5-flash",
+        "elapsedMs": 517,
+        "fallbackReason": "Gemini has no model at /models/gemini-2.5-flash:generateContent — This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.6-flash for the latest features and improvements. We recommend you to use the Interactions API. NOT_FOUND. Check GEMINI_MODEL against GET https://generativelanguage.googleapis.com/v1beta/models. Create the key at https://aistudio.google.com/apikey and put it in GOOGLE_GEMINI_API_KEY (server-side only).",
+        "report": null
+      },
+      "activity": [
+        {
+          "at": "2026-09-08T17:30:07.099Z",
+          "kind": "generated",
+          "text": "Compiled locally in 517ms (Gemini has no model at /models/gemini-2.5-flash:generateContent — This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.6-flash for the latest features and improvements. We recommend you to use the Interactions API. NOT_FOUND. Check GEMINI_MODEL against GET https://generativelanguage.googleapis.com/v1beta/models. Create the key at https://aistudio.google.com/apikey and put it in GOOGLE_GEMINI_API_KEY (server-side only).)"
+        },
+        {
+          "at": "2026-09-08T17:27:44.458Z",
+          "kind": "created",
+          "text": "Draft created"
+        }
+      ],
+      "createdAt": "2026-09-08T17:27:44.458Z",
+      "updatedAt": "2026-09-08T17:31:34.926Z",
+      "statusLabel": "Ready to publish",
+      "statusTone": "outline",
+      "platformLabel": "Mobile + Laptop",
+      "liveUrl": null,
+      "displayUrl": null,
+      "livePath": null,
+      "sectionCount": 9,
+      "hiddenSectionCount": 0,
+      "assetCount": 12,
+      "usedAssetCount": 0,
+      "progress": 78,
+      "completion": [
+        {
+          "key": "type",
+          "label": "Website type",
+          "done": true
+        },
+        {
+          "key": "description",
+          "label": "Description",
+          "done": true
+        },
+        {
+          "key": "platform",
+          "label": "Platform target",
+          "done": true
+        },
+        {
+          "key": "design",
+          "label": "Design direction",
+          "done": false
+        },
+        {
+          "key": "assets",
+          "label": "At least one image",
+          "done": true
+        },
+        {
+          "key": "generate",
+          "label": "Generated",
+          "done": true
+        },
+        {
+          "key": "publish",
+          "label": "Published",
+          "done": false
+        }
+      ],
+      "thumbnail": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20640%20400%22%20width%3D%22640%22%20height%3D%22400%22%3E%20%3Cdefs%3E%20%3CradialGradient%20id%3D%22glow%22%20cx%3D%2250%25%22%20cy%3D%220%25%22%20r%3D%2275%25%22%3E%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ffffff%22%20stop-opacity%3D%220.12%22%2F%3E%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23ffffff%22%20stop-opacity%3D%220%22%2F%3E%20%3C%2FradialGradient%3E%20%3C%2Fdefs%3E%20%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22640%22%20height%3D%22400%22%20rx%3D%2214%22%20fill%3D%22%2308080a%22%2F%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22640%22%20height%3D%2226%22%20rx%3D%220%22%20fill%3D%22%230f0f11%22%2F%3E%3Crect%20x%3D%2214%22%20y%3D%2210%22%20width%3D%226%22%20height%3D%226%22%20rx%3D%226%22%20fill%3D%22%234b4b4c%22%20opacity%3D%220.5%22%2F%3E%3Crect%20x%3D%2226%22%20y%3D%2210%22%20width%3D%226%22%20height%3D%226%22%20rx%3D%226%22%20fill%3D%22%234b4b4c%22%20opacity%3D%220.35%22%2F%3E%3Crect%20x%3D%2238%22%20y%3D%2210%22%20width%3D%226%22%20height%3D%226%22%20rx%3D%226%22%20fill%3D%22%234b4b4c%22%20opacity%3D%220.25%22%2F%3E%3Crect%20x%3D%22520%22%20y%3D%229%22%20width%3D%22106%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%2329292b%22%20opacity%3D%220.35%22%2F%3E%3Crect%20x%3D%2224%22%20y%3D%2240%22%20width%3D%2234%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%23ffffff%22%20opacity%3D%220.95%22%2F%3E%3Crect%20x%3D%22586%22%20y%3D%2241%22%20width%3D%2224%22%20height%3D%226%22%20rx%3D%223%22%20fill%3D%22%23f6f6f7%22%20opacity%3D%220.5%22%2F%3E%3Crect%20x%3D%22552%22%20y%3D%2241%22%20width%3D%2224%22%20height%3D%226%22%20rx%3D%223%22%20fill%3D%22%23f6f6f7%22%20opacity%3D%220.36%22%2F%3E%3Crect%20x%3D%22518%22%20y%3D%2241%22%20width%3D%2224%22%20height%3D%226%22%20rx%3D%223%22%20fill%3D%22%23f6f6f7%22%20opacity%3D%220.3%22%2F%3E%3Crect%20x%3D%2224%22%20y%3D%2266%22%20width%3D%22201.28%22%20height%3D%2212%22%20rx%3D%224%22%20fill%3D%22%23f6f6f7%22%20opacity%3D%220.95%22%2F%3E%3Crect%20x%3D%2224%22%20y%3D%2284%22%20width%3D%22177.6%22%20height%3D%2212%22%20rx%3D%224%22%20fill%3D%22%23f6f6f7%22%20opacity%3D%220.7%22%2F%3E%3Crect%20x%3D%2224%22%20y%3D%22106%22%20width%3D%22165.76000000000002%22%20height%3D%226%22%20rx%3D%223%22%20fill%3D%22%234b4b4c%22%20opacity%3D%220.55%22%2F%3E%3Crect%20x%3D%2224%22%20y%3D%22118%22%20width%3D%22130.24%22%20height%3D%226%22%20rx%3D%223%22%20fill%3D%22%234b4b4c%22%20opacity%3D%220.4%22%2F%3E%3Crect%20x%3D%2224%22%20y%3D%22136%22%20width%3D%2270%22%20height%3D%2214%22%20rx%3D%227%22%20fill%3D%22%23ffffff%22%20opacity%3D%220.9%22%2F%3E%20%3Cdefs%3E%20%3ClinearGradient%20id%3D%22g700%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23707072%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23060608%22%2F%3E%20%3C%2FlinearGradient%3E%20%3C%2Fdefs%3E%20%3Crect%20x%3D%22284.48%22%20y%3D%2262%22%20width%3D%22331.52000000000004%22%20height%3D%22136%22%20rx%3D%228%22%20fill%3D%22url(%23g700)%22%2F%3E%20%3Ccircle%20cx%3D%22374.74609761148696%22%20cy%3D%22148.15369294378905%22%20r%3D%2257.12%22%20fill%3D%22%23ffffff%22%20opacity%3D%220.16%22%2F%3E%20%3Crect%20x%3D%22284.48%22%20y%3D%22146.32%22%20width%3D%22331.52000000000004%22%20height%3D%2251.68%22%20rx%3D%228%22%20fill%3D%22%2308080a%22%20opacity%3D%220.55%22%2F%3E%3Crect%20x%3D%2224%22%20y%3D%22218%22%20width%3D%22165.76000000000002%22%20height%3D%228%22%20rx%3D%223%22%20fill%3D%22%23f6f6f7%22%20opacity%3D%220.8%22%2F%3E%3Crect%20x%3D%2224%22%20y%3D%22232%22%20width%3D%22414.4%22%20height%3D%226%22%20rx%3D%223%22%20fill%3D%22%234b4b4c%22%20opacity%3D%220.5%22%2F%3E%3Crect%20x%3D%2224%22%20y%3D%22242%22%20width%3D%22325.6%22%20height%3D%226%22%20rx%3D%223%22%20fill%3D%22%2329292b%22%20opacity%3D%220.35%22%2F%3E%3Crect%20x%3D%2224%22%20y%3D%22270.6666666666667%22%20width%3D%22190.66666666666666%22%20height%3D%2246.666666666666664%22%20rx%3D%228%22%20fill%3D%22%23121213%22%20opacity%3D%220.9%22%2F%3E%3Crect%20x%3D%2234%22%20y%3D%22280.6666666666667%22%20width%3D%2214%22%20height%3D%2214%22%20rx%3D%225%22%20fill%3D%22%23ffffff%22%20opacity%3D%220.6%22%2F%3E%3Crect%20x%3D%2234%22%20y%3D%22300.6666666666667%22%20width%3D%22133.46666666666664%22%20height%3D%226%22%20rx%3D%223%22%20fill%3D%22%23f6f6f7%22%20opacity%3D%220.75%22%2F%3E%3Crect%20x%3D%2234%22%20y%3D%22310.6666666666667%22%20width%3D%2295.33333333333333%22%20height%3D%225%22%20rx%3D%223%22%20fill%3D%22%234b4b4c%22%20opacity%3D%220.5%22%2F%3E%3Crect%20x%3D%22224.66666666666666%22%20y%3D%22270.6666666666667%22%20width%3D%22190.66666666666666%22%20height%3D%2246.666666666666664%22%20rx%3D%228%22%20fill%3D%22%23121213%22%20opacity%3D%220.9%22%2F%3E%3Crect%20x%3D%22234.66666666666666%22%20y%3D%22280.6666666666667%22%20width%3D%2214%22%20height%3D%2214%22%20rx%3D%225%22%20fill%3D%22%23ffffff%22%20opacity%3D%220.6%22%2F%3E%3Crect%20x%3D%22234.66666666666666%22%20y%3D%22300.6666666666667%22%20width%3D%22133.46666666666664%22%20height%3D%226%22%20rx%3D%223%22%20fill%3D%22%23f6f6f7%22%20opacity%3D%220.75%22%2F%3E%3Crect%20x%3D%22234.66666666666666%22%20y%3D%22310.6666666666667%22%20width%3D%2295.33333333333333%22%20height%3D%225%22%20rx%3D%223%22%20fill%3D%22%234b4b4c%22%20opacity%3D%220.5%22%2F%3E%3Crect%20x%3D%22425.3333333333333%22%20y%3D%22270.6666666666667%22%20width%3D%22190.66666666666666%22%20height%3D%2246.666666666666664%22%20rx%3D%228%22%20fill%3D%22%23121213%22%20opacity%3D%220.9%22%2F%3E%3Crect%20x%3D%22435.3333333333333%22%20y%3D%22280.6666666666667%22%20width%3D%2214%22%20height%3D%2214%22%20rx%3D%225%22%20fill%3D%22%23ffffff%22%20opacity%3D%220.6%22%2F%3E%3Crect%20x%3D%22435.3333333333333%22%20y%3D%22300.6666666666667%22%20width%3D%22133.46666666666664%22%20height%3D%226%22%20rx%3D%223%22%20fill%3D%22%23f6f6f7%22%20opacity%3D%220.75%22%2F%3E%3Crect%20x%3D%22435.3333333333333%22%20y%3D%22310.6666666666667%22%20width%3D%2295.33333333333333%22%20height%3D%225%22%20rx%3D%223%22%20fill%3D%22%234b4b4c%22%20opacity%3D%220.5%22%2F%3E%3Crect%20x%3D%2224%22%20y%3D%22331.3333333333333%22%20width%3D%22165.76000000000002%22%20height%3D%228%22%20rx%3D%223%22%20fill%3D%22%23f6f6f7%22%20opacity%3D%220.8%22%2F%3E%3Crect%20x%3D%2224%22%20y%3D%22345.3333333333333%22%20width%3D%22414.4%22%20height%3D%226%22%20rx%3D%223%22%20fill%3D%22%234b4b4c%22%20opacity%3D%220.5%22%2F%3E%3Crect%20x%3D%2224%22%20y%3D%22355.3333333333333%22%20width%3D%22325.6%22%20height%3D%226%22%20rx%3D%223%22%20fill%3D%22%2329292b%22%20opacity%3D%220.35%22%2F%3E%3Crect%20x%3D%2224%22%20y%3D%22384%22%20width%3D%22177.6%22%20height%3D%225%22%20rx%3D%223%22%20fill%3D%22%2329292b%22%20opacity%3D%220.35%22%2F%3E%3Crect%20x%3D%22556%22%20y%3D%22384%22%20width%3D%2260%22%20height%3D%225%22%20rx%3D%223%22%20fill%3D%22%2329292b%22%20opacity%3D%220.25%22%2F%3E%20%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22640%22%20height%3D%22400%22%20fill%3D%22url(%23glow)%22%20rx%3D%2214%22%2F%3E%20%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22639%22%20height%3D%22399%22%20rx%3D%2214%22%20fill%3D%22none%22%20stroke%3D%22%23f6f6f7%22%20stroke-opacity%3D%220.08%22%2F%3E%20%3C%2Fsvg%3E",
+      "previewText": "Transparent pricing, real people, and a phone that gets answered.",
+      "pacing": {
+        "provider": "local",
+        "model": "gemini-2.5-flash",
+        "measuredMs": 517,
+        "totalMs": 3200,
+        "steps": [
+          {
+            "key": "understand",
+            "label": "Understanding your idea",
+            "weight": 0.12,
+            "detail": "Reading the description for brand, audience, mood and asks",
+            "index": 0,
+            "minMs": 260,
+            "ms": 384
+          },
+          {
+            "key": "plan",
+            "label": "Planning your website",
+            "weight": 0.11,
+            "detail": "Deciding the promise of the page and how to order it",
+            "index": 1,
+            "minMs": 260,
+            "ms": 352
+          },
+          {
+            "key": "layout",
+            "label": "Creating your layout",
+            "weight": 0.13,
+            "detail": "Composing hero, rhythm and density for the target screens",
+            "index": 2,
+            "minMs": 260,
+            "ms": 416
+          },
+          {
+            "key": "sections",
+            "label": "Selecting sections",
+            "weight": 0.12,
+            "detail": "Choosing only the sections your launch needs",
+            "index": 3,
+            "minMs": 260,
+            "ms": 384
+          },
+          {
+            "key": "design",
+            "label": "Applying your design direction and visual style",
+            "weight": 0.13,
+            "detail": "Palette, type scale, effects and spacing",
+            "index": 4,
+            "minMs": 260,
+            "ms": 416
+          },
+          {
+            "key": "assets",
+            "label": "Adding your assets",
+            "weight": 0.11,
+            "detail": "Matching each image to the section it belongs in",
+            "index": 5,
+            "minMs": 260,
+            "ms": 352
+          },
+          {
+            "key": "optimise",
+            "label": "Optimizing for your selected platform",
+            "weight": 0.14,
+            "detail": "Re-composing navigation, grids and type for the targets",
+            "index": 6,
+            "minMs": 260,
+            "ms": 448
+          },
+          {
+            "key": "publish",
+            "label": "Preparing your live website",
+            "weight": 0.14,
+            "detail": "Building the shareable URL",
+            "index": 7,
+            "minMs": 260,
+            "ms": 448
+          }
+        ],
+        "note": "Local spec compiler — quick, deterministic"
+      }
     }
   ],
   "signups": [
